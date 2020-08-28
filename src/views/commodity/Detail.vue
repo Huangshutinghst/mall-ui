@@ -2,7 +2,7 @@
 <template>
     <div class="commodity-detail panel__hidden">
         <!-- 1.header -->
-        <VHeader title="" leftText="">
+        <VHeader title="详情页" leftText="">
             <van-icon slot="right" name="share" @click="handleShare()" />
         </VHeader>
 
@@ -32,7 +32,7 @@
                     <font class="purple">网红推荐</font>
                 </p>
                 <h5 class="title">商品名称</h5>
-                <p class="text">商品介绍介绍介绍</p>
+                <p class="text">商品介绍介绍</p>
                 <p class="text blue">今天上市</p>
                 <p class="address">
                     <van-icon name="bag-o" />200ml*6，
@@ -133,7 +133,7 @@ export default {
             }
 
             >.__info{
-                padding: 6px 15px 0;
+                padding: 6px 15px;
                 margin-bottom: 10px;
                 >.price{
                     height: 46px;
@@ -163,13 +163,11 @@ export default {
                     }
                 }
                 >.title{
-                    height: 26px;
                     line-height: 26px;
                     font-size: 16px;
                     font-weight: bold;
                 }
                 >.text{
-                    height: 22px;
                     line-height: 22px;
                     font-size: 14px;
                     &.blue{
@@ -177,11 +175,10 @@ export default {
                     }
                 }
                 >.address{
-                    height: 36px;
-                    line-height: 36px;
                     font-size: 12px;
                     color: rgba(153, 153, 153, 0.6);
                     vertical-align: middle;
+                    padding: 8px 0;
                     >i{
                         font-size: 16px;
                         vertical-align: middle;
