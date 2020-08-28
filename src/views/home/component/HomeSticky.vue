@@ -1,7 +1,7 @@
 <template>
     <van-sticky class="home-sticky">
         <van-tabs :before-change="beforeChange">
-            <van-tab v-for="(item,index) in tabList" :title="item.name" :key="index"></van-tab>
+            <van-tab v-for="(item) in tabList" :title="item.name" :name="item.label" :key="item.label"></van-tab>
         </van-tabs>
     </van-sticky>
 </template>
@@ -12,8 +12,8 @@ export default {
         return {
             index: 0,
             tabList: [
-                {name: '热门商品'},
-                {name: '限时抢购'},
+                {name: '热门商品' , label: 'hot'},
+                {name: '限时抢购' , label: 'limitTime'},
             ]
         }
     },
@@ -33,6 +33,7 @@ export default {
                 // 在 resolve 函数中返回 true 或 false
                 resolve(_this.index !== index);
                 _this.index = index;
+                _this.$emit('change-tab', index);
             });
         }
     },

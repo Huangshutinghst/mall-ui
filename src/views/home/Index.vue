@@ -13,9 +13,13 @@
             <!-- 一级分类 -->
             <HomeGrid></HomeGrid>
             <!-- 吸顶类别 -->
-            <HomeSticky></HomeSticky>
-            <!-- 商品列表 -->
-            <HomeList></HomeList>
+            <HomeSticky @change-tab="tabChange"></HomeSticky>
+            
+            <!-- 热门商品 -->
+            <Hot v-if="currentModule == 'hot'"></Hot>
+
+            <!-- 限时抢购 -->
+            <LimitTime v-if="currentModule == 'limitTime'"></LimitTime>
         </div>
 
         <!-- 底部导航 -->
@@ -29,11 +33,12 @@ import VSearch from '../../components/VSearch';
 import HomeSwipe from './component/HomeSwipe';
 import HomeGrid from './component/HomeGrid';
 import HomeSticky from './component/HomeSticky';
-import HomeList from './component/HomeList';
+import Hot from './module/Hot';
+import LimitTime from './module/LimitTime';
 export default {
     data () {
         return {
-
+            currentModule: 'hot'
         }
     },
     components: {
@@ -42,10 +47,13 @@ export default {
         HomeSwipe,
         HomeGrid,
         HomeSticky,
-        HomeList
+        Hot,
+        LimitTime,
     },
     methods:{
-
+        tabChange(name){
+            this.currentModule = name;
+        }
     },
 }
 </script>
