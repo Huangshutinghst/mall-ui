@@ -27,6 +27,12 @@ export default new Router({
           name: 'category',
           component: (resolve) => require(['@/views/category/Index'], resolve),
         },
+        // 商品详情页
+        {
+          path: 'commondity/detail',
+          name: 'commondityDetail',
+          component: (resolve) => require(['@/views/commodity/Detail'], resolve),
+        },
         // 购物车
         {
           path: 'shoppingCart',

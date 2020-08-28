@@ -25,6 +25,7 @@
                                 desc="描述信息"
                                 title="商品标题"
                                 thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
+                                @click="handleDetail(item)"
                             >
                                 <template #tags>
                                     <van-tag plain type="danger">标签</van-tag>
@@ -85,6 +86,9 @@ export default {
         },
         handleClearAll(){
             console.log('清空')
+        },
+        handleDetail(item){
+            this.$router.push({ name: 'commondityDetail' })
         },
         handleSubmit(){
             var thiz = this;
