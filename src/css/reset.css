@@ -130,17 +130,17 @@ img {
 }
 
 /*单行溢出*/
-.one-txt-cut{
+.single-row{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 /*多行溢出 手机端使用*/
-.txt-cut{
+.double-row{
     overflow : hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    /* -webkit-line-clamp: 2; */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
