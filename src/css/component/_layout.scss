@@ -1,0 +1,65 @@
+$text: #02a96b;
+
+//layout
+.panel__layout{
+    width: 100%;
+    height: 100%;
+    background: rgba(245, 247, 249, 0.7);
+}
+.panel__hidden{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+// head
+.panel__header{
+    height: 40px;
+    .van-nav-bar__left {
+        .van-nav-bar__text{
+            color: #323233;
+            font-size: 14px;
+        }
+    }
+    .van-nav-bar__title{
+        font-size: 14px;
+    }
+}
+
+// foot
+.panel__foot{
+    height: 40px;
+    border-top: 1px solid #f5f6f7;
+    .van-tabbar-item__icon{
+        font-size: 18px;
+        margin-bottom: 1px;
+    }
+    .van-tabbar-item__text{
+        font-size: 12px;
+        transform: scale(0.9);
+    }
+    .van-tabbar-item--active{
+        color: $text;
+    }
+}
+
+//content
+.panel__scroll{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+.panel__content{
+    height: calc(100% - 40px) !important;
+}
+.panel__content--fistlevel{
+    height: calc(100% - 80px) !important;
+}
+.panel__content--mine{
+    height: calc(100% - 40px) !important;
+}
+
+//背景色
+.bg_fff{
+    background: #fff;
+}
