@@ -27,6 +27,11 @@ export default new Router({
           name: 'category',
           component: (resolve) => require(['@/views/category/Index'], resolve),
         },
+        {
+          path: 'category/list',
+          name: 'categoryList',
+          component: (resolve) => require(['@/views/category/List'], resolve),
+        },
         // 商品详情页
         {
           path: 'commondity/detail',

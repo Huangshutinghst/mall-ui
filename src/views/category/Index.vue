@@ -2,7 +2,11 @@
 <template>
     <div class="category-index panel__hidden">
         <!-- 头部 -->
-        <van-nav-bar class="panel__header" left-text="分类" />
+        <van-nav-bar class="panel__header" left-text="分类">
+            <template #right>
+                <van-icon name="search" @click="search()"/>
+            </template>
+        </van-nav-bar>
         
         <!-- 内容  -->
         <van-tree-select
@@ -46,7 +50,7 @@ export default {
                             id: 4,
                         },
                         {
-                            text: '二级类目',
+                            text: '全部水果',
                             id: 5,
                         },
                     ],
@@ -103,15 +107,7 @@ export default {
                             id: 12,
                         },
                         {
-                            text: '二级类目',
-                            id: 13,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 14,
-                        },
-                        {
-                            text: '二级类目',
+                            text: '全部水果',
                             id: 15,
                         },
                     ],
@@ -131,7 +127,11 @@ export default {
         },
         handleItem(data){
             this.activeId = data.id;
-        }
+            this.$router.push( {name: 'categoryList',query:{title: data.text, type: data.id}} )
+        },
+        search(){
+            
+        },
     },
 }
 </script>
@@ -139,7 +139,18 @@ export default {
 <style lang="scss" scoped>
     .category-index{
         .van-sidebar-item--select{
+            color: #02a96b;
             background: #fff;
+            &::before{
+                background: #02a96b;
+            }
+        }
+        // 右
+        .van-tree-select__content{
+            flex: 3;
+            .van-tree-select__item--active{
+                color: #000;
+            }
         }
     }
 </style>
