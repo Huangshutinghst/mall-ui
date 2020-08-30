@@ -1,4 +1,4 @@
-<!-- 分类 -->
+<!-- 分类商品列表 -->
 <template>
     <div class="category-list panel__hidden">
         <!-- 头部 -->

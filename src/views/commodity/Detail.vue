@@ -55,9 +55,10 @@
                 <van-icon name="like-o" />
                 <p>收藏</p>
             </div>
-            <div class="btn" @click="handleCart()">
+            <div class="btn cart" @click="handleCart()">
                 <van-icon name="shopping-cart-o" />
                 <p>购物车</p>
+                <span>2</span>
             </div>
             <!-- 加入购物车/立即抢 -->
             <div class="fr" @click="handleAdd()">加入购物车</div>
@@ -207,6 +208,7 @@ export default {
             padding-left: 5px;
             >.btn{
                 display: inline-block;
+                vertical-align: top;
                 text-align: center;
                 padding: 4px 15px;
                 >i{
@@ -216,6 +218,21 @@ export default {
                     font-size: 12px;
                     margin-top: -2px;
                     transform: scale(0.8);
+                }
+                &.cart{
+                    position: relative;
+                    >span{
+                        display: block;
+                        position: absolute;
+                        top: 4px;
+                        right: 18px;
+                        background: #ee0a24;
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 20px;
+                        color: #fff;
+                        font-size: 10px;
+                    }
                 }
             }
             >.fr{
