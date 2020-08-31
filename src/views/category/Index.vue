@@ -31,7 +31,7 @@ export default {
         return {
             categoryList: [
                 {
-                    text: '一级类目',
+                    text: '一级',
                     children: [
                         {
                             text: '二级类目',
@@ -56,7 +56,7 @@ export default {
                     ],
                 },
                 {
-                    text: '一级类目',
+                    text: '一级',
                     children: [
                         {
                             text: '二级类目',
@@ -136,11 +136,31 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .category-index{
+        .panel__header{
+            .van-icon{
+                color: #333;
+            }
+            .van-nav-bar__right{
+                .van-icon{
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .van-sidebar-item{
+            font-size: 12px;
+            transition: all 0.2s;
+        }
         .van-sidebar-item--select{
             color: #02a96b;
             background: #fff;
+            font-size: 13px;
+            .van-sidebar-item__text{
+                font-weight: bold;
+            }
             &::before{
                 background: #02a96b;
             }
@@ -148,6 +168,9 @@ export default {
         // 右
         .van-tree-select__content{
             flex: 3;
+            .van-tree-select__item{
+                font-size: 12px;
+            }
             .van-tree-select__item--active{
                 color: #000;
             }
