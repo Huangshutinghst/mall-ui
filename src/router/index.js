@@ -45,12 +45,13 @@ export default new Router({
           name: 'commondityDetail',
           component: (resolve) => require(['@/views/commodity/Detail'], resolve),
         },
-        // 购物车
+        // 带footbar的购物车
         {
           path: 'shoppingCart',
           name: 'shoppingCart',
           component: (resolve) => require(['@/views/shoppingCart/Index'], resolve),
         },
+        // 不带footbar的购物车
         {
           path: 'shoppingCart/list',
           name: 'shoppingCartList',

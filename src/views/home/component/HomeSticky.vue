@@ -54,6 +54,7 @@ export default {
             width: 40px !important;
         }
         .van-tab__text{
+            color: #000;
             font-weight: bold;
         }
         .van-tab--active{

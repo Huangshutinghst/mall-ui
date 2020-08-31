@@ -31,6 +31,7 @@ export default {
 <style lang="scss" scoped>
     .module-hot{
         >ul{
+            border-top: 1px solid rgba(238,238,238,0.8);
             >li{
                 position: relative;
                 &::after{

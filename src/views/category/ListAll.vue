@@ -89,6 +89,9 @@ export default {
     .category-list-all{
         //头部
         .category-list-all__head{
+            .van-tabs__wrap{
+                height: 40px;
+            }
             .van-tab{
                 padding: 0 15px;
                 .van-tab__text{
