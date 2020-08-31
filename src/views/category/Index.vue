@@ -130,7 +130,7 @@ export default {
             this.$router.push( {name: 'categoryList',query:{title: data.text, type: data.id}} )
         },
         search(){
-            
+            this.$router.push({ name: 'search' })
         },
     },
 }

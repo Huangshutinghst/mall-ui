@@ -61,7 +61,7 @@ export default {
     },
     methods:{
         search(){
-            
+            this.$router.push({ name: 'search' })
         },
         // 点击一级类目
         handleFirstTab(name, title){

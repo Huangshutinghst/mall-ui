@@ -1,14 +1,16 @@
-<!-- 订单搜索 -->
+<!-- 商品搜索页 -->
 <template>
-    <div class="order-search panel__hidden">
+    <div class="cmomodity-search-index panel__hidden">
         <!-- 顶部搜索栏 -->
-        <div class="order-search__top bg_fff flex">
-            <i class="van-icon van-icon-arrow-left van-nav-bar__arrow" @click="goBack()"></i>
-            <van-search class="flex-1" v-model="searchText" clearable placeholder="请输入商品名称" />
-        </div>
+        <VHeader class="cmomodity-search__top" title="" :leftText="this.$route.query.title">
+            <div slot="right">搜索</div>
+            <div slot="title">
+                <van-search v-model="searchText" clearable placeholder="请输入商品名称" />
+            </div>
+        </VHeader>
 
         <!-- 内容 -->
-        <div class="order-search__content">
+        <div class="cmomodity-search__content">
             <!-- 1.历史记录 -->
             <div v-if="searchText=='' && historyList.length>0" class="__history bg_fff">
                 <h5 class="flex flex-pack-justify">
@@ -20,16 +22,23 @@
                 </ul>
             </div>
             <!-- 2.搜索内容 -->
-            <OrderListPanel v-if="searchText!=='' && orderList.length>0" :orderList="orderList"></OrderListPanel>
+            <div class="panel__hidden" v-if="searchText!=='' && resultList.length>0" >
+                <div class="panel__content">
+                    <FilterList :type="'space'" :fixedHead="true" :list="resultList"></FilterList>
+                </div>
+                <FootBar></FootBar>
+            </div>
             <!-- 3.暂无内容 -->
-            <VBlank v-if="searchText!=='' && orderList.length == 0" text="没有相关的订单哦"></VBlank>
+            <VBlank v-if="searchText!=='' && resultList.length == 0" text="没有相关商品"></VBlank>
         </div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-import VBlank from '../../../components/blank/VBlankPage'
-import OrderListPanel from './OrderList'
+import VHeader from '../../components/VHeader'
+import VBlank from '../../components/blank/VBlankPage'
+import FilterList from '../commodity/FilterList'
+import FootBar from '../commodity/FootBar'
 export default {
     data () {
         return {
@@ -40,19 +49,18 @@ export default {
                 '记录3',
                 '记录4'
             ],
-            orderList: [
-                {},{},{},{}
+            resultList: [
+                {},{},{},{},{},{},{},{},{},{},{},{}
             ],
         }
     },
     components: {
+        VHeader,
         VBlank,
-        OrderListPanel,
+        FilterList,
+        FootBar
     },
     methods:{
-        goBack(){
-            this.$router.back(-1);
-        },
         historySearch(text){
             this.searchText = text;
         },
@@ -64,8 +72,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .order-search{
-        >.order-search__top{
+    .cmomodity-search-index{
+        >.cmomodity-search__top{
             height: 40px;
             line-height: 40px;
             padding-right: 15px;
@@ -75,13 +83,16 @@ export default {
             }
             .van-search{
                 padding: 0;
+                .van-search__content{
+                    border-radius: 20px;
+                }
                 .van-cell {
                     padding: 2px 8px 2px 0;
                 }
             }
         }
 
-        >.order-search__content{
+        >.cmomodity-search__content{
             height: calc(100% - 40px);
             >.__history{
                 >h5{
@@ -110,6 +121,24 @@ export default {
                         margin: 0 10px 10px 0;
                     }
                 }
+            }
+        }
+    }
+</style>
+
+<style lang="scss">
+    .cmomodity-search-index{
+        >.cmomodity-search__top{
+            .van-nav-bar__title{
+                width: calc(100% - 85px);
+                max-width: 100%;
+            }
+            .van-nav-bar__right{
+                padding: 0 15px 0 0;
+                font-size: 14px;
+            }
+            .van-icon-clear{
+                color: #999;
             }
         }
     }

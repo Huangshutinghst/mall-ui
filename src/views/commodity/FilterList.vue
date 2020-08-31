@@ -1,7 +1,7 @@
 <!-- 商品列表通用组件 -->
 <template>
-    <div class="commodity-filter-list panel__scroll" :class="'commodity-filter-list--' + type">
-        <div class="__top bg_fff">
+    <div class="commodity-filter-list panel__scroll" :class="['commodity-filter-list--' + type, {fixed: fixedHead}]">
+        <div class="__top bg_fff" :class="{fixed: fixedHead}">
             <ul class="flex">
                 <li :class="hasFlag?'has':''" class="flex-1" @click="filterHas()">
                     有货
@@ -29,6 +29,10 @@ import Card from '../commodity/Card'
 import CardLimit from '../commodity/CardLimit'
 export default {
     props:{
+        fixedHead: {
+            type: Boolean,
+            default: false
+        },
         type: String,
         list: Array
     },
@@ -64,6 +68,10 @@ export default {
 
 <style lang="scss" scoped>
     .commodity-filter-list{
+        &.fixed{
+            padding-top: 36px;
+        }
+        position: relative;
         >.__top{
             height: 36px;
             >ul{
@@ -118,6 +126,13 @@ export default {
                        }
                    }
                 }
+            }
+            &.fixed{
+                width: 100%;
+                position: fixed;
+                top: 40px;
+                left: 0;
+                z-index: 9;
             }
         }
 

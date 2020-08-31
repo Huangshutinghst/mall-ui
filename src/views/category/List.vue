@@ -35,7 +35,7 @@ export default {
     },
     methods:{
         search(){
-            
+            this.$router.push({ name: 'search' })
         }
     },
 }

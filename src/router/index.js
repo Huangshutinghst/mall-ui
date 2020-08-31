@@ -21,6 +21,12 @@ export default new Router({
           name: 'home',
           component: (resolve) => require(['@/views/home/Index'], resolve),
         },
+        // 商品搜索
+        {
+          path: 'search',
+          name: 'search',
+          component: (resolve) => require(['@/views/commodity/Search'], resolve),
+        },
         // 分类
         {
           path: 'category',

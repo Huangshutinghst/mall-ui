@@ -1,4 +1,4 @@
-<!-- 商品卡片 -->
+<!-- 购物车-商品卡片 -->
 <template>
     <div class="commodity-card flex" @click="detail()">
         <div class="commodity-card__img">

@@ -1,6 +1,6 @@
 <template>
-    <div class="mall-search panel__header">
-        <van-search v-model="value" placeholder="请输入搜索关键词" />
+    <div class="mall-search panel__header bg_fff">
+        <van-search v-model="value" placeholder="请输入搜索关键词" @focus="handleFocus" />
     </div>
 </template>
 
@@ -15,7 +15,9 @@ export default {
 
     },
     methods:{
-
+        handleFocus(){
+            this.$router.push({ name: 'search' })
+        }
     },
 }
 </script>
@@ -23,9 +25,12 @@ export default {
 <style lang="scss" scoped>
     .mall-search{
         .van-search{
-            padding: 3px 8px;
+            padding: 6px 8px;
             .van-search__content{
                 border-radius: 20px;
+            }
+            .van-cell{
+                padding: 2px 0;
             }
         }
     }

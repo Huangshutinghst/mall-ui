@@ -1,4 +1,4 @@
-<!-- 商品卡片 -->
+<!-- 限时抢购-商品卡片 -->
 <template>
     <div class="commodity-card flex" @click="detail()">
         <div class="commodity-card__img">
