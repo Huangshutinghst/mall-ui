@@ -175,6 +175,7 @@ export default {
         .settle-index__foot{
             height: 40px;
             line-height: 40px;
+            border-top: 1px solid #eee;
             padding-left: 15px;;
             >span{
                 font-size: 16px;

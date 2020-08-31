@@ -44,6 +44,11 @@ export default new Router({
           name: 'shoppingCart',
           component: (resolve) => require(['@/views/shoppingCart/Index'], resolve),
         },
+        {
+          path: 'shoppingCart/list',
+          name: 'shoppingCartList',
+          component: (resolve) => require(['@/views/shoppingCart/List'], resolve),
+        },
         //结算页面
         {
           path: 'shoppingCart/settle',

@@ -7,15 +7,19 @@
         </VHeader>
         
         <!-- 内容  -->
-        <div class="panel__content">
+        <div class="panel__content--fistlevel">
             <FilterList :list="goodList"></FilterList>
         </div>
+
+        <!-- footbar -->
+        <FootBar></FootBar>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 import VHeader from '../../components/VHeader'
 import FilterList from '../commodity/FilterList'
+import FootBar from '../commodity/FootBar'
 export default {
     data () {
         return {
@@ -27,6 +31,7 @@ export default {
     components: {
         VHeader,
         FilterList,
+        FootBar
     },
     methods:{
         search(){

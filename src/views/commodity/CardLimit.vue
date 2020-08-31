@@ -7,7 +7,9 @@
                 src=""
             />
             <span class="tag blue">新品</span>
-            <span class="tag red">折扣</span>
+            <!-- <span class="tag red">折扣</span>
+            <span class="tag purple">限时购</span> -->
+
             <!-- <div class="mask">
                 <div>
                     <p>限量</p>
@@ -94,6 +96,9 @@ export default {
                 &.red{
                     background: linear-gradient(to right, #ee0a24 , #ff919d);
                 }
+                &.purple{
+                    background: linear-gradient(to right, #6e4aef, #a68cff)
+                }
             }
             >.mask{
                 width: 100%;
@@ -164,6 +169,10 @@ export default {
                     &.yellow{
                         color: rgba(192, 139, 6, 0.75);
                         background: rgba(230, 167, 10, 0.1);
+                    }
+                    &.bule{
+                        color: #3698fb;
+                        background: rgba(54, 152, 251, 0.1);
                     }
                 }
             }

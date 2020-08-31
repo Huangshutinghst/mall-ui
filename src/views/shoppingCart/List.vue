@@ -1,10 +1,11 @@
 <template>
     <div class="shopping-index-componnet panel__hidden">
             <!-- 头部 -->
-            <van-nav-bar class="panel__header" 
-                    left-text="购物车" 
-                    right-text="清空" 
-                    @click-right="handleClearAll" />
+            <VHeader title="购物车" leftText="">
+                <div slot="right" @click="handleClearAll()">
+                    清空
+                </div>
+            </VHeader>
 
             <!-- 列表 -->
             <ul class="shopping-index__list panel__content--fistlevel panel__scroll">
@@ -38,6 +39,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import VHeader from '../../components/VHeader'
 import Card from '../commodity/CardCart';
 export default {
     data () {
@@ -56,6 +58,7 @@ export default {
         }
     },
     components: {
+        VHeader,
         Card,
     },
     methods:{
