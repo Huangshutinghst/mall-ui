@@ -138,18 +138,6 @@ export default {
 
 <style lang="scss">
     .category-index{
-        .panel__header{
-            .van-icon{
-                color: #333;
-            }
-            .van-nav-bar__right{
-                .van-icon{
-                    font-weight: bold;
-                    font-size: 16px;
-                }
-            }
-        }
-
         .van-sidebar-item{
             font-size: 12px;
             transition: all 0.2s;

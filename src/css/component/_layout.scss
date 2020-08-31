@@ -15,6 +15,9 @@ $text: #02a96b;
 // head
 .panel__header{
     height: 40px;
+    .van-icon{
+        color: #333;
+    }
     .van-nav-bar__left {
         .van-nav-bar__text{
             color: #323233;
@@ -23,6 +26,13 @@ $text: #02a96b;
     }
     .van-nav-bar__title{
         font-size: 14px;
+        max-width: 70%;
+    }
+    .van-nav-bar__right{
+        .van-icon{
+            font-weight: bold;
+            font-size: 16px;
+        }
     }
 }
 

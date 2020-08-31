@@ -31,20 +31,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss">
-    .panel__header{
-        .van-icon{
-            color: #333;
-        }
-        .van-nav-bar__title{
-            max-width: 70%;
-        }
-        .van-nav-bar__right{
-            .van-icon{
-                font-weight: bold;
-                font-size: 16px;
-            }
-        }
-    }
-</style>

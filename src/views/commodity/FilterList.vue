@@ -64,14 +64,15 @@ export default {
 <style lang="scss" scoped>
     .commodity-filter-list{
         >.__top{
-            height: 40px;
+            height: 36px;
             >ul{
                 height: 100%;
+                border-bottom: 1px solid #eee;
                 >li{
                    height: 100%;
-                   line-height: 40px;
+                   line-height: 36px;
                    text-align: center;
-                   font-size: 14px;
+                   font-size: 12px;
                    &.has{
                        color: #02a96b;
                    }
