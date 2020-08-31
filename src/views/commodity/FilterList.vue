@@ -1,6 +1,6 @@
 <!-- 商品列表通用组件 -->
 <template>
-    <div class="commodity-filter-list panel__scroll">
+    <div class="commodity-filter-list panel__scroll" :class="'commodity-filter-list--' + type">
         <div class="__top bg_fff">
             <ul class="flex">
                 <li :class="hasFlag?'has':''" class="flex-1" @click="filterHas()">
@@ -29,6 +29,7 @@ import Card from '../commodity/Card'
 import CardLimit from '../commodity/CardLimit'
 export default {
     props:{
+        type: String,
         list: Array
     },
     data () {
@@ -120,11 +121,26 @@ export default {
             }
         }
 
-        >.__list{
-            margin: 10px;
-            >li{
-                margin-bottom: 10px;
-                border-radius: 8px;
+        // 样式1
+        &.commodity-filter-list--space{
+            >.__list{
+                margin: 10px;
+                >li{
+                    margin-bottom: 10px;
+                    border-radius: 8px;
+                }
+            }
+        }
+
+        // 样式2
+        &.commodity-filter-list--border{
+            >.__list{
+                margin: 0 10px;
+                >li{
+                    &:not(:last-child){
+                        border-bottom: 1px solid rgba(238, 238, 238, 0.8);
+                    }
+                }
             }
         }
     }

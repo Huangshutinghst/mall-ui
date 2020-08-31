@@ -1,4 +1,4 @@
-<!-- 分类商品列表 -->
+<!-- 不带类别栏的 分类商品列表 -->
 <template>
     <div class="category-list panel__hidden">
         <!-- 头部 -->
@@ -8,7 +8,7 @@
         
         <!-- 内容  -->
         <div class="panel__content--fistlevel">
-            <FilterList :list="goodList"></FilterList>
+            <FilterList :list="goodList" :type="'space'"></FilterList>
         </div>
 
         <!-- footbar -->

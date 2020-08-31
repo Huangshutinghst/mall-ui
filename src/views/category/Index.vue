@@ -141,6 +141,9 @@ export default {
         .van-sidebar-item{
             font-size: 12px;
             transition: all 0.2s;
+            padding: 10px;
+            min-height: 40px;
+            text-align: center;
         }
         .van-sidebar-item--select{
             color: #02a96b;
@@ -155,7 +158,7 @@ export default {
         }
         // 右
         .van-tree-select__content{
-            flex: 3;
+            flex: 4;
             .van-tree-select__item{
                 font-size: 12px;
             }
