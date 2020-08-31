@@ -27,7 +27,7 @@
         <div class="__mine">
             <div class="__cellbox">
                 <van-cell title="我的收藏" is-link to="myFavorites" />
-                <van-cell title="我的足迹" is-link to="myfootprint" />
+                <!-- <van-cell title="我的足迹" is-link to="myfootprint" /> -->
                 <van-cell title="地址管理" is-link to="myAddress" />
             </div>
         </div>
