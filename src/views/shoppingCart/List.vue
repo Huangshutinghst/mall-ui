@@ -1,0 +1,160 @@
+<template>
+    <div class="shopping-index-componnet panel__hidden">
+            <!-- 头部 -->
+            <van-nav-bar class="panel__header" 
+                    left-text="购物车" 
+                    right-text="清空" 
+                    @click-right="handleClearAll" />
+
+            <!-- 列表 -->
+            <ul class="shopping-index__list panel__content--fistlevel panel__scroll">
+                <!-- 商品卡片 -->
+                <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="index">
+                    <van-checkbox class="__checkbox fl" v-model="item.checked"></van-checkbox>
+                    <div class="__card">
+                        <Card></Card>
+                    </div>
+                    <!-- 删除按钮 -->
+                    <van-icon class="btn-delete" name="cross" @click="deleteItem(item)" />
+                </li>
+            </ul>
+
+            <!-- 提交订单栏 -->
+            <div class="shopping-index__submit-bar flex bg_fff">
+                <div class="flex flex-1 flex-pack-justify">
+                    <div class="check">
+                        <van-checkbox class="__checkbox fl" v-model="checkedAll"></van-checkbox>
+                        {{checkedAll?'已选（1）':'全选'}}
+                    </div>
+                    <div class="price">
+                        ￥18.80
+                    </div>
+                </div>
+                <div class="btn" @click="handleSubmit()">
+                    去结算
+                </div>
+            </div>
+    </div>
+</template>
+
+<script type="text/ecmascript-6">
+import Card from '../commodity/CardCart';
+export default {
+    data () {
+        return {
+            goodlist: [
+                {num: 0, checked: false},
+                {num: 0, checked: false},
+                {num: 0, checked: false},
+                {num: 0, checked: false},
+                {num: 0, checked: false},
+                {num: 0, checked: false},
+                {num: 0, checked: false},
+                {num: 0, checked: false},
+            ],
+            checkedAll: false
+        }
+    },
+    components: {
+        Card,
+    },
+    methods:{
+        // 清空
+        handleClearAll(){
+            
+        },
+        // 删除商品
+        deleteItem(item){
+
+        },
+        // 去结算
+        handleSubmit(){
+            var thiz = this;
+            
+            thiz.$router.push({ name: 'settle' });
+        }
+    },
+}
+</script>
+
+<style lang="scss" scoped>
+    .shopping-index-componnet{
+        // 购物车列表
+        .shopping-index__list{
+            margin: 0 10px;
+            .__item{
+                width: calc(100% - 20px);
+                position: relative;
+                margin: 10px 0;
+                border-radius: 8px;
+                .__checkbox{
+                    position: absolute;
+                    top: 50%;
+                    left: 15px;
+                    margin-top: -10px;
+                }
+                .__card{
+                   padding-left: 30px;
+                }
+                .btn-delete{
+                    color: rgba(153, 153, 153, 0.6);
+                    font-size: 15px;
+                    position: absolute;
+                    top: 12px;
+                    right: 10px;
+                }
+            }
+        }
+        
+        .shopping-index__submit-bar{
+            height: 40px;
+            line-height: 40px;
+            border-top: 1px solid #eee;
+            >.flex{
+                padding: 0 12px;
+                >.check{
+                    font-size: 12px;
+                    >.__checkbox{
+                        margin-right: 4px;
+                        padding: 11px 0;
+                    }
+                }
+                >.price{
+                    font-size: 16px;
+                    color: #ff6f00;
+                    font-weight: bold;
+                }
+            }
+            >.btn{
+                width: 100px;
+                text-align: center;
+                background: #02a96b;
+                color: #fff;
+                font-size: 14px;
+            }
+        }
+    }
+</style>
+
+<style lang="scss">
+    .shopping-index-componnet{
+        .__checkbox {
+            // 单选框
+            .van-checkbox__icon {
+                height: 16px;
+                .van-icon{
+                    width: 16px;
+                    height: 16px;
+                    line-height: 16px;
+                    &::before{
+                        line-height: 16px;
+                    }
+                }
+            }
+            .van-checkbox__icon--checked .van-icon{
+                background-color: #02a96b;
+                border-color: #02a96b;
+            }
+        }
+    }
+</style>

@@ -6,37 +6,32 @@
                 lazy-load
                 src=""
             />
-            <span class="tag blue">新品</span>
-            <span class="tag red">折扣</span>
-            <!-- <div class="mask">
+            <!-- <span class="tag blue">新品</span>
+            <span class="tag red">折扣</span> -->
+
+            <!-- <div class="mask_limit">
                 <div>
                     <p>限量</p>
                     <p>已抢光</p>
                 </div>
+            </div> -->
+
+            <!-- <div class="mask">
+                <p>补货中</p>
             </div> -->
         </div>
         
         <div class="commodity-card__info flex-1 flex flex-v flex-pack-justify">
             <div class="__top flex-1">
                 <h5 class="title double-row">商品名称</h5>
-                <p class="text single-row">商品介绍介绍</p>
-                <p class="tag">
-                    <span class="stock">剩余40%</span>
-                    <!-- <span class="red">已减10元</span>
-                    <span class="green">领40元券</span> -->
-                    <!-- <span class="yellow">网红推荐</span> -->
-                    <span class="bule">-18°冷藏</span>
-                </p>
             </div>
-            <p class="price font">
-                <!-- ￥29.9 -->
-                敬请期待
+            <p class="price"> <!-- 红色字: :class="'font'" -->
+                ￥29.9
                 <s>￥39</s>
             </p>
             <!-- 计步器 -->
             <div class="btn-wrap">
-                <!-- 售罄禁用样式：disable -->
-                <div class="btn" @click.stop="handleBuy()">立即抢</div>
+                <!-- <van-stepper v-model="value" disable-input @plus="handlePlus" @minus="handleMinus" /> -->
             </div>
         </div>
     </div>
@@ -46,19 +41,23 @@
 export default {
     data () {
         return {
-
+            value: ''
         }
     },
     components: {
 
     },
     methods:{
+        // 查看商品详情
         detail(){
             this.$router.push({ name: 'commondityDetail' })
         },
-        handleBuy(){
+        handlePlus(){
             
-        }
+        },
+        handleMinus(){
+
+        },
     },
 }
 </script>
@@ -67,8 +66,8 @@ export default {
     .commodity-card{
         padding: 10px 15px;
         >.commodity-card__img{
-            width: 88px;
-            height: 88px;
+            width: 80px;
+            height: 80px;
             margin-right: 10px;
             position: relative;
             overflow: hidden;
@@ -96,6 +95,28 @@ export default {
                 }
             }
             >.mask{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: rgba(255, 255, 255, 0.4);
+                >p{
+                    position: absolute;
+                    top: 50%;
+                    left: 10%;
+                    margin-top: -9px;
+                    color: #fff;
+                    font-size: 12px;
+                    height: 18px;
+                    line-height: 18px;
+                    width: 80%;
+                    text-align: center;
+                    border-radius: 8px;
+                    background: rgba(0, 0, 0, 0.3);
+                }
+            }
+            >.mask_limit{
                 width: 100%;
                 height: 100%;
                 position: absolute;
@@ -133,47 +154,13 @@ export default {
                 font-size: 14px;
                 font-weight: bold;
             }
-            .text{
-                font-size: 12px;
-                color: rgba(153, 153, 153, 0.6);
-            }
-            .tag{
-                margin-top: 4px;
-                >span{
-                    font-size: 10px;
-                    padding: 2px 4px;
-                    border-radius: 6px;
-                    margin-right: 2px;
-                    &.stock{
-                        display: inline-block;
-                        width: 80px;
-                        color: #ee0a24;
-                        border: 1px solid #ee0a24;
-                        border-radius: 8px;
-                        padding: 0 4px;
-                        text-align: center;
-                    }
-                    &.red{
-                        color: #ee0a24;
-                        background: rgba(238, 10, 36, 0.1);
-                    }
-                    &.green{
-                        color: #02a96b;
-                        background: rgba(2, 169, 107, 0.1);
-                    }
-                    &.yellow{
-                        color: rgba(192, 139, 6, 0.75);
-                        background: rgba(230, 167, 10, 0.1);
-                    }
-                }
-            }
             .price{
                 margin-top: 10px;
                 font-size: 16px;
-                color: #ee0a24;
+                color: #000;
                 font-weight: bold;
                 &.font{
-                    font-size: 13px;
+                    color: #ee0a24;
                 }
                 >s{
                     font-size: 12px;
