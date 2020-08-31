@@ -38,11 +38,20 @@
                 />
                 <van-field class="__none_checkbox" name="地址类型" label="地址类型：">
                     <template #input>
-                        <van-checkbox-group v-model="formInline.type" direction="horizontal">
-                            <van-checkbox name="1" shape="square">标签1</van-checkbox>
-                            <van-checkbox name="2" shape="square">标签2</van-checkbox>
-                            <van-checkbox name="3" shape="square">标签3</van-checkbox>
-                        </van-checkbox-group>
+                        <!-- <van-checkbox-group v-model="formInline.type" direction="horizontal">
+                            <van-checkbox name="1" shape="square">家</van-checkbox>
+                            <van-checkbox name="2" shape="square">父母家</van-checkbox>
+                            <van-checkbox name="3" shape="square">朋友家</van-checkbox>
+                            <van-checkbox name="4" shape="square">公司</van-checkbox>
+                            <van-checkbox name="5" shape="square">学校</van-checkbox>
+                        </van-checkbox-group> -->
+                        <van-radio-group v-model="formInline.type" direction="horizontal">
+                            <van-radio name="1" shape="square">家</van-radio>
+                            <van-radio name="2" shape="square">父母家</van-radio>
+                            <van-radio name="3" shape="square">朋友家</van-radio>
+                            <van-radio name="4" shape="square">公司</van-radio>
+                            <van-radio name="5" shape="square">学校</van-radio>
+                        </van-radio-group>
                     </template>
                 </van-field>
                 <div style="margin: 40px 50px;">
@@ -66,7 +75,7 @@ export default {
                 telephone: '',
                 community: '',
                 houseNumber: '',
-                type: []
+                type: ''
             }
         }
     },
@@ -116,10 +125,25 @@ export default {
                 border: 1px solid #eee;
                 padding: 1px 6px;
                 margin-bottom: 12px;
+                .van-checkbox__label, .van-radio__label{
+                    color: #999;
+                }
                 &[aria-checked=true]{
-                    background: #eee;
+                    background: #02a96b;
+                    border: 1px solid #02a96b;
+                    .van-checkbox__label, .van-radio__label{
+                        color: #fff;
+                    }
                 }
             }
+        }
+
+        .van-button{
+            height: 40px;
+        }
+        .van-button--info{
+            background: linear-gradient(to right, #02a96b, #089460);
+            border: none;
         }
     }
 </style>

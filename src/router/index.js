@@ -27,10 +27,17 @@ export default new Router({
           name: 'category',
           component: (resolve) => require(['@/views/category/Index'], resolve),
         },
+        // 不带类别栏的商品列表
         {
           path: 'category/list',
           name: 'categoryList',
           component: (resolve) => require(['@/views/category/List'], resolve),
+        },
+        // 带类别栏的商品列表
+        {
+          path: 'category/listAll',
+          name: 'categoryListAll',
+          component: (resolve) => require(['@/views/category/ListAll'], resolve),
         },
         // 商品详情页
         {

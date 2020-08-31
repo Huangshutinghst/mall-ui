@@ -3,7 +3,7 @@
     <div class="shopping-index panel__hidden">
         <!-- 内容 -->
         <div class="panel__content">
-            <List></List>
+            <List :leftArrow="false"></List>
         </div>
 
         <!-- 底部导航 -->

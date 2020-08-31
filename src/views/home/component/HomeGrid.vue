@@ -32,7 +32,7 @@ export default {
             var _this = this;
             if(index !== _this.categoryList.length - 1){
                 //选择分类
-
+                _this.$router.push({ name: 'categoryListAll' })
             }else{
                 //全部分类
                 _this.$router.replace({ name: 'category' })
@@ -42,7 +42,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
- 
+<style lang="scss">
+    .home-grid{
+        .van-grid-item__content{
+            padding: 10px 8px;
+        }
+        .van-grid-item__text{
+            font-size: 11px;
+        }
+    }
 </style>

@@ -2,7 +2,7 @@
 <template>
     <div class="mall-address panel__hidden">
         <VHeader title="" leftText="地址管理">
-            <div slot="right" @click="addAddress()">新增地址</div>
+            <div slot="right" @click="addAddress()">添加地址</div>
         </VHeader>
 
         <div class="panel__scroll panel__content">

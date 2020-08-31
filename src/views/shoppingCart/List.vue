@@ -1,7 +1,7 @@
 <template>
     <div class="shopping-index-componnet panel__hidden">
             <!-- 头部 -->
-            <VHeader title="购物车" leftText="">
+            <VHeader title="购物车" leftText="" :leftArrow="leftArrow">
                 <div slot="right" @click="handleClearAll()">
                     清空
                 </div>
@@ -42,6 +42,12 @@
 import VHeader from '../../components/VHeader'
 import Card from '../commodity/CardCart';
 export default {
+    props:{
+        leftArrow:{
+            type:Boolean,
+            default:true
+        }
+    },
     data () {
         return {
             goodlist: [

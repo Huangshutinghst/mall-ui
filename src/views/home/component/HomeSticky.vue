@@ -40,16 +40,26 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-    .home-sticky{
-        
-    }
-</style>
-
 <style lang="scss">
     .home-sticky{
+        height: 40px;
+        .van-sticky,.van-tabs,.van-tabs__wrap{
+            height: 40px;
+        }
         .van-sticky--fixed{
             top: 39px !important;
+        }
+        .van-tabs__line{
+            background: #02a96b;
+            width: 40px !important;
+        }
+        .van-tab__text{
+            font-weight: bold;
+        }
+        .van-tab--active{
+            .van-tab__text{
+                color: #02a96b;
+            }
         }
     }
 </style>

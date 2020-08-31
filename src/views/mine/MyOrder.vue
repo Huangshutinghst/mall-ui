@@ -68,11 +68,12 @@ export default {
 <style lang="scss" scoped>
     .mall-order{
         >.__tabs{
-            height: 40px;
+            height: 30px;
             border-bottom: 1px solid #eee;
         }
         >.panel__content{
-            height: calc(100% - 80px) !important;
+            height: calc(100% - 70px) !important;
+            padding-bottom: 4px;
         }
     }
 </style>
@@ -82,6 +83,15 @@ export default {
         >.__tabs{
             >.van-tabs__wrap{
                 height: 100%;
+            }
+            .van-tab--active{
+                span{
+                    font-weight: bold;
+                }
+            }
+            .van-tabs__line{
+                width: 30px !important;
+                background: #02a96b;
             }
         }
     }
