@@ -91,7 +91,7 @@ export default {
             }
             .van-tabs__line{
                 width: 30px !important;
-                background: #02a96b;
+                background: #0db059;
             }
         }
     }

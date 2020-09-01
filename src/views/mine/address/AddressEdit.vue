@@ -142,8 +142,8 @@ export default {
                 padding: 1px 6px;
                 margin-bottom: 12px;
                 &[aria-checked=true]{
-                    background: #02a96b;
-                    border: 1px solid #02a96b;
+                    background: #0db059;
+                    border: 1px solid #0db059;
                     .van-checkbox__label, .van-radio__label{
                         color: #fff;
                     }
@@ -155,7 +155,7 @@ export default {
             height: 40px;
         }
         .van-button--info{
-            background: linear-gradient(to right, #02a96b, #089460);
+            background: linear-gradient(to right, #0db059, #089460);
             border: none;
         }
     }

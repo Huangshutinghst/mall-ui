@@ -92,7 +92,7 @@
             <!-- 3.底部支付 -->
             <div class="settle-index__foot bg_fff">
                 应付<span>￥36.78</span>
-                <div class="fr" @click="pay()">去支付</div>
+                <div class="fr btn_bg" @click="pay()">去支付</div>
             </div>
         </div>
 
@@ -155,7 +155,7 @@ export default {
         // 头部
         .settle-index__top{
             height: 65px;
-            background: #02a96b;
+            background: #0db059;
             color: #fff;
             >h5{
                 font-size: 16px;
@@ -194,7 +194,6 @@ export default {
                 width: 100px;
                 height: 100%;
                 text-align: center;
-                background: #02a96b;
                 color: #fff;
                 font-size: 14px;
             }

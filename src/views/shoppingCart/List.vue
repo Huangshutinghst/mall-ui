@@ -31,7 +31,7 @@
                         ￥18.80
                     </div>
                 </div>
-                <div class="btn" @click="handleSubmit()">
+                <div class="btn btn_bg" @click="handleSubmit()">
                     去结算
                 </div>
             </div>
@@ -137,7 +137,6 @@ export default {
             >.btn{
                 width: 100px;
                 text-align: center;
-                background: #02a96b;
                 color: #fff;
                 font-size: 14px;
             }
@@ -161,8 +160,8 @@ export default {
                 }
             }
             .van-checkbox__icon--checked .van-icon{
-                background-color: #02a96b;
-                border-color: #02a96b;
+                background-color: #0db059;
+                border-color: #0db059;
             }
         }
     }

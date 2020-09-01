@@ -61,7 +61,7 @@
                 <span>2</span>
             </div>
             <!-- 加入购物车/立即抢 -->
-            <div class="fr" @click="handleAdd()">加入购物车</div>
+            <div class="fr btn_bg" @click="handleAdd()">加入购物车</div>
         </div>
 
 
@@ -239,7 +239,6 @@ export default {
                 width: 240px;
                 height: 100%;
                 text-align: center;
-                background: #02a96b;
                 color: #fff;
                 font-size: 14px;
                 line-height: 40px;

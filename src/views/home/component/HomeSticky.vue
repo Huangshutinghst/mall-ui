@@ -50,7 +50,7 @@ export default {
             top: 39px !important;
         }
         .van-tabs__line{
-            background: #02a96b;
+            background: #0db059;
             width: 40px !important;
         }
         .van-tab__text{
@@ -59,7 +59,7 @@ export default {
         }
         .van-tab--active{
             .van-tab__text{
-                color: #02a96b;
+                color: #0db059;
             }
         }
     }

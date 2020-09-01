@@ -83,7 +83,7 @@ export default {
                    text-align: center;
                    font-size: 12px;
                    &.has{
-                       color: #02a96b;
+                       color: #0db059;
                    }
                    &.price{
                        >span{
@@ -112,16 +112,16 @@ export default {
                            }
                        }
                        &.active{
-                           color: #02a96b;
+                           color: #0db059;
                        }
                        &.up{
                            >span::before{
-                               border-top: 6px solid #02a96b;
+                               border-top: 6px solid #0db059;
                            }
                        }
                        &.down{
                             >span::after{
-                               border-top: 6px solid #02a96b;
+                               border-top: 6px solid #0db059;
                            }
                        }
                    }

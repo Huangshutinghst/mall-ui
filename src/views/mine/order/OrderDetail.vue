@@ -139,7 +139,7 @@ export default {
         }
 
         .order-detail__delivery{
-            color: #02a96b;
+            color: #0db059;
             position: relative;
             .telephone-btn{
                 position: absolute;

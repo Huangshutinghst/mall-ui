@@ -120,11 +120,11 @@ export default {
                 text-align: center;
             }
             .van-sidebar-item--select{
-                color: #02a96b;
+                color: #0db059;
                 background: #fff;
                 &::before{
                     display: none;
-                    background: #02a96b;
+                    background: #0db059;
                 }
             }
             // 右

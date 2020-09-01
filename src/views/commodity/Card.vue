@@ -133,7 +133,7 @@ export default {
                         background: rgba(238, 10, 36, 0.1);
                     }
                     &.green{
-                        color: #02a96b;
+                        color: #0db059;
                         background: rgba(2, 169, 107, 0.1);
                     }
                     &.yellow{

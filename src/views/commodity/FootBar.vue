@@ -10,7 +10,7 @@
                 ￥0.00
             </div>
         </div>
-        <div class="btn" @click="handleToCart()">
+        <div class="btn btn_bg" @click="handleToCart()">
             去购物车
         </div>
     </div>
@@ -74,7 +74,6 @@ export default {
         >.btn{
             width: 100px;
             text-align: center;
-            background: #02a96b;
             color: #fff;
             font-size: 14px;
         }

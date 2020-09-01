@@ -146,14 +146,14 @@ export default {
             text-align: center;
         }
         .van-sidebar-item--select{
-            color: #02a96b;
+            color: #0db059;
             background: #fff;
             font-size: 13px;
             .van-sidebar-item__text{
                 font-weight: bold;
             }
             &::before{
-                background: #02a96b;
+                background: #0db059;
             }
         }
         // 右

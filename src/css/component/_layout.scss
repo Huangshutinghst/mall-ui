@@ -1,4 +1,4 @@
-$text: #02a96b;
+$text: #0db059;
 
 //layout
 .panel__layout{
@@ -72,4 +72,8 @@ $text: #02a96b;
 //背景色
 .bg_fff{
     background: #fff;
+}
+
+.btn_bg{
+    background: linear-gradient(to right, #23ca71, #0db059);
 }

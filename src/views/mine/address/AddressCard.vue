@@ -79,8 +79,8 @@ export default {
                         background: rgba(54, 152, 251, 0.1);
                     }
                     &.green{
-                        color: #02a96b;
-                        border: 1px solid #02a96b;
+                        color: #0db059;
+                        border: 1px solid #0db059;
                         background: rgba(2, 169, 107, 0.1);
                     }
                 }
