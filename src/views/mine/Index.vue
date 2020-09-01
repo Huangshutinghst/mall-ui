@@ -5,10 +5,9 @@
         <div class="__head">
             <van-image
                 round
-                width="1.8rem"
-                height="1.8rem"
                 fit="cover"
                 src="https://img.yzcdn.cn/vant/cat.jpeg"
+                @click="handleUserInfo()"
             />
             <h5 @click="handleUserInfo()">
                 胖大喵
@@ -57,7 +56,7 @@ export default {
     methods:{
         // 修改信息
         handleUserInfo(){
-            
+            this.$router.push({ name: 'setting' })
         }
     },
 }
@@ -88,10 +87,12 @@ export default {
                 color: #fff;
                 z-index: 1;
                 >.van-icon{
-                    font-size: 16px;
+                    font-size: 14px;
                     color: #fff;
                     vertical-align: middle;
                     margin-top: -2px;
+                    margin-left: 0;
+                    font-weight: bold;
                 }
             }
             &::after{

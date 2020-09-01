@@ -111,6 +111,7 @@ export default {
             thiz.$dialog.confirm({
                 title: '',
                 message: '确认删除该地址？',
+                confirmButtonText: '确定'
             })
             .then(() => {
                 // on confirm

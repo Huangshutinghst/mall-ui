@@ -122,9 +122,26 @@ export default new Router({
           path: 'myAddress/edit',
           name: 'addressEdit',
           component: (resolve) => require(['@/views/mine/address/AddressEdit'], resolve),
+        },
+        // 账号管理
+        {
+          path: 'setting',
+          name: 'setting',
+          component: (resolve) => require(['@/views/setting/Index'], resolve),
+        },
+        // 修改昵称
+        {
+          path: 'setting/nickName',
+          name: 'editNickName',
+          component: (resolve) => require(['@/views/setting/EditNickName'], resolve),
+        },
+        // 修改手机号
+        {
+          path: 'setting/telephone',
+          name: 'editTelephone',
+          component: (resolve) => require(['@/views/setting/EditTelephone'], resolve),
         }
       ]
     }
-    
   ]
 })

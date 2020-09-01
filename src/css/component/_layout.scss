@@ -77,3 +77,8 @@ $text: #0db059;
 .btn_bg{
     background: linear-gradient(to right, #23ca71, #0db059);
 }
+
+// 确认框
+.van-dialog__confirm, .van-dialog__confirm:active{
+    color: #0db059;
+}
