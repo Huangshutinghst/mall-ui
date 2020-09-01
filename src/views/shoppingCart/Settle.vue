@@ -66,15 +66,11 @@
                             rows="2"
                             autosize
                             type="textarea"
-                            maxlength="80"
+                            maxlength="100"
                             placeholder="输入备注信息"
                         />
                         <ul>
-                            <li>备注快捷信息</li>
-                            <li>快捷信息</li>
-                            <li>备注快捷信息</li>
-                            <li>快捷信息</li>
-                            <li>快捷信息12456789</li>
+                            <li v-for="(item, index) in remarkList" :key="index" @click="handleRemark(item)">{{item}}</li>
                         </ul>
                     </div>
 
@@ -119,6 +115,12 @@ export default {
             remark: '',
             payRadio: '1',
             timeModal: false,
+            remarkList: [
+                '预约订单，请准时送达！不早不迟！',
+                '电话联系不上时，请直接帮我把商品放自提点自取。',
+                '快到的时候，请提前电话联系我；谢谢',
+                '保护环境，生鲜商品无需使用塑料袋隔离',
+            ]
         }
     },
     components: {
@@ -128,12 +130,19 @@ export default {
         TimeChoosePop,
     },
     methods:{
+        // 地址选择
         addressChoose(){
             this.$router.push({ name:'myAddress',query:{choose:true} })
         },
+        // 时间选择
         timeChoose(){
             this.timeModal = true;
         },
+        // 快捷备注
+        handleRemark(text){
+            this.remark = this.remark + text + '；'
+        },
+        // 去支付
         pay(){
 
         },
@@ -227,7 +236,7 @@ export default {
 
             .settle-index__remark{
                 .van-field{
-                    padding: 0 0 10px;
+                    padding: 0 0 16px;
                 }
                 >ul{
                     font-size: 0;
@@ -239,7 +248,7 @@ export default {
                         color: #999;
                         background: #f5f5f5;
                         padding: 0 8px;
-                        margin: 0 8px 8px 0;
+                        margin: 0 8px 12px 0;
                     }
                 }
             }
@@ -266,6 +275,11 @@ export default {
                             left: 0;
                         }
                     }
+                }
+            }
+            .settle-index__remark{
+                .van-cell::after{
+                    display: none;
                 }
             }
         }
