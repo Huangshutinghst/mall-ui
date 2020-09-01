@@ -1,6 +1,6 @@
 <!-- 商品搜索页 -->
 <template>
-    <div class="cmomodity-search-index panel__hidden">
+    <div class="cmomodity-search-index panel__hidden bg_fff">
         <!-- 顶部搜索栏 -->
         <VHeader class="cmomodity-search__top" title="" :leftText="this.$route.query.title">
             <div slot="right">搜索</div>
@@ -19,6 +19,14 @@
                 </h5>
                 <ul>
                     <li v-for="(item,index) in historyList" :key="index" @click="historySearch(item)">{{item}}</li>
+                </ul>
+            </div>
+            <div v-if="searchText=='' && hotList.length>0" class="__history bg_fff">
+                <h5 class="flex flex-pack-justify">
+                    <span>热门搜索</span>
+                </h5>
+                <ul>
+                    <li v-for="(item,index) in hotList" :key="index" @click="historySearch(item)">{{item}}</li>
                 </ul>
             </div>
             <!-- 2.搜索内容 -->
@@ -48,6 +56,16 @@ export default {
                 '记录2',
                 '记录3',
                 '记录4'
+            ],
+            hotList: [
+                '热词1',
+                '热词2',
+                '热词3',
+                '热词4',
+                '热词5',
+                '热词6',
+                '热词7',
+                '热词8'
             ],
             resultList: [
                 {},{},{},{},{},{},{},{},{},{},{},{}
@@ -118,7 +136,7 @@ export default {
                         border: 1px solid #eee;
                         border-radius: 10px;
                         vertical-align: middle;
-                        margin: 0 10px 10px 0;
+                        margin: 0 12px 12px 0;
                     }
                 }
             }

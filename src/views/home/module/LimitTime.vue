@@ -18,7 +18,7 @@
         <div class="__time bg_fff">
             <van-count-down :time="currentTime" :class="currentIndex==0?'active':''">
                 <template #default="timeData">
-                    {{currentIndex==0?'离本场开始':'离本场结束'}}
+                    {{currentIndex==0?'离本场结束':'离本场开始'}}
                     <span class="block">{{ timeData.hours }}</span>
                     <span class="colon">:</span>
                     <span class="block">{{ timeData.minutes }}</span>
