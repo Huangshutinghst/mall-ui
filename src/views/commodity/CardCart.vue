@@ -31,33 +31,36 @@
             </p>
             <!-- 计步器 -->
             <div class="btn-wrap">
-                <!-- <van-stepper v-model="value" disable-input @plus="handlePlus" @minus="handleMinus" /> -->
+                <Stepper 
+                    ref="stepper"
+                    :limit="5"
+                    :count="count"
+                    @count-change="countChange"
+                ></Stepper>
             </div>
         </div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+import Stepper from './StepperCart'
 export default {
     data () {
         return {
-            value: ''
+            count: 1
         }
     },
     components: {
-
+        Stepper,
     },
     methods:{
         // 查看商品详情
         detail(){
             this.$router.push({ name: 'commondityDetail' })
         },
-        handlePlus(){
-            
-        },
-        handleMinus(){
-
-        },
+        countChange(val){
+            this.count = this.count + val;
+        }
     },
 }
 </script>

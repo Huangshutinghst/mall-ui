@@ -15,7 +15,7 @@
         <div class="category-list-all__content panel__content--fistlevel">
             <van-tree-select :items="secondTabs" :main-active-index.sync="secondActive" @click-nav="handleSecondTab">
                 <template #content>
-                    <FilterList :list="goodList" :type="'border'"></FilterList>
+                    <FilterList :padding="false" :list="goodList" :type="'border'"></FilterList>
                 </template>
             </van-tree-select>
         </div>

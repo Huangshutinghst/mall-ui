@@ -6,9 +6,8 @@
         <div class="panel__scroll panel__content">
             <ul class="mall-footprint__list bg_fff" v-if="goodlist.length > 0">
                 <li class="__item" v-for="(item,index) in goodlist" :key="index">
-                    <CommodityCard>
-                        
-                    </CommodityCard>
+                    <Card></Card>
+                    <!-- <CardLimit></CardLimit> -->
                 </li>
             </ul>
             <VBlank v-else text="没有相关商品"></VBlank>
@@ -18,7 +17,8 @@
 
 <script type="text/ecmascript-6">
 import VHeader from '../../components/VHeader'
-import CommodityCard from '../commodity/Card'
+import Card from '../commodity/Card'
+import CardLimit from "../commodity/CardLimit";
 export default {
     data () {
         return {
@@ -36,7 +36,8 @@ export default {
     },
     components: {
         VHeader,
-        CommodityCard,
+        Card,
+        CardLimit
     },
     methods:{
 

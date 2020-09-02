@@ -1,6 +1,6 @@
 <!-- 商品卡片 -->
 <template>
-    <div class="commodity-card flex" @click="detail()">
+    <div class="commodity-card flex" :class="{no_padding: !padding}" @click="detail()">
         <div class="commodity-card__img">
             <van-image
                 lazy-load
@@ -30,25 +30,40 @@
             </p>
             <!-- 计步器 -->
             <div class="btn-wrap">
-                
+                <Stepper 
+                    ref="stepper"
+                    :limit="5"
+                    :count="count"
+                    @count-change="countChange"
+                ></Stepper>
             </div>
         </div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+import Stepper from './Stepper'
 export default {
+    props: {
+        padding: {
+            type: Boolean,
+            default: true
+        },
+    },
     data () {
         return {
-
+            count: 0
         }
     },
     components: {
-
+        Stepper,
     },
     methods:{
         detail(){
             this.$router.push({ name: 'commondityDetail' })
+        },
+        countChange(val){
+            this.count = this.count + val;
         }
     },
 }
@@ -56,7 +71,16 @@ export default {
 
 <style lang="scss" scoped>
     .commodity-card{
+        position: relative;
         padding: 10px 15px;
+        &.no_padding{
+            padding: 10px 0px;
+            >.commodity-card__info{
+                .btn-wrap{
+                    right: 2px;
+                }
+            }
+        }
         >.commodity-card__img{
             width: 88px;
             height: 88px;
@@ -158,8 +182,8 @@ export default {
             }
             .btn-wrap{
                 position: absolute;
-                bottom: 0;
-                right: 0;
+                bottom: 10px;
+                right: 15px;
             }
         }
     }

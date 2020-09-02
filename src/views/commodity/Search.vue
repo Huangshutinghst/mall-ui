@@ -1,6 +1,6 @@
 <!-- 商品搜索页 -->
 <template>
-    <div class="cmomodity-search-index panel__hidden bg_fff">
+    <div class="cmomodity-search-index panel__hidden">
         <!-- 顶部搜索栏 -->
         <VHeader class="cmomodity-search__top" title="" :leftText="this.$route.query.title">
             <div slot="right">搜索</div>
@@ -12,22 +12,24 @@
         <!-- 内容 -->
         <div class="cmomodity-search__content">
             <!-- 1.历史记录 -->
-            <div v-if="searchText=='' && historyList.length>0" class="__history bg_fff">
-                <h5 class="flex flex-pack-justify">
-                    <span>历史记录</span>
-                    <van-icon name="delete" @click="historyDelete()" />
-                </h5>
-                <ul>
-                    <li v-for="(item,index) in historyList" :key="index" @click="historySearch(item)">{{item}}</li>
-                </ul>
-            </div>
-            <div v-if="searchText=='' && hotList.length>0" class="__history bg_fff">
-                <h5 class="flex flex-pack-justify">
-                    <span>热门搜索</span>
-                </h5>
-                <ul>
-                    <li v-for="(item,index) in hotList" :key="index" @click="historySearch(item)">{{item}}</li>
-                </ul>
+            <div v-if="searchText==''" class="__history bg_fff panel__hidden">
+                <div v-if="historyList.length>0" class="__box bg_fff">
+                    <h5 class="flex flex-pack-justify">
+                        <span>历史记录</span>
+                        <van-icon name="delete" @click="historyDelete()" />
+                    </h5>
+                    <ul>
+                        <li v-for="(item,index) in historyList" :key="index" @click="historySearch(item)">{{item}}</li>
+                    </ul>
+                </div>
+                <div v-if="hotList.length>0" class="__box bg_fff">
+                    <h5 class="flex flex-pack-justify">
+                        <span>热门搜索</span>
+                    </h5>
+                    <ul>
+                        <li v-for="(item,index) in hotList" :key="index" @click="historySearch(item)">{{item}}</li>
+                    </ul>
+                </div>
             </div>
             <!-- 2.搜索内容 -->
             <div class="panel__hidden" v-if="searchText!=='' && resultList.length>0" >
@@ -113,30 +115,32 @@ export default {
         >.cmomodity-search__content{
             height: calc(100% - 40px);
             >.__history{
-                >h5{
-                    height: 40px;
-                    line-height: 40px;
-                    padding: 0 15px;
-                    font-size: 12px;
-                    color: #888;
-                    >i{
-                        margin: 12px 0;
-                        font-size: 14px;
-                    }
-                }
-                >ul{
-                    font-size: 0;
-                    padding: 0 15px 6px;
-                    >li{
-                        display: inline-block;
+                >.__box{
+                    >h5{
+                        height: 40px;
+                        line-height: 40px;
+                        padding: 0 15px;
                         font-size: 12px;
-                        padding: 0 8px;
-                        height: 20px;
-                        line-height: 20px;
-                        border: 1px solid #eee;
-                        border-radius: 10px;
-                        vertical-align: middle;
-                        margin: 0 12px 12px 0;
+                        color: #888;
+                        >i{
+                            margin: 12px 0;
+                            font-size: 14px;
+                        }
+                    }
+                    >ul{
+                        font-size: 0;
+                        padding: 0 15px 6px;
+                        >li{
+                            display: inline-block;
+                            font-size: 12px;
+                            padding: 0 8px;
+                            height: 20px;
+                            line-height: 20px;
+                            border: 1px solid #eee;
+                            border-radius: 10px;
+                            vertical-align: middle;
+                            margin: 0 12px 12px 0;
+                        }
                     }
                 }
             }

@@ -1,14 +1,14 @@
 <!-- 限时抢购-商品卡片 -->
 <template>
-    <div class="commodity-card flex" @click="detail()">
+    <div class="commodity-card flex" :class="{no_padding: !padding}" @click="detail()">
         <div class="commodity-card__img">
             <van-image
                 lazy-load
                 src=""
             />
-            <span class="tag blue">新品</span>
-            <!-- <span class="tag red">折扣</span>
-            <span class="tag purple">限时购</span> -->
+            <!-- <span class="tag blue">新品</span> -->
+            <!-- <span class="tag red">折扣</span> -->
+            <span class="tag purple">限时购</span>
 
             <!-- <div class="mask">
                 <div>
@@ -38,29 +38,41 @@
             <!-- 计步器 -->
             <div class="btn-wrap">
                 <!-- 售罄禁用样式：disable -->
-                <div class="btn" @click.stop="handleBuy()">立即抢</div>
+                <Stepper 
+                    ref="stepper"
+                    :limit="5"
+                    :count="count"
+                    @count-change="countChange"
+                ></Stepper>
             </div>
         </div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+import Stepper from './StepperLimit'
 export default {
+    props: {
+        padding: {
+            type: Boolean,
+            default: true
+        },
+    },
     data () {
         return {
-
+            count: 0
         }
     },
     components: {
-
+        Stepper,
     },
     methods:{
         detail(){
             this.$router.push({ name: 'commondityDetail' })
         },
-        handleBuy(){
-            
-        }
+        countChange(val){
+            this.count = this.count + val;
+        },
     },
 }
 </script>
@@ -68,6 +80,14 @@ export default {
 <style lang="scss" scoped>
     .commodity-card{
         padding: 10px 15px;
+        &.no_padding{
+            padding: 10px 0px;
+            >.commodity-card__info{
+                .btn-wrap{
+                    right: 2px;
+                }
+            }
+        }
         >.commodity-card__img{
             width: 88px;
             height: 88px;
@@ -193,19 +213,6 @@ export default {
                 position: absolute;
                 bottom: 0;
                 right: 0;
-                .btn{
-                    text-align: center;
-                    color: #fff;
-                    font-size: 10px;
-                    width: 56px;
-                    height: 20px;
-                    line-height: 20px;
-                    border-radius: 10px;
-                    background: #ee0a24;
-                    &.disable{
-                        background: #999;
-                    }
-                }
             }
         }
     }

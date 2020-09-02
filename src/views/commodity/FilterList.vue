@@ -18,7 +18,8 @@
         
         <ul class="__list">
             <li v-for="(item, index) in goodList" :key="index" class="bg_fff">
-                <Card></Card>
+                <Card :padding="padding"></Card>
+                <!-- <CardLimit :padding="padding"></CardLimit> -->
             </li>
         </ul>
     </div>
@@ -29,6 +30,10 @@ import Card from '../commodity/Card'
 import CardLimit from '../commodity/CardLimit'
 export default {
     props:{
+        padding: {
+            type: Boolean,
+            default: true
+        },
         fixedHead: {
             type: Boolean,
             default: false
