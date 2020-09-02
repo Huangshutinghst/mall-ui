@@ -23,9 +23,6 @@ export default {
             this.num = val;
         }
     },
-    components: {
-
-    },
     methods:{
         reduce(){
             if(this.count <= 1) return;
