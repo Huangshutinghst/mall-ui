@@ -67,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
     .commodity-card{
-        padding: 10px 15px;
+        padding: 10px;
         >.commodity-card__img{
             width: 80px;
             height: 80px;

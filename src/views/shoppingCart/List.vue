@@ -99,7 +99,7 @@ export default {
                 .__checkbox{
                     position: absolute;
                     top: 50%;
-                    left: 15px;
+                    left: 12px;
                     margin-top: -10px;
                 }
                 .__card{

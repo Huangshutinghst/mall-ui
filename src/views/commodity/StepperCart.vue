@@ -41,31 +41,30 @@ export default {
 
 <style lang="scss" scoped>
     .commodity-stepper{
+        border: 1px solid #dfdfdf;
+        border-radius: 10px;
         .num{
             font-size: 12px;
             width: 20px;
-            line-height: 16px;
+            line-height: 18px;
             text-align: center;
         }
         .round{
-            width: 16px;
-            height: 16px;
-            border-radius: 100%;
+            width: 20px;
+            height: 18px;
             text-align: center;
             &.reduce{
-                border: 1px solid #0db059;
-                color: #0db059;
-                line-height: 14px;
+                line-height: 16px;
                 font-size: 8px;
                 font-weight: bold;
+                border-right: 1px solid #dfdfdf;
             }
             &.add{
-                background: #0db059;
-                color: #fff;
-                line-height: 16px;
-                font-size: 16px;
+                line-height: 18px;
+                font-size: 18px;
+                border-left: 1px solid #dfdfdf;
                 &.disable{
-                    background: rgba(153, 153, 153, 0.7);
+                    color: #dfdfdf;
                 }
             }
         }
