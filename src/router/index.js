@@ -8,12 +8,12 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: (resolve) => require(['@/views/Login'], resolve)
+      component: (resolve) => require(['@/views/login/Login'], resolve)
     },
     {
       path: '/',
       name: 'Layout',
-      component: (resolve) => require(['@/views/Layout'], resolve),
+      component: (resolve) => require(['@/views/layout/Layout'], resolve),
       children: [
         // 首页
         {
