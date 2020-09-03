@@ -50,14 +50,13 @@ export default {
             width: 20px;
             height: 18px;
             text-align: center;
+            line-height: 18px;
             &.reduce{
-                line-height: 16px;
                 font-size: 8px;
                 font-weight: bold;
                 border-right: 1px solid #dfdfdf;
             }
             &.add{
-                line-height: 18px;
                 font-size: 18px;
                 border-left: 1px solid #dfdfdf;
                 &.disable{

@@ -26,8 +26,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Card from '../commodity/Card'
-import CardLimit from '../commodity/CardLimit'
+import Card from '../card/Card'
+import CardLimit from '../card/CardLimit'
 export default {
     props:{
         padding: {

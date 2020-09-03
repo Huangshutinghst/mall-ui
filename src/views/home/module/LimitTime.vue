@@ -31,14 +31,14 @@
         <!-- 商品列表 -->
         <ul class="__list">
             <li v-for="(item, index) in goodList" :key="index" class="bg_fff">
-                <CommodityCardLimit></CommodityCardLimit>
+                <CardLimit></CardLimit>
             </li>
         </ul>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-import CommodityCardLimit from '../../commodity/CardLimit'
+import CardLimit from '../../card/CardLimit'
 export default {
     data () {
         return {
@@ -53,7 +53,7 @@ export default {
         }
     },
     components: {
-        CommodityCardLimit
+        CardLimit
     },
     methods:{
         beforeChange(index) {

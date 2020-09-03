@@ -40,7 +40,7 @@
 
 <script type="text/ecmascript-6">
 import VHeader from '../../components/VHeader'
-import Card from '../commodity/CardCart';
+import Card from '../card/CardCart';
 export default {
     props:{
         leftArrow:{

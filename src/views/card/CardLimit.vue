@@ -50,7 +50,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Stepper from './StepperLimit'
+import Stepper from '../stepper/StepperLimit'
 export default {
     props: {
         padding: {

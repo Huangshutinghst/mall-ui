@@ -3,14 +3,14 @@
     <div class="module-hot">
         <ul class="bg_fff">
             <li v-for="(item, index) in goodList" :key="index">
-                <CommodityCard></CommodityCard>
+                <Card></Card>
             </li>
         </ul>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-import CommodityCard from '../../commodity/Card'
+import Card from '../../card/Card'
 export default {
     data () {
         return {
@@ -20,7 +20,7 @@ export default {
         }
     },
     components: {
-        CommodityCard,
+        Card,
     },
     methods:{
 

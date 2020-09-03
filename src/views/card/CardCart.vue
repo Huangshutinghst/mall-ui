@@ -43,7 +43,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Stepper from './StepperCart'
+import Stepper from '../stepper/StepperCart'
 export default {
     data () {
         return {

@@ -42,7 +42,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Stepper from './Stepper'
+import Stepper from '../stepper/Stepper'
 export default {
     props: {
         padding: {
