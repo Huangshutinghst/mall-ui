@@ -140,6 +140,18 @@ export default new Router({
           path: 'setting/telephone',
           name: 'editTelephone',
           component: (resolve) => require(['@/views/setting/EditTelephone'], resolve),
+        },
+        //我的优惠券
+        {
+          path: 'coupon',
+          name: 'coupon',
+          component: (resolve) => require(['@/views/coupon/Index'], resolve),
+        },
+        //领券中心
+        {
+          path: 'coupon/receive',
+          name: 'receive',
+          component: (resolve) => require(['@/views/coupon/Receive'], resolve),
         }
       ]
     }
