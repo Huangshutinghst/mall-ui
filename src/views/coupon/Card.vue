@@ -9,17 +9,19 @@
             </div>
             <div class="right flex-1">
                 <h5>四周年神券 (福州通用)</h5>
-                <p>09月01日到10月01日有效</p>
+                <p>09月01日-10月01日有效</p>
                 <!-- <p class="today">今天到期</p> -->
                 <!-- 按钮 -->
-                <div v-if="type=='wsy'" class="btn">去使用</div>
+                <div v-if="isReceive=='receive' && type=='wsy'" class="btn receive" @click.stop="receive()">领取</div>
+                <div v-if="isReceive=='' && type=='wsy'" class="btn">去使用</div>
                 <!-- 标识 -->
                 <div v-if="type!=='wsy'" class="mark">{{type=='ysy'?'已使用':'已过期'}}</div>
                 <!-- 下拉按钮 -->
                 <van-icon class="arrow" :class="infoShow?'arrow-up':''" name="arrow-down" @click.stop="infoOpen()" />
             </div>
         </div>
-        <!-- 规则 -->
+
+        <!-- 规则说明 -->
         <div v-show="infoShow" class="__info">
             <p>领取时间：2020-09-22 10:52:00</p>
             <p style="margin-bottom: 15px">编号：ijsfoajalj</p>
@@ -36,23 +38,39 @@
 <script type="text/ecmascript-6">
 export default {
     props: {
-        type: String,
+        page: {
+            type: String,
+            default: ''
+        },
+        type: {
+            type: String,
+            default: 'wsy'
+        },
     },
     data () {
         return {
+            isReceive: this.page,
             infoShow: false,
         }
     },
     watch: {
-
+        page(val){
+            this.isReceive = val;
+        }
     },
     methods:{
+        // 去使用
         use(){
             if (this.type !== 'wsy') return;
             this.$router.push({ name: 'couponList' });
         },
+        // 展开关闭规则说明
         infoOpen(){
             this.infoShow = !this.infoShow;
+        },
+        // 领取优惠券
+        receive(){
+            this.isReceive = '';
         }
     },
 }
@@ -115,6 +133,12 @@ export default {
                     text-align: center;
                     font-size: 11px;
                     font-weight: bold;
+                    &.receive{
+                        border: none;
+                        background: rgba(255, 137, 47, 0.8);
+                        color: #fff;
+                        line-height: 20px;
+                    }
                 }
                 >.mark{
                     position: absolute;
