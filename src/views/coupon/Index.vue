@@ -7,15 +7,16 @@
             <van-tab v-for="item in tabList" :title="item.name" :key="item.type" :name="item.type"></van-tab>
         </van-tabs>
 
-        <div class="panel__scroll panel__content">
+        <div class="panel__scroll">
             <ul v-if="couponList.length > 0">
                 <li v-for="(item, index) in couponList" :key="index">
-                    <CouponCard></CouponCard>
+                    <CouponCard :type="tabActive"></CouponCard>
                 </li>
+                <li class="text" v-show="tabActive=='wsy'">特别提示：每位用户1天最多可使用2张优惠券</li>
             </ul>
             <VBlank v-else text="您没有该类型的优惠券"></VBlank>
 
-            <div class="__bottom" @click="receive()">领更多好券<span>></span></div>
+            <div class="__bottom bg_fff" @click="receive()">领更多好券<span>></span></div>
         </div>
     </div>
 </template>
@@ -33,7 +34,7 @@ export default {
                 {name: '已过期',type: 'ygq'}
             ],
             couponList: [
-                {},{}
+                {},{},{}
             ]
         }
     },
@@ -59,13 +60,18 @@ export default {
             height: 30px;
             border-bottom: 1px solid #eee;
         }
-        >.panel__content{
-            height: calc(100% - 70px) !important;
-            padding-bottom: 42px;
+        >.panel__scroll{
+            height: calc(100% - 110px) !important;
             >ul{
                 margin: 10px;
                 >li{
                     margin-bottom: 10px;
+                    &.text{
+                        text-align: center;
+                        color: #999;
+                        font-size: 12px;
+                        margin-top: 20px;
+                    }
                 }
             }
             >.__bottom{
@@ -76,7 +82,7 @@ export default {
                 height: 40px;
                 line-height: 40px;
                 text-align: center;
-                font-size: 12px;
+                font-size: 14px;
                 box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.1);
                 color: #ff6f00;
                 >span{

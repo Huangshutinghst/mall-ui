@@ -152,7 +152,13 @@ export default new Router({
           path: 'coupon/receive',
           name: 'receive',
           component: (resolve) => require(['@/views/coupon/Receive'], resolve),
-        }
+        },
+        // 优惠券适用商品
+        {
+          path: 'coupon/list',
+          name: 'couponList',
+          component: (resolve) => require(['@/views/couponlist/Index'], resolve),
+        },
       ]
     }
   ]
