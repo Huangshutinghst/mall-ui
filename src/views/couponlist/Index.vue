@@ -17,9 +17,7 @@
             </div>
         </div>
 
-        <van-popup v-model="popShow" round position="bottom" :style="{ height: '45%' }">
-            
-        </van-popup>
+        <RulePop :modal="popShow" @visible-change="(val) => {this.popShow = val}"></RulePop>
     </div>
 </template>
 
@@ -27,6 +25,7 @@
 import VHeader from '../../components/VHeader'
 import CouponCard from '../coupon/Card'
 import FilterList from '../commodity/FilterList'
+import RulePop from './RulePop'
 export default {
     data () {
         return {
@@ -39,7 +38,8 @@ export default {
     components: {
         VHeader,
         CouponCard,
-        FilterList
+        FilterList,
+        RulePop
     },
     methods:{
         // 规则说明

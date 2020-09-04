@@ -8,7 +8,7 @@
                 <p>满10元可用</p>
             </div>
             <div class="right flex-1">
-                <h5>四周年神券 (福州通用)</h5>
+                <h5 class="double-row">四周年神券 (福州通用)</h5>
                 <p>09月01日-10月01日有效</p>
                 <!-- <p class="today">今天到期</p> -->
                 <!-- 按钮 -->
