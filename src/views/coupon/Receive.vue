@@ -5,7 +5,7 @@
         <div class="panel__scroll panel__content">
             <ul v-if="couponList.length > 0">
                 <li v-for="(item, index) in couponList" :key="index">
-                    <CouponCard :page="'receive'"></CouponCard>
+                    <CouponCard :page="'receive'" :isReceive="false"></CouponCard>
                 </li>
             </ul>
             <VBlank v-else text="没有可领取的优惠券"></VBlank>

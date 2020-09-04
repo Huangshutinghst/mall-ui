@@ -2,7 +2,7 @@
 <template>
     <div class="cmomodity-search-index panel__hidden">
         <!-- 顶部搜索栏 -->
-        <VHeader class="cmomodity-search__top" title="" :leftText="this.$route.query.title">
+        <VHeader class="cmomodity-search__top">
             <div slot="right">搜索</div>
             <div slot="title">
                 <van-search v-model="searchText" clearable placeholder="请输入商品名称" />

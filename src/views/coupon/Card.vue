@@ -12,12 +12,12 @@
                 <p>09月01日-10月01日有效</p>
                 <!-- <p class="today">今天到期</p> -->
                 <!-- 按钮 -->
-                <div v-if="isReceive=='receive' && type=='wsy'" class="btn receive" @click.stop="receive()">领取</div>
-                <div v-if="isReceive=='' && type=='wsy'" class="btn">去使用</div>
+                <div v-show="!received && type=='wsy'" class="btn receive" @click.stop="handleReceive()">领取</div>
+                <div v-show="received && type=='wsy' && page!=='shop'" class="btn">去使用</div>
+                <van-icon v-show="page==''" class="arrow" :class="infoShow?'arrow-up':''" name="arrow-down" @click.stop="infoOpen()" />
                 <!-- 标识 -->
-                <div v-if="type!=='wsy'" class="mark">{{type=='ysy'?'已使用':'已过期'}}</div>
-                <!-- 下拉按钮 -->
-                <van-icon class="arrow" :class="infoShow?'arrow-up':''" name="arrow-down" @click.stop="infoOpen()" />
+                <div v-show="type!=='wsy'" class="mark">{{type=='ysy'?'已使用':'已过期'}}</div>
+                <div v-show="received && (page=='receive' || page=='shop')" class="mark_receive">已领取</div>
             </div>
         </div>
 
@@ -38,30 +38,37 @@
 <script type="text/ecmascript-6">
 export default {
     props: {
+        // 卡片使用场景：已领取、未领取、适用商品页
         page: {
             type: String,
             default: ''
         },
+        // 卡片类型：未使用、已使用、已过期
         type: {
             type: String,
             default: 'wsy'
         },
+        // 是否已领取
+        isReceive: {
+            type: Boolean,
+            default: true
+        }
     },
     data () {
         return {
-            isReceive: this.page,
+            received: this.isReceive,
             infoShow: false,
         }
     },
     watch: {
-        page(val){
-            this.isReceive = val;
+        isReceive(val){
+            this.received = val;
         }
     },
     methods:{
         // 去使用
         use(){
-            if (this.type !== 'wsy') return;
+            if (this.page == 'shop' || this.type !== 'wsy') return;
             this.$router.push({ name: 'couponList' });
         },
         // 展开关闭规则说明
@@ -69,8 +76,8 @@ export default {
             this.infoShow = !this.infoShow;
         },
         // 领取优惠券
-        receive(){
-            this.isReceive = '';
+        handleReceive(){
+            this.received = true;
         }
     },
 }
@@ -162,6 +169,31 @@ export default {
                         right: 2px;
                         bottom: 2px;
                         border: 1px solid rgba(0, 0, 0, 0.1);
+                        border-radius: 100%;
+                    }
+                }
+                >.mark_receive{
+                    position: absolute;
+                    bottom: -10px;
+                    right: -10px;
+                    font-size: 11px;
+                    width: 52px;
+                    height: 46px;
+                    line-height: 42px;
+                    text-align: center;
+                    border-radius: 100%;
+                    border: 1px solid rgba(255, 179, 61, 0.2);
+                    background: rgba(255, 179, 61, 0.05);
+                    color: rgba(255, 179, 61, 0.4);
+                    transform: rotate(-30deg);
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        top: 2px;
+                        left: 2px;
+                        right: 2px;
+                        bottom: 2px;
+                        border: 1px solid rgba(255, 179, 61, 0.2);
                         border-radius: 100%;
                     }
                 }

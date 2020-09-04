@@ -105,7 +105,7 @@ export default {
         },
         // 购物车
         handleCart(){
-
+            this.$router.push({ name: 'shoppingCartList' })
         },
         // 加入购物车/立即抢
         handleAdd(){

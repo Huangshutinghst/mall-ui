@@ -2,7 +2,7 @@
 <template>
     <div class="category-list-all panel__hidden">
         <!-- 头部 -->
-        <VHeader class="category-list-all__head" title="" :leftText="this.$route.query.title">
+        <VHeader class="category-list-all__head">
             <van-icon slot="right" @click="search()" name="search" />
             <div slot="title">
                 <van-tabs @click="handleFirstTab">
