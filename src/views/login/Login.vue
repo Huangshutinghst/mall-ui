@@ -40,15 +40,7 @@ export default {
             'setSinger'
         ]),
         loginSubmit(){
-            // this.$api.login.login({        
-            //     username: this.formInline.username,
-            //     password: this.formInline.password
-            // }).then(res=> {
-            //     console.log(res)  
-            // })   
-            this.$api.home.search({        
-                productName: this.formInline.username,
-            }).then(res => {
+            this.$api.login.login(this.formInline).then(res => {
                 console.log(res)  
             }).catch(e => {
                 console.log(e)
