@@ -1,5 +1,6 @@
+// 定义vuex中状态变量
 const state = {
-	count: 1
+    singer: 1,
 }
 
 export default state

@@ -1,7 +1,10 @@
+// 同步修改state中的变量
+import * as types from './mutations-type'
+
 const mutations = {
-	[SET_COUNT](state, n) {
-		state.count = n
-	}
+  [types.SET_SINGER](state, singer) {
+    state.singer = singer
+  }
 }
 
 export default mutations

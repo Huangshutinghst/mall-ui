@@ -25,18 +25,40 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {mapActions} from 'vuex'
 export default {
     data(){
         return {
             formInline: {
-                username: 'admin',
-                password: '123123'
+                username: 'zhangsan',
+                password: 'zhangsan'
             }
         }
     },
     methods: {
+        ...mapActions([
+            'setSinger'
+        ]),
         loginSubmit(){
-            this.$router.replace({ name: 'Layout' });
+            // this.$api.login.login({        
+            //     username: this.formInline.username,
+            //     password: this.formInline.password
+            // }).then(res=> {
+            //     console.log(res)  
+            // })   
+            this.$api.home.search({        
+                productName: this.formInline.username,
+            }).then(res => {
+                console.log(res)  
+            }).catch(e => {
+                console.log(e)
+            })
+
+            // this.setSinger({
+            //     list: [1],
+            //     index: 1
+            // })
+            // this.$router.replace({ name: 'Layout' });
         }
     }
 }

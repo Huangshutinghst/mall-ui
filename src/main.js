@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import store from './store'
+import store from './store'
 //vant
 import Vant, {Lazyload} from 'vant'
 import 'vant/lib/index.css'
@@ -21,15 +21,19 @@ import './css/flex.css'
 import './css/component/_layout.scss'
 //全局组件
 import VBlank from './components/blank'
- 
+//导入api入口
+import api from './api'
+
  
 Vue.use(Lazyload);
 Vue.use(Vant)
 Vue.config.productionTip = false
 
+//挂载到vue的原型上
 Vue.prototype.Md5Util = Md5Util;
 Vue.prototype.DateUtil = DateUtil;
 Vue.prototype.RegExpUtil = RegExpUtil;
+Vue.prototype.$api = api;
 
 Vue.use(VBlank)
 
@@ -37,7 +41,7 @@ Vue.use(VBlank)
 new Vue({
   el: '#app',
   router,
-  // store,
+  store,
   components: { App },
   template: '<App/>'
 })
