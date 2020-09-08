@@ -26,25 +26,18 @@
                 />
                 <van-field
                     v-model="formInline.community"
-                    name="收货小区"
-                    label="收货小区："
+                    name="收货地址"
+                    label="收货地址："
                     placeholder="小区名称/写字楼等"
                 />
-                <van-field
+                <!-- <van-field
                     v-model="formInline.houseNumber"
                     name="收货地址"
                     label=" "
                     placeholder="楼号/门牌号"
-                />
+                /> -->
                 <van-field class="__none_checkbox" name="地址类型" label="地址类型：">
                     <template #input>
-                        <!-- <van-checkbox-group v-model="formInline.type" direction="horizontal">
-                            <van-checkbox name="1" shape="square">家</van-checkbox>
-                            <van-checkbox name="2" shape="square">父母家</van-checkbox>
-                            <van-checkbox name="3" shape="square">朋友家</van-checkbox>
-                            <van-checkbox name="4" shape="square">公司</van-checkbox>
-                            <van-checkbox name="5" shape="square">学校</van-checkbox>
-                        </van-checkbox-group> -->
                         <van-radio-group v-model="formInline.type" direction="horizontal">
                             <van-radio name="1" shape="square">家</van-radio>
                             <van-radio name="2" shape="square">父母家</van-radio>
@@ -71,11 +64,11 @@ export default {
         return {
             formInline: {
                 username: '',
-                gender: '',
+                gender: 0, //0无，1先生，2女士
                 telephone: '',
                 community: '',
                 houseNumber: '',
-                type: ''
+                type: 0
             }
         }
     },
@@ -90,7 +83,7 @@ export default {
                 thiz.Util.tip('请填写收货人姓名');
                 return;
             }
-            if(thiz.formInline.gender == ''){
+            if(thiz.formInline.gender == 0){
                 thiz.Util.tip('请选择性别');
                 return;
             }
@@ -102,7 +95,17 @@ export default {
                 thiz.Util.tip('请先选择小区');
                 return;
             }
-            thiz.$router.back(-1);
+            this.$api.mine.addressAdd({
+                address: this.formInline.community,
+                name: this.formInline.username,
+                phone: this.formInline.telephone,
+                sex: this.formInline.gender,
+                type: this.formInline.type,
+            }).then(res => {
+                thiz.$router.back(-1);
+            }).catch(e => {
+                console.log(e)
+            })
         }
     },
 }

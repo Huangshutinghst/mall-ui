@@ -6,6 +6,7 @@ import search from '@/api/modules/search';
 import home from '@/api/modules/home';
 import category from '@/api/modules/category';
 import img from '@/api/modules/img';
+import mine from '@/api/modules/mine';
 
 // 导出接口
 export default {    
@@ -14,5 +15,6 @@ export default {
     home,
     category,
     img,
+    mine,
     // ……
 }

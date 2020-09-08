@@ -6,7 +6,7 @@
             <van-tab v-for="(item,index) in timeList" :key="index">
                 <template #title>
                     <div class="tabs__item">
-                        <h5>1{{index}}:00</h5>
+                        <h5>{{item.startTime.substring(11, 16)}}</h5>
                         <!-- 即将开抢/明天开抢 -->
                         <p>即将开抢</p>
                     </div>
@@ -42,20 +42,26 @@ import CardLimit from '../../card/CardLimit'
 export default {
     data () {
         return {
-            currentTime: 10000000000,  //毫秒数
+            currentTime: 0,  //毫秒数
             currentIndex: 0,
-            timeList: [
-                {},{},{},{},{},{},{},{},{},{}
-            ],
-            goodList: [
-                {},{},{},{},{},{},{},{},{},{}
-            ]
+            timeList: [],
+            goodList: []
         }
     },
     components: {
         CardLimit
     },
     methods:{
+        getTodayFlash(){
+            this.$api.home.getTodayFlash().then(res => {
+                this.timeList = res.data.data;
+                this.currentTime = new Date(this.timeList[0].endTime).getTime() - new Date().getTime();
+                console.log(this.currentTime)
+                console.log(this.timeList)
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         beforeChange(index) {
             this.currentIndex = index;
         },
@@ -134,7 +140,7 @@ export default {
                 .van-tab--active{
                     .tabs__item{
                         >h5{
-                            color: #fff;;
+                            color: #fff;
                         }
                         >p{
                             color: #ee0a24;
@@ -144,10 +150,11 @@ export default {
                 }
             }
             .tabs__item{
+                width: 60px;
                 color: rgba(255, 255, 255, 0.8);
                 text-align: center;
                 >h5{
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: bold;
                 }
                 >p{

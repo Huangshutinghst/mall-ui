@@ -28,25 +28,18 @@
                 />
                 <van-field
                     v-model="formInline.community"
-                    name="收货小区"
-                    label="收货小区："
+                    name="收货地址"
+                    label="收货地址："
                     placeholder="小区名称/写字楼等"
                 />
-                <van-field
+                <!-- <van-field
                     v-model="formInline.houseNumber"
                     name="收货地址"
                     label=" "
                     placeholder="楼号/门牌号"
-                />
+                /> -->
                 <van-field class="__none_checkbox" name="地址类型" label="地址类型：">
                     <template #input>
-                        <!-- <van-checkbox-group v-model="formInline.type" direction="horizontal">
-                            <van-checkbox name="1" shape="square">家</van-checkbox>
-                            <van-checkbox name="2" shape="square">父母家</van-checkbox>
-                            <van-checkbox name="3" shape="square">朋友家</van-checkbox>
-                            <van-checkbox name="4" shape="square">公司</van-checkbox>
-                            <van-checkbox name="5" shape="square">学校</van-checkbox>
-                        </van-checkbox-group> -->
                         <van-radio-group v-model="formInline.type" direction="horizontal">
                             <van-radio name="1" shape="square">家</van-radio>
                             <van-radio name="2" shape="square">父母家</van-radio>
@@ -73,18 +66,36 @@ export default {
         return {
             formInline: {
                 username: '',
-                gender: '',
+                gender: 0, //0无，1先生，2女士
                 telephone: '',
                 community: '',
                 houseNumber: '',
-                type: ''
+                type: 0,
+                addressId: ''
             }
         }
     },
     components: {
         VHeader,
     },
+    mounted(){
+        this.getAddressObj()
+    },
     methods:{
+        // 回填
+        getAddressObj(){
+            this.$api.mine.getAddressObj(this.$route.query.id).then(res => {
+                let obj = res.data.data;
+                this.formInline.username = obj.name;
+                this.formInline.gender = obj.sex + '';
+                this.formInline.telephone = obj.phone;
+                this.formInline.community = obj.address;
+                this.formInline.type = obj.type + '';
+                this.formInline.addressId = obj.addressId;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         onSubmit(){
             var thiz = this;
             console.log(thiz.formInline)
@@ -92,7 +103,7 @@ export default {
                 thiz.Util.tip('请填写收货人姓名');
                 return;
             }
-            if(thiz.formInline.gender == ''){
+            if(thiz.formInline.gender == 0){
                 thiz.Util.tip('请选择性别');
                 return;
             }
@@ -104,7 +115,18 @@ export default {
                 thiz.Util.tip('请先选择小区');
                 return;
             }
-            thiz.$router.back(-1);
+            this.$api.mine.addressEdit({
+                address: this.formInline.community,
+                name: this.formInline.username,
+                phone: this.formInline.telephone,
+                sex: this.formInline.gender,
+                type: this.formInline.type,
+                addressId: this.formInline.addressId
+            }).then(res => {
+                thiz.$router.back(-1);
+            }).catch(e => {
+                console.log(e)
+            })
         },
         delAddress(){
             var thiz = this;
@@ -115,11 +137,18 @@ export default {
             })
             .then(() => {
                 // on confirm
-                thiz.$router.back(-1);
+                thiz.addressDelete();
             })
             .catch(() => {
                 // on cancel
             });
+        },
+        addressDelete(){
+            this.$api.mine.addressDelete(this.$route.query.id).then(res => {
+                this.$router.back(-1);
+            }).catch(e => {
+                console.log(e)
+            })
         }
     },
 }

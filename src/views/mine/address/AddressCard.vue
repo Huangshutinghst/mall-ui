@@ -2,17 +2,17 @@
     <div class="address-card flex flex-pack-justify">
         <div class="__info flex flex-v flex-pack-justify flex-1">
             <h5>
-                这是小区名
-                <span class="orange">家</span>
-                <!-- <span class="orange">父母家</span>
-                <span class="purple">朋友家</span>
-                <span class="blue">公司</span>
-                <span class="green">学校</span> -->
+                {{ addressItem.address }}
+                <span v-show="addressItem.type == 1" class="orange">家</span>
+                <span v-show="addressItem.type == 2" class="orange">父母家</span>
+                <span v-show="addressItem.type == 3" class="purple">朋友家</span>
+                <span v-show="addressItem.type == 4" class="blue">公司</span>
+                <span v-show="addressItem.type == 5" class="green">学校</span>
             </h5>
-            <p class="p1">这是详细地址-门牌号</p>
+            <!-- <p class="p1">这是详细地址-门牌号</p> -->
             <p class="p2">
-                <span>胖大喵</span>
-                <span>1788888888</span>
+                <span>{{ addressItem.name }}</span>
+                <span>{{ addressItem.phone }}</span>
             </p>
         </div>
         <div class="__btn flex flex-v flex-pack-center">
@@ -36,7 +36,7 @@ export default {
     },
     methods:{
         editAddress(){
-            this.$router.push({name:'addressEdit'});
+            this.$router.push({name:'addressEdit', query:{id: this.addressItem.addressId}});
         }
     },
 }

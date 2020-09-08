@@ -1,9 +1,8 @@
 <template>
     <div class="home-swiper">
         <van-swipe class="home-swipe" :autoplay="3000" indicator-color="white">
-        <!-- <van-swipe class="home-swipe" indicator-color="white"> -->
             <van-swipe-item v-for="(image, index) in imageList" :key="index">
-                <img v-lazy="image" />
+                <img v-lazy="$api.img + image.pic" />
             </van-swipe-item>
         </van-swipe>
     </div>
@@ -13,28 +12,23 @@
 export default {
     data () {
         return {
-            imageList: [
-                '',
-                '',
-                '',
-                '',
-            ],
+            imageList: [],
         }
     },
-    components: {
-
+    mounted() {
+        this.getTodayActivity();
     },
     methods:{
-
+        getTodayActivity(){
+            this.$api.home.getTodayActivity().then(res => {
+                this.imageList = res.data.data;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
     },
 }
 </script>
-
-<style lang="scss" scoped>
-    .home-swiper{
-    
-    }
-</style>
 
 <style lang="scss">
     .home-swipe {

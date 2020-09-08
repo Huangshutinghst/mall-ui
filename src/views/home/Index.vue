@@ -16,10 +16,10 @@
             <HomeSticky @change-tab="tabChange"></HomeSticky>
             
             <!-- 热门商品 -->
-            <Hot v-if="currentModule == 'hot'"></Hot>
+            <Hot :ref="'hotRef'" v-show="currentModule == 'hot'"></Hot>
 
             <!-- 限时抢购 -->
-            <LimitTime v-if="currentModule == 'limitTime'"></LimitTime>
+            <LimitTime :ref="'limitTimeRel'" v-show="currentModule == 'limitTime'"></LimitTime>
         </div>
 
         <!-- 底部导航 -->
@@ -52,7 +52,15 @@ export default {
     },
     methods:{
         tabChange(name){
+            let thiz = this;
             this.currentModule = name;
+            this.$nextTick(() => {
+                if(name == 'hot'){
+                    thiz.$refs['hotRef'].getHotList();
+                }else if(name == 'limitTime'){
+                    thiz.$refs['limitTimeRel'].getTodayFlash();
+                }
+            })
         }
     },
 }

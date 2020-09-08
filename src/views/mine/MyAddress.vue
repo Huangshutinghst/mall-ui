@@ -23,7 +23,11 @@ import AddressCard from './address/AddressCard'
 export default {
     data () {
         return {
-            addressList: [{},{},{}]
+            formInline: {
+                offset: 0,
+                limit: 10,
+            },
+            addressList: []
         }
     },
     components: {
@@ -31,9 +35,16 @@ export default {
         AddressCard,
     },
     mounted(){
-        
+        this.getAddressList();
     },
     methods:{
+        getAddressList(){
+            this.$api.mine.getAddressList(this.formInline).then(res => {
+                this.addressList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         addAddress(){
             this.$router.push({name:'addressAdd'});
         },

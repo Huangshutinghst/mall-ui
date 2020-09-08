@@ -15,12 +15,12 @@ export default {
         }
     },
     mounted() {
-        this.getFirstClassify();
+        this.getHomeClassify();
     },
     methods:{
         // 获取一级分类
-        getFirstClassify(){
-            this.$api.home.getFirstClassify().then(res => {
+        getHomeClassify(){
+            this.$api.home.getHomeClassify().then(res => {
                 this.categoryList = res.data.data;
             }).catch(e => {
                 console.log(e)

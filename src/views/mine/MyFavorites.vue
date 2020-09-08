@@ -4,13 +4,19 @@
         <VHeader title="" leftText="我的收藏"></VHeader>
 
         <div class="panel__scroll panel__content">
-            <ul class="mall-favorites__list bg_fff" v-if="goodlist.length > 0">
+            <ul class="mall-favorites__list bg_fff">
                 <li class="__item" v-for="(item,index) in goodlist" :key="index">
-                    <Card></Card>
-                    <!-- <CardLimit></CardLimit> -->
+                    <Card 
+                        v-if="!item.flashing" 
+                        :cardInfo="item"
+                    ></Card>
+                    <CardLimit
+                        v-if="item.flashing" 
+                        :cardInfo="item"
+                    ></CardLimit>
                 </li>
             </ul>
-            <VBlank v-else text="没有相关商品"></VBlank>
+            <!-- <VBlank v-else text="没有相关商品"></VBlank> -->
         </div>
     </div>
 </template>
@@ -22,16 +28,11 @@ import CardLimit from "../card/CardLimit";
 export default {
     data () {
         return {
-            goodlist: [
-                {num: 0},
-                {num: 0},
-                {num: 0},
-                {num: 0},
-                {num: 0},
-                {num: 0},
-                {num: 0},
-                {num: 0},
-            ]
+            formInline: {
+                offset: 0,
+                limit: 10
+            },
+            goodlist: []
         }
     },
     components: {
@@ -39,8 +40,17 @@ export default {
         Card,
         CardLimit
     },
+    mounted() {
+        this.getFavoriteList();
+    },
     methods:{
-
+        getFavoriteList(){
+            this.$api.mine.getFavoriteList(this.formInline).then(res => {
+                this.goodlist = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     },
 }
 </script>
