@@ -25,7 +25,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {mapActions} from 'vuex'
 export default {
     data(){
         return {
@@ -36,21 +35,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions([
-            'setSinger'
-        ]),
         loginSubmit(){
             this.$api.login.login(this.formInline).then(res => {
-                console.log(res)  
+                this.$store.dispatch('setToken', res.headers.authorization);
+                this.$router.replace({ path: '/' });
             }).catch(e => {
                 console.log(e)
             })
-
-            // this.setSinger({
-            //     list: [1],
-            //     index: 1
-            // })
-            // this.$router.replace({ name: 'Layout' });
         }
     }
 }

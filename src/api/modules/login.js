@@ -2,7 +2,7 @@
  * login模块接口列表
  */
 
-import axios from '@/utils/http';
+import axios from '@/libs/http';
 import qs from 'qs';
 
 const login = {    
