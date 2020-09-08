@@ -6,41 +6,41 @@
                 lazy-load
                 src=""
             />
-            <!-- <span class="tag blue">新品</span> -->
-            <!-- <span class="tag red">折扣</span> -->
-            <span class="tag purple">限时购</span>
+            <span v-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
+            <span v-else-if="cardInfo.discountStr" class="tag red">折扣</span>
+            <span v-else-if="item.flashing" class="tag purple">限时购</span>
 
-            <!-- <div class="mask">
+            <div v-show="cardInfo.publishStatus == 0" class="mask">
                 <div>
                     <p>限量</p>
                     <p>已抢光</p>
                 </div>
-            </div> -->
+            </div>
         </div>
         
         <div class="commodity-card__info flex-1 flex flex-v flex-pack-justify">
             <div class="__top flex-1">
-                <h5 class="title double-row">商品名称</h5>
-                <p class="text single-row">商品介绍介绍</p>
+                <h5 class="title double-row">{{ cardInfo.productName }}</h5>
+                <p class="text single-row">{{ cardInfo.desc }}</p>
                 <p class="tag">
-                    <span class="stock">剩余40%</span>
-                    <!-- <span class="red">已减10元</span>
-                    <span class="green">领40元券</span> -->
+                    <span class="stock">剩余{{ cardInfo.remainStockPercent }}%</span>
+                    <span v-show="cardInfo.discountStr" class="red">{{ cardInfo.discountStr }}折</span>
+                    <!-- <span class="green">领40元券</span> -->
                     <!-- <span class="yellow">网红推荐</span> -->
-                    <span class="bule">-18°冷藏</span>
+                    <!-- <span class="bule">-18°冷藏</span> -->
                 </p>
             </div>
             <p class="price font">
-                <!-- ￥29.9 -->
-                敬请期待
-                <s>￥39</s>
+                ￥{{ cardInfo.currentPrice }}
+                <!-- 敬请期待 -->
+                <s>￥{{ cardInfo.originalPrice }}</s>
             </p>
             <!-- 计步器 -->
             <div class="btn-wrap">
                 <!-- 售罄禁用样式：disable -->
                 <Stepper 
                     ref="stepper"
-                    :limit="5"
+                    :limit="cardInfo.limit"
                     :count="count"
                     @count-change="countChange"
                 ></Stepper>
@@ -53,6 +53,7 @@
 import Stepper from '../stepper/StepperLimit'
 export default {
     props: {
+        cardInfo: Object,
         padding: {
             type: Boolean,
             default: true
@@ -60,7 +61,7 @@ export default {
     },
     data () {
         return {
-            count: 0
+            count: this.cardInfo.cartVo.quantity
         }
     },
     components: {

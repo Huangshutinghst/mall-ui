@@ -8,7 +8,7 @@
                     <van-icon name="success" />
                 </li>
                 <li class="price flex-1" 
-                    :class="[{active: priceFlag!==''},{up: priceFlag=='up'},{down: priceFlag=='down'}]" 
+                    :class="[{active: priceFlag!==''},{up: priceFlag==1},{down: priceFlag==2}]" 
                     @click="filterPrice()">
                     价格
                     <span></span>
@@ -17,9 +17,17 @@
         </div>
         
         <ul class="__list">
-            <li v-for="(item, index) in goodList" :key="index" class="bg_fff">
-                <Card :padding="padding"></Card>
-                <!-- <CardLimit :padding="padding"></CardLimit> -->
+            <li v-for="(item, index) in list" :key="index" class="bg_fff">
+                <Card 
+                    v-if="!item.flashing" 
+                    :padding="padding"
+                    :cardInfo="item"
+                ></Card>
+                <CardLimit 
+                    v-if="item.flashing" 
+                    :padding="padding"
+                    :cardInfo="item"
+                ></CardLimit>
             </li>
         </ul>
     </div>
@@ -45,7 +53,6 @@ export default {
         return {
             hasFlag: false,
             priceFlag: '',
-            goodList: this.list
         }
     },
     components: {
@@ -53,19 +60,21 @@ export default {
         CardLimit,
     },
     methods:{
-        // 是否有货
+        // 是否过滤有货
         filterHas(){
             this.hasFlag = !this.hasFlag;
+            this.$emit('filter-has', this.hasFlag);
         },
         // 价格排序
         filterPrice(){
             if(this.priceFlag == ''){
-                this.priceFlag = 'up';
-            }else if(this.priceFlag == 'up'){
-                this.priceFlag = 'down';
-            }else if(this.priceFlag == 'down'){
+                this.priceFlag = 1;
+            }else if(this.priceFlag == 1){
+                this.priceFlag = 2;
+            }else if(this.priceFlag == 2){
                 this.priceFlag = '';
             }
+            this.$emit('filter-price', this.priceFlag)
         },
     },
 }

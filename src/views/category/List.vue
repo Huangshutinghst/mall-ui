@@ -8,7 +8,12 @@
         
         <!-- 内容  -->
         <div class="panel__content--fistlevel">
-            <FilterList :list="goodList" :type="'space'"></FilterList>
+            <FilterList 
+                :list="goodList" 
+                :type="'space'"
+                @filter-has="filterHas"
+                @filter-price="filterPrice"
+            ></FilterList>
         </div>
 
         <!-- footbar -->
@@ -23,9 +28,14 @@ import FootBar from '../commodity/FootBar'
 export default {
     data () {
         return {
-            goodList: [
-                {},{},{},{},{},{},{},{},{},{},
-            ]
+            formInline: {
+                classifyId: this.$route.query.type,
+                inStock: '',   //0不过滤  1过滤
+                priceSort: '',   //1从低到高  2从高到低
+                offset: 0,
+                limit: 10
+            },
+            goodList: []
         }
     },
     components: {
@@ -33,10 +43,35 @@ export default {
         FilterList,
         FootBar
     },
+    mounted(){
+        this.getListByClassifyId();
+    },
     methods:{
         search(){
             this.$router.push({ name: 'search' })
-        }
+        },
+        // 获取商品列表
+        getListByClassifyId(){
+            this.$api.category.getByClassifyId(this.$route.query.type, this.formInline).then(res => {
+                this.goodList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 是否过滤有货
+        filterHas(val){
+            if(val){
+                this.formInline.inStock = 1;
+            }else{
+                this.formInline.inStock = 0;
+            }
+            this.getListByClassifyId();
+        },
+        // 价格排序
+        filterPrice(val){
+            this.formInline.priceSort = val;
+            this.getListByClassifyId();
+        },
     },
 }
 </script>

@@ -13,6 +13,7 @@ import 'lib-flexible/flexible'
 import Md5Util from "./libs/md5Util"
 import DateUtil from './libs/dateUtil'
 import RegExpUtil from './libs/RegExpUtil'
+import Util from './libs/util'
 //common-css
 import './css/reset.css'
 import './css/resetfont.css'
@@ -33,6 +34,7 @@ Vue.config.productionTip = false
 Vue.prototype.Md5Util = Md5Util;
 Vue.prototype.DateUtil = DateUtil;
 Vue.prototype.RegExpUtil = RegExpUtil;
+Vue.prototype.Util = Util;
 Vue.prototype.$api = api;
 
 Vue.use(VBlank)

@@ -3,23 +3,23 @@
     <div class="cmomodity-search-index panel__hidden">
         <!-- 顶部搜索栏 -->
         <VHeader class="cmomodity-search__top">
-            <div slot="right">搜索</div>
+            <div slot="right" @click="handleSearch()">搜索</div>
             <div slot="title">
-                <van-search v-model="searchText" clearable placeholder="请输入商品名称" />
+                <van-search v-model="formInline.productName" clearable placeholder="请输入商品名称" />
             </div>
         </VHeader>
 
         <!-- 内容 -->
         <div class="cmomodity-search__content">
             <!-- 1.历史记录 -->
-            <div v-if="searchText==''" class="__history bg_fff panel__hidden">
+            <div v-if="!searchFlag" class="__history bg_fff panel__hidden">
                 <div v-if="historyList.length>0" class="__box bg_fff">
                     <h5 class="flex flex-pack-justify">
                         <span>历史记录</span>
                         <van-icon name="delete" @click="historyDelete()" />
                     </h5>
                     <ul>
-                        <li v-for="(item,index) in historyList" :key="index" @click="historySearch(item)">{{item}}</li>
+                        <li v-for="(item,index) in historyList" :key="index" @click="handleSearch(item)">{{item}}</li>
                     </ul>
                 </div>
                 <div v-if="hotList.length>0" class="__box bg_fff">
@@ -27,19 +27,25 @@
                         <span>热门搜索</span>
                     </h5>
                     <ul>
-                        <li v-for="(item,index) in hotList" :key="index" @click="historySearch(item)">{{item}}</li>
+                        <li v-for="(item,index) in hotList" :key="index" @click="handleSearch(item)">{{item}}</li>
                     </ul>
                 </div>
             </div>
             <!-- 2.搜索内容 -->
-            <div class="panel__hidden" v-if="searchText!=='' && resultList.length>0" >
+            <div class="panel__hidden" v-if="searchFlag && resultList.length>0" >
                 <div class="panel__content">
-                    <FilterList :type="'space'" :fixedHead="true" :list="resultList"></FilterList>
+                    <FilterList 
+                        :type="'space'" 
+                        :fixedHead="true" 
+                        :list="resultList"
+                        @filter-has="filterHas"
+                        @filter-price="filterPrice"
+                    ></FilterList>
                 </div>
                 <FootBar></FootBar>
             </div>
             <!-- 3.暂无内容 -->
-            <VBlank v-if="searchText!=='' && resultList.length == 0" text="没有相关商品"></VBlank>
+            <VBlank v-if="searchFlag && resultList.length == 0" text="没有相关商品"></VBlank>
         </div>
     </div>
 </template>
@@ -52,26 +58,17 @@ import FootBar from '../commodity/FootBar'
 export default {
     data () {
         return {
-            searchText: '',
-            historyList: [
-                '记录1',
-                '记录2',
-                '记录3',
-                '记录4'
-            ],
-            hotList: [
-                '热词1',
-                '热词2',
-                '热词3',
-                '热词4',
-                '热词5',
-                '热词6',
-                '热词7',
-                '热词8'
-            ],
-            resultList: [
-                {},{},{},{},{},{},{},{},{},{},{},{}
-            ],
+            formInline:{
+                inStock: '',   //0不过滤  1过滤
+                priceSort: '',   //1从低到高  2从高到低
+                productName: '',  //商品名称
+                offset: 0,
+                limit: 10
+            },
+            historyList: [],
+            hotList: [],
+            resultList: [],
+            searchFlag: false,
         }
     },
     components: {
@@ -80,13 +77,76 @@ export default {
         FilterList,
         FootBar
     },
-    methods:{
-        historySearch(text){
-            this.searchText = text;
-        },
-        historyDelete(){
-            this.historyList = [];
+    watch: {
+        'formInline.productName'(val){
+            if(val == ''){
+                this.searchFlag = false;
+                this.getHistoryList();
+            }
         }
+    },
+    mounted() {
+        this.getHotList();
+        this.getHistoryList();
+    },
+    methods:{
+        // 搜索
+        handleSearch(text){
+            if(text){
+                this.formInline.productName = text;
+            }
+            if(this.formInline.productName.trim() == ''){
+                this.Util.tip('搜索内容不能为空')
+                this.formInline.productName = '';
+                return
+            };
+            this.$api.search.search(this.formInline).then(res => {
+                this.resultList = res.data.data.list;
+                this.searchFlag = true;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 是否过滤有货
+        filterHas(val){
+            if(val){
+                this.formInline.inStock = 1;
+            }else{
+                this.formInline.inStock = 0;
+            }
+            this.handleSearch();
+        },
+        // 价格排序
+        filterPrice(val){
+            this.formInline.priceSort = val;
+            this.handleSearch();
+        },
+        // 获取热门搜索词
+        getHotList(){
+            this.$api.search.getHotKeyword().then(res => {
+                this.hotList = res.data.data.filter(val => {
+                    return val.trim() !== ''
+                });
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 获取历史搜索词
+        getHistoryList(){
+            this.$api.search.getHistoryKeyword().then(res => {
+                this.historyList = res.data.data;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 删除历史记录
+        historyDelete(){
+            this.$api.search.deleteByProduct().then(res => {
+                this.getHistoryList();
+            }).catch(e => {
+                console.log(e)
+            })
+        },
     },
 }
 </script>

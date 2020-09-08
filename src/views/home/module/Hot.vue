@@ -3,7 +3,7 @@
     <div class="module-hot">
         <ul class="bg_fff">
             <li v-for="(item, index) in goodList" :key="index">
-                <Card></Card>
+                <Card :cardInfo="item"></Card>
             </li>
         </ul>
     </div>
@@ -14,16 +14,28 @@ import Card from '../../card/Card'
 export default {
     data () {
         return {
-            goodList: [
-                {},{},{},{},{},{},{},{},{},{}
-            ]
+            formInline: {
+                offset: 0,
+                limit: 10
+            },
+            goodList: []
         }
     },
     components: {
         Card,
     },
+    mounted(){
+        this.getHotList();
+    },
     methods:{
-
+        // 获取热门商品列表
+        getHotList(){
+            this.$api.home.getHotProduct(this.formInline).then(res => {
+                this.goodList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     },
 }
 </script>

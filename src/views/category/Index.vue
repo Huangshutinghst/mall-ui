@@ -29,90 +29,7 @@ import VFootNav from '../../components/VFootNav';
 export default {
     data () {
         return {
-            categoryList: [
-                {
-                    text: '一级',
-                    children: [
-                        {
-                            text: '二级类目',
-                            id: 1,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 2,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 3,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 4,
-                        },
-                        {
-                            text: '全部水果',
-                            id: 5,
-                        },
-                    ],
-                },
-                {
-                    text: '一级',
-                    children: [
-                        {
-                            text: '二级类目',
-                            id: 1,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 2,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 3,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 4,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 5,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 6,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 7,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 8,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 9,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 10,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 11,
-                        },
-                        {
-                            text: '二级类目',
-                            id: 12,
-                        },
-                        {
-                            text: '全部水果',
-                            id: 15,
-                        },
-                    ],
-                }
-            ],
+            categoryList: [],
             activeIndex: 0,
             activeId: 1,
         }
@@ -120,7 +37,17 @@ export default {
     components: {
         VFootNav,
     },
+    mounted(){
+        this.getClassifyList();
+    },
     methods:{
+        getClassifyList(){
+            this.$api.category.getClassifyList().then(res => {
+                this.categoryList = res.data.data;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         handleNav(index){
             this.activeIndex = index;
             this.activeId = 1;

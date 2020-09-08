@@ -37,7 +37,7 @@ export default {
     methods: {
         loginSubmit(){
             this.$api.login.login(this.formInline).then(res => {
-                this.$store.dispatch('setToken', res.headers.authorization);
+                localStorage.setItem('token', res.headers.authorization);
                 this.$router.replace({ path: '/' });
             }).catch(e => {
                 console.log(e)

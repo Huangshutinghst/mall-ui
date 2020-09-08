@@ -1,7 +1,8 @@
 <template>
     <div class="home-grid">
         <van-grid :column-num="5">
-            <van-grid-item v-for="(item,index) in categoryList" :key="index" icon="photo-o" :text="item.name" @click="handleGridItem(item,index)" />
+            <van-grid-item v-for="(item,index) in categoryList" :key="index" icon="photo-o" :text="item.classifyName" @click="handleGridItem(item,index)" />
+            <van-grid-item icon="photo-o" :text="'全部分类'" @click="handleGridItem(item, 10)" />
         </van-grid>
     </div>
 </template>
@@ -10,32 +11,30 @@
 export default {
     data () {
         return {
-            categoryList: [
-                { name: '分类' },
-                { name: '分类' },
-                { name: '分类' },
-                { name: '分类' },
-                { name: '分类' },
-                { name: '分类' },
-                { name: '分类' },
-                { name: '分类' },
-                { name: '分类' },
-                { name: '全部分类' },
-            ]
+            categoryList: []
         }
     },
-    components: {
-
+    mounted() {
+        this.getFirstClassify();
     },
     methods:{
+        // 获取一级分类
+        getFirstClassify(){
+            this.$api.home.getFirstClassify().then(res => {
+                this.categoryList = res.data.data;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 点击分类
         handleGridItem(item,index){
             var _this = this;
-            if(index !== _this.categoryList.length - 1){
-                //选择分类
-                _this.$router.push({ name: 'categoryListAll' })
-            }else{
+            if(index == 10){
                 //全部分类
                 _this.$router.replace({ name: 'category' })
+            }else{
+                //选择分类
+                _this.$router.push({ name: 'categoryListAll' })
             }
         }
     },
