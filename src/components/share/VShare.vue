@@ -42,7 +42,7 @@ export default {
     },
     methods:{
         onSelect(option) {
-            this.$toast(option.name);
+            this.Util.tip(option.name);
             this.onCancle();
         },
         onCancle(){

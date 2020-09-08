@@ -5,8 +5,8 @@
         <VHeader class="category-list-all__head">
             <van-icon slot="right" @click="search()" name="search" />
             <div slot="title">
-                <van-tabs @click="handleFirstTab">
-                    <van-tab v-for="(item,index) in firstTabs" :title="item.text" :key="index"></van-tab>
+                <van-tabs animated @click="handleFirstTab">
+                    <van-tab v-for="(item,index) in firstTabs" :name="index" :title="item.text" :key="index"></van-tab>
                 </van-tabs>
             </div>
         </VHeader>
@@ -19,6 +19,8 @@
                         :padding="false" 
                         :list="goodList" 
                         :type="'border'"
+                        @filter-has="filterHas"
+                        @filter-price="filterPrice"
                     ></FilterList>
                 </template>
             </van-tree-select>
@@ -36,26 +38,17 @@ import FootBar from '../commodity/FootBar'
 export default {
     data () {
         return {
-            firstTabs: [
-                { text: '一级' }, 
-                { text: '一级' },
-                { text: '一级' }, 
-                { text: '一级' },
-                { text: '一级' }, 
-                { text: '一级' },
-                { text: '一级' }, 
-                { text: '一级' },
-            ],
+            formInline: {
+                classifyId: '',
+                inStock: '',   //0不过滤  1过滤
+                priceSort: '',   //1从低到高  2从高到低
+                offset: 0,
+                limit: 10
+            },
+            firstTabs: [],
             secondActive: 0,
-            secondTabs: [
-                { text: '二级' }, 
-                { text: '二级' },
-                { text: '二级' }, 
-                { text: '二级' },
-            ],
-            goodList: [
-                {},{},{},{},{},{},{},{},{},{},
-            ]
+            secondTabs: [],
+            goodList: []
         }
     },
     components: {
@@ -63,17 +56,54 @@ export default {
         FilterList,
         FootBar
     },
+    mounted(){
+        this.getClassifyList();
+    },
     methods:{
         search(){
             this.$router.push({ name: 'search' })
         },
+        // 获取分类
+        getClassifyList(){
+            this.$api.category.getClassifyList().then(res => {
+                this.firstTabs = res.data.data;
+                this.secondTabs = this.firstTabs[0].children;
+                this.formInline.classifyId = this.secondTabs[0].classifyId;
+                this.getListByClassifyId();
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         // 点击一级类目
         handleFirstTab(name, title){
-            console.log(name, title);
+            this.secondTabs = this.firstTabs[name].children;
         },
         // 点击二级类目
         handleSecondTab(index){
-            console.log(index);
+            this.formInline.classifyId = this.secondTabs[index].classifyId;
+            this.getListByClassifyId()
+        },
+        // 获取商品列表
+        getListByClassifyId(){
+            this.$api.category.getByClassifyId(this.formInline.classifyId, this.formInline).then(res => {
+                this.goodList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 是否过滤有货
+        filterHas(val){
+            if(val){
+                this.formInline.inStock = 1;
+            }else{
+                this.formInline.inStock = 0;
+            }
+            this.getListByClassifyId();
+        },
+        // 价格排序
+        filterPrice(val){
+            this.formInline.priceSort = val;
+            this.getListByClassifyId();
         },
     },
 }

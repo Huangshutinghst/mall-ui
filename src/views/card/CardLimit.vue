@@ -61,7 +61,7 @@ export default {
     },
     data () {
         return {
-            count: this.cardInfo.cartVo.quantity
+            count: this.cardInfo.cartVo?this.cardInfo.cartVo.quantity:0
         }
     },
     components: {

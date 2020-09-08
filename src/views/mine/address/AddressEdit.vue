@@ -89,19 +89,19 @@ export default {
             var thiz = this;
             console.log(thiz.formInline)
             if(thiz.formInline.username == ''){
-                thiz.$toast('请填写收货人姓名');
+                thiz.Util.tip('请填写收货人姓名');
                 return;
             }
             if(thiz.formInline.gender == ''){
-                thiz.$toast('请选择性别');
+                thiz.Util.tip('请选择性别');
                 return;
             }
             if(thiz.formInline.telephone == '' || !thiz.RegExpUtil.checkMobile(thiz.formInline.telephone)){
-                thiz.$toast('请输入有效的手机号码');
+                thiz.Util.tip('请输入有效的手机号码');
                 return;
             }
             if(thiz.formInline.community == ''){
-                thiz.$toast('请先选择小区');
+                thiz.Util.tip('请先选择小区');
                 return;
             }
             thiz.$router.back(-1);
