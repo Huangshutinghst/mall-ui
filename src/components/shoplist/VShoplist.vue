@@ -2,36 +2,21 @@
     <div class="shoplist">
         <h5>
             {{title}}
-            <span class="fr">1件</span>
+            <span class="fr">{{ total }}件</span>
         </h5>
-        <div class="__info flex flex-pack-justify">
+        <div v-for="(item) in list" :key="item.productId" class="__info flex flex-pack-justify">
             <van-image
                 class="__img"
                 fit="contain"
-                src=""
+                :src="$api.img + item.pic"
             />
             <p class="shoplist__item">
                 <span class="shoplist__item__title" :class="bold?'--bold':''">
-                    大白菜
+                    {{ item.productName }}
                     <br/>
-                    <font>￥15.00</font>
+                    <font>￥{{ item.price }}</font>
                 </span>
-                <span class="fr">x1</span>
-            </p>
-        </div>
-        <div class="__info flex flex-pack-justify">
-            <van-image
-                class="__img"
-                fit="contain"
-                src=""
-            />
-            <p class="shoplist__item">
-                <span class="shoplist__item__title" :class="bold?'--bold':''">
-                    大白菜
-                    <br/>
-                    <font>￥15.00</font>
-                </span>
-                <span class="fr">x1</span>
+                <span class="fr">x{{ item.quantity }}</span>
             </p>
         </div>
     </div>
@@ -42,6 +27,8 @@ export default {
     props:{
         title: String,
         bold: Boolean,
+        list: Array,
+        total: Number
     },
     data () {
         return {

@@ -2,39 +2,36 @@
 <template>
     <ul v-if="orderList.length > 0" class="order-list">
         <!-- 订单列表 -->
-        <li class="order-list__item bg_fff" v-for="(item,index) in orderList" :key="index" @click="toOrderDetail()">
+        <li class="order-list__item bg_fff" v-for="(item,index) in orderList" :key="index" @click="toOrderDetail(item)">
             <h5>
-                订单已完成
-                <span>2020-08-25 14:00</span>
+                <template v-if="item.status == -1">已关闭</template>
+                <template v-if="item.status == 0">待支付</template>
+                <template v-if="item.status == 1">已支付</template>
+                <template v-if="item.status == 2">待收货</template>
+                <template v-if="item.status == 3">待评价</template>
+                <template v-if="item.status == 4">已完成</template>
+                <span>{{ item.orderTime }}</span>
                 <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
             </h5>
             <div class="__content">
                 <!-- 商品列表 -->
-                <div class="__info flex flex-pack-justify">
-                    <van-image
-                        class="__img"
-                        fit="contain"
-                        src=""
-                    />
-                    <p>
-                        <span>大白菜</span>
-                        <span class="fr">x1</span>
-                    </p>
+                <div v-for="(val,i) in item.orderItemVoList" :key="i" class="__info flex flex-pack-justify">
+                    <template v-if="i == 0 || i == 1">
+                        <van-image
+                            class="__img"
+                            fit="contain"
+                            :src="$api.img + val.pic"
+                        />
+                        <p>
+                            <span>{{ val.productName }}</span>
+                            <span class="fr">x{{ val.quantity }}</span>
+                        </p>
+                    </template>
                 </div>
-                <div class="__info flex flex-pack-justify">
-                    <van-image
-                        class="__img"
-                        fit="contain"
-                        src=""
-                    />
-                    <p>
-                        <span>大白菜</span>
-                        <span class="fr">x1</span>
-                    </p>
-                </div>
+                <div v-if="item.orderItemVoList.length > 2" class="over-text">. . .</div>
                 
                 <div class="__price">
-                    共1件,实付：<span>￥15</span>
+                    共{{ item.productAmount }}件,实付：<span>￥{{ item.totalPrice }}</span>
                 </div>
                 <div class="__btn-box"></div>
             </div>
@@ -52,12 +49,9 @@ export default {
 
         }
     },
-    components: {
-
-    },
     methods:{
-        toOrderDetail(){
-            this.$router.push({ name: 'orderDetail' });
+        toOrderDetail(item){
+            this.$router.push({ name: 'orderDetail',query: {id: item.orderId} });
         },
     },
 }
@@ -87,9 +81,12 @@ export default {
                 }
             }
             >.__content{
+                >.over-text{
+                    margin-left: 52px;
+                }
                 >.__info{
                     overflow: hidden;
-                    padding: 6px 0;
+                    margin: 6px 0;
                     >.__img{
                         width: 40px;
                         height: 40px;

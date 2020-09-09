@@ -33,7 +33,7 @@
             </div>
             <!-- 2.搜索内容 -->
             <div class="panel__hidden" v-if="searchFlag && resultList.length>0" >
-                <div class="panel__content">
+                <div class="panel__content panel__scroll">
                     <FilterList 
                         :type="'space'" 
                         :fixedHead="true" 

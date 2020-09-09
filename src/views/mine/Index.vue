@@ -21,10 +21,10 @@
         <!-- 订单管理 -->
         <div class="__order">
             <van-grid class="__order__grid">
-                <van-grid-item icon="photo-o" text="待支付" :to="{name:'myOrder', query: {type:'dzf'}}" />
-                <van-grid-item icon="photo-o" text="待收货" :to="{name:'myOrder', query: {type:'dsh'}}" />
-                <van-grid-item icon="photo-o" text="待评价" :to="{name:'myOrder', query: {type:'dpj'}}" />
-                <van-grid-item icon="photo-o" text="全部订单" :to="{name:'myOrder', query: {type:'qb'}}" />
+                <van-grid-item icon="photo-o" text="待支付" :to="{name:'myOrder', query: {type:0}}" />
+                <van-grid-item icon="photo-o" text="待收货" :to="{name:'myOrder', query: {type:2}}" />
+                <van-grid-item icon="photo-o" text="待评价" :to="{name:'myOrder', query: {type:3}}" />
+                <van-grid-item icon="photo-o" text="全部订单" :to="{name:'myOrder', query: {type:''}}" />
             </van-grid>
         </div>
 

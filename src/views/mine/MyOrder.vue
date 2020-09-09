@@ -24,16 +24,19 @@ export default {
     inject: ['reload'],
     data () {
         return {
-            tabActive: 'qb',
+            formInline: {
+                status: '',
+                offset: 0,
+                list: 10
+            },
+            tabActive: '',
             tabList: [
-                {name: '全部订单',type: 'qb'},
-                {name: '待付款',type: 'dzf'},
-                {name: '待收货',type: 'dsh'},
-                {name: '待评价',type: 'dpj'}
+                {name: '全部订单',type: ''},
+                {name: '待付款',type: 0},
+                {name: '待收货',type: 2},
+                {name: '待评价',type: 3}
             ],
-            orderList: [
-                {},{},{},{}
-            ]
+            orderList: []
         }
     },
     components: {
@@ -47,6 +50,7 @@ export default {
         loadTabActive(){
             let type = this.$route.query.type;
             this.tabActive = type;
+            this.getOrderList(type);
         },
         beforeChange(type){
             this.tabActive = type;
@@ -56,6 +60,16 @@ export default {
                 query: {
                     type: type
                 }
+            })
+            this.getOrderList(type);
+        },
+        // 分页获取订单
+        getOrderList(type){
+            this.formInline.status = type;
+            this.$api.order.getOrderList(this.formInline).then(res => {
+                this.orderList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
             })
         },
         search(){

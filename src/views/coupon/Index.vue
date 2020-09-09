@@ -3,16 +3,16 @@
     <div class="coupon-index panel__hidden bg_fff">
         <VHeader title="" leftText="我的优惠券"></VHeader>
 
-        <van-tabs v-model="tabActive" class="__tabs" :before-change="beforeChange">
+        <van-tabs v-model="formInline.status" class="__tabs" :before-change="beforeChange">
             <van-tab v-for="item in tabList" :title="item.name" :key="item.type" :name="item.type"></van-tab>
         </van-tabs>
 
         <div class="panel__scroll">
             <ul v-if="couponList.length > 0">
                 <li v-for="(item, index) in couponList" :key="index">
-                    <CouponCard :type="tabActive"></CouponCard>
+                    <CouponCard :type="formInline.status" :obj="item"></CouponCard>
                 </li>
-                <li class="text" v-show="tabActive=='wsy'">特别提示：每位用户1天最多可使用2张优惠券</li>
+                <li class="text" v-show="formInline.status==1">特别提示：每位用户1天最多可使用2张优惠券</li>
             </ul>
             <VBlank v-else text="您没有该类型的优惠券"></VBlank>
 
@@ -27,24 +27,41 @@ import CouponCard from './Card'
 export default {
     data () {
         return {
-            tabActive: 'wsy',
+            formInline: {
+                status: 1,
+                offset: 0,
+                list: 10
+            },
             tabList: [
-                {name: '未使用',type: 'wsy'},
-                {name: '已使用',type: 'ysy'},
-                {name: '已过期',type: 'ygq'}
+                {name: '未使用',type: 1},
+                {name: '已使用',type: 2},
+                {name: '已过期',type: 3}
             ],
-            couponList: [
-                {},{},{}
-            ]
+            couponList: []
         }
     },
     components: {
         VHeader,
         CouponCard,
     },
+    mounted(){
+        this.getUserCouponList();
+    },
     methods:{
+        // 分页获取优惠券
+        getUserCouponList(type){
+            if(type){
+                this.formInline.status = type;
+            }
+            this.$api.coupon.getUserCouponList(this.formInline).then(res => {
+                this.couponList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         beforeChange(type){
-            this.tabActive = type;
+            this.couponList = [];
+            this.getUserCouponList(type);
         },
         // 领券
         receive(){

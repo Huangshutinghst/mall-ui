@@ -1,36 +1,30 @@
 <!-- 优惠券卡片 -->
 <template>
-    <div class="coupon-card" :class="type=='wsy'?'':'gray'">
+    <div class="coupon-card" :class="type==1?'':'gray'">
         <!-- 卡片 -->
         <div class="__card flex" @click="use()">
             <div class="left">
-                <h5><font>￥</font>10</h5>
-                <p>满10元可用</p>
+                <h5><font>￥</font>{{ obj.couponVo.discount }}</h5>
+                <p>满{{ obj.couponVo.minPrice }}元可用</p>
             </div>
             <div class="right flex-1">
-                <h5 class="double-row">四周年神券 (福州通用)</h5>
-                <p>09月01日-10月01日有效</p>
+                <h5 class="double-row">{{ obj.couponVo.name }}</h5>
+                <p>{{ obj.startTime }}至{{ obj.endTime }}有效</p>
                 <!-- <p class="today">今天到期</p> -->
                 <!-- 按钮 -->
-                <div v-show="!received && type=='wsy'" class="btn receive" @click.stop="handleReceive()">领取</div>
-                <div v-show="received && type=='wsy' && page!=='shop'" class="btn">去使用</div>
+                <div v-show="!received && type==1" class="btn receive" @click.stop="handleReceive()">领取</div>
+                <div v-show="received && type==1 && page!=='shop'" class="btn">去使用</div>
                 <van-icon v-show="page==''" class="arrow" :class="infoShow?'arrow-up':''" name="arrow-down" @click.stop="infoOpen()" />
                 <!-- 标识 -->
-                <div v-show="type!=='wsy'" class="mark">{{type=='ysy'?'已使用':'已过期'}}</div>
+                <div v-show="type!==1" class="mark">{{type=='ysy'?'已使用':'已过期'}}</div>
                 <div v-show="received && (page=='receive' || page=='shop')" class="mark_receive">已领取</div>
             </div>
         </div>
 
         <!-- 规则说明 -->
         <div v-show="infoShow" class="__info">
-            <p>领取时间：2020-09-22 10:52:00</p>
-            <p style="margin-bottom: 15px">编号：ijsfoajalj</p>
-            <p>1.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>2.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>3.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>4.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>5.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>6.介绍介绍介绍介绍介绍介绍介绍介绍。</p>
+            <p style="margin-bottom: 15px">领取时间：{{ obj.createTime }}</p>
+            <p>{{ obj.couponVo.desc }}</p>
         </div>
     </div>
 </template>
@@ -38,6 +32,7 @@
 <script type="text/ecmascript-6">
 export default {
     props: {
+        obj: Object,
         // 卡片使用场景：已领取、未领取、适用商品页
         page: {
             type: String,
@@ -45,8 +40,8 @@ export default {
         },
         // 卡片类型：未使用、已使用、已过期
         type: {
-            type: String,
-            default: 'wsy'
+            type: Number,
+            default: 1
         },
         // 是否已领取
         isReceive: {
@@ -68,7 +63,7 @@ export default {
     methods:{
         // 去使用
         use(){
-            if (this.page == 'shop' || this.type !== 'wsy') return;
+            if (this.page == 'shop' || this.type !== 1) return;
             this.$router.push({ name: 'couponList' });
         },
         // 展开关闭规则说明

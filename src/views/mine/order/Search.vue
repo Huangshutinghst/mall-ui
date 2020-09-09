@@ -4,25 +4,28 @@
         <!-- 顶部搜索栏 -->
         <div class="order-search__top bg_fff flex">
             <i class="van-icon van-icon-arrow-left van-nav-bar__arrow" @click="goBack()"></i>
-            <van-search class="flex-1" v-model="searchText" clearable placeholder="请输入商品名称" />
+            <van-search class="flex-1" v-model="formInline.productName" clearable placeholder="请输入商品名称" />
+            <div class="btn" @click="handleSearch()">搜索</div>
         </div>
 
         <!-- 内容 -->
-        <div class="order-search__content">
+        <div class="order-search__content panel__scroll">
             <!-- 1.历史记录 -->
-            <div v-if="searchText=='' && historyList.length>0" class="__history bg_fff">
-                <h5 class="flex flex-pack-justify">
-                    <span>历史记录</span>
-                    <van-icon name="delete" @click="historyDelete()" />
-                </h5>
-                <ul>
-                    <li v-for="(item,index) in historyList" :key="index" @click="historySearch(item)">{{item}}</li>
-                </ul>
+            <div v-if="!searchFlag" class="__history bg_fff">
+                <template v-if="historyList.length > 0">
+                    <h5 class="flex flex-pack-justify">
+                        <span>历史记录</span>
+                        <van-icon name="delete" @click="historyDelete()" />
+                    </h5>                
+                    <ul>
+                        <li v-for="(item,index) in historyList" :key="index" @click="handleSearch(item)">{{ item }}</li>
+                    </ul>
+                </template>
             </div>
             <!-- 2.搜索内容 -->
-            <OrderListPanel v-if="searchText!=='' && orderList.length>0" :orderList="orderList"></OrderListPanel>
+            <OrderListPanel v-if="searchFlag && orderList.length>0" :orderList="orderList"></OrderListPanel>
             <!-- 3.暂无内容 -->
-            <VBlank v-if="searchText!=='' && orderList.length == 0" text="没有相关的订单哦"></VBlank>
+            <VBlank v-if="searchFlag && orderList.length == 0" text="没有相关的订单哦"></VBlank>
         </div>
     </div>
 </template>
@@ -33,32 +36,68 @@ import OrderListPanel from './OrderList'
 export default {
     data () {
         return {
-            searchText: '',
-            historyList: [
-                '记录1',
-                '记录2',
-                '记录3',
-                '记录4'
-            ],
-            orderList: [
-                {},{},{},{}
-            ],
+            formInline: {
+                productName: '',
+                offset: 0,
+                limit: 10
+            },
+            historyList: [],
+            orderList: [],
+            searchFlag: false,
         }
     },
     components: {
         VBlank,
         OrderListPanel,
     },
+    watch: {
+        'formInline.productName'(val){
+            if(val == ''){
+                this.searchFlag = false;
+                this.getHistoryList();
+            }
+        }
+    },
+    mounted() {
+        this.getHistoryList();
+    },
     methods:{
+        // 搜索订单
+        handleSearch(text){
+            if(text){
+                this.formInline.productName = text;
+            }
+            if(this.formInline.productName.trim() == ''){
+                this.Util.tip('搜索内容不能为空')
+                this.formInline.productName = '';
+                return
+            };
+            this.$api.order.search(this.formInline).then(res => {
+                this.orderList = res.data.data.list;
+                this.searchFlag = true;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 获取历史搜索词
+        getHistoryList(){
+            this.$api.order.getHistorySearchText().then(res => {
+                this.historyList = res.data.data;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 删除历史记录
+        historyDelete(){
+            this.$api.order.deleteHistorySearchText().then(res => {
+                this.getHistoryList();
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         goBack(){
             this.$router.back(-1);
         },
-        historySearch(text){
-            this.searchText = text;
-        },
-        historyDelete(){
-            this.historyList = [];
-        }
     },
 }
 </script>
@@ -78,6 +117,10 @@ export default {
                 .van-cell {
                     padding: 2px 8px 2px 0;
                 }
+            }
+            >.btn{
+                padding-left: 15px;
+                font-size: 14px;
             }
         }
 

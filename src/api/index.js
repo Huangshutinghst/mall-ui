@@ -7,6 +7,8 @@ import home from '@/api/modules/home';
 import category from '@/api/modules/category';
 import img from '@/api/modules/img';
 import mine from '@/api/modules/mine';
+import order from '@/api/modules/order';
+import coupon from '@/api/modules/coupon';
 
 // 导出接口
 export default {    
@@ -16,5 +18,7 @@ export default {
     category,
     img,
     mine,
+    order,
+    coupon,
     // ……
 }
