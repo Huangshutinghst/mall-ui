@@ -1,16 +1,12 @@
 <template>
-    <van-popup class="poupon-rule-pop flex flex-v panel__hidden" v-model="visible" @close="close" round position="bottom" :style="{ height: '50%' }">
+    <van-popup class="poupon-rule-pop flex flex-v panel__hidden" v-model="visible" @close="close" round position="bottom" :style="{ height: '40%' }">
         <div class="__top">
             优惠券说明
             <van-icon class="fr" name="cross" @click="close()" />
         </div>
         <div class="__content flex-1 panel__scroll">
             <h5>领取说明</h5>
-            <p>1.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>2.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>3.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>4.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
-            <p>5.介绍介绍介绍介绍介绍介绍介绍介绍；</p>
+            <p>{{ obj.desc }}</p>
         </div>
     </van-popup>
 </template>
@@ -18,7 +14,8 @@
 <script type="text/ecmascript-6">
 export default {
     props: {
-        modal: Boolean
+        modal: Boolean,
+        obj: Object
     },
     data () {
         return {

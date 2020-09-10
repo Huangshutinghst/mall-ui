@@ -6,6 +6,9 @@
         <template #title>
             <slot name="title"></slot>
         </template>
+        <template #left>
+            <slot name="left"></slot>
+        </template>
     </van-nav-bar>
 </template>
 

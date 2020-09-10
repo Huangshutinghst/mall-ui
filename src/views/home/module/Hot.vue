@@ -16,7 +16,7 @@ export default {
         return {
             formInline: {
                 offset: 0,
-                limit: 10
+                limit: 20
             },
             goodList: []
         }

@@ -43,7 +43,7 @@ export default {
                 inStock: '',   //0不过滤  1过滤
                 priceSort: '',   //1从低到高  2从高到低
                 offset: 0,
-                limit: 10
+                limit: 20
             },
             firstTabs: [],
             secondActive: 0,

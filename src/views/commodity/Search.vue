@@ -63,7 +63,7 @@ export default {
                 priceSort: '',   //1从低到高  2从高到低
                 productName: '',  //商品名称
                 offset: 0,
-                limit: 10
+                limit: 20
             },
             historyList: [],
             hotList: [],

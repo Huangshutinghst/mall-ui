@@ -1,23 +1,34 @@
 <!-- 优惠券适用商品 -->
 <template>
     <div class="coupon-list-index panel__hidden">
-        <VHeader title="" leftText="优惠券适用商品"></VHeader>
+        <VHeader title="" leftText="">
+            <div slot="left" @click.stop="goBack()">
+                <van-icon class="left-icon" name="arrow-left" />
+                优惠券适用商品
+            </div>
+        </VHeader>
         <div class="panel__content flex flex-v">
             <div class="__top bg_fff">
                 <div>
-                    <CouponCard :page="'shop'" :isReceive="true"></CouponCard>
+                    <CouponCard :page="'shop'" :obj="couponObj"></CouponCard>
                     <p>
-                        以下商品可使用满10元减10元的优惠券
+                        以下商品可使用满{{ couponObj.minPrice }}元减{{ couponObj.discount }}元的优惠券
                         <font class="fr" @click="showInfo()">规则说明></font>
                     </p>
                 </div>
             </div>
             <div class="panel__scroll flex-1">
-                <FilterList class="commodity-filter-list--coupon" :type="'space'" :fixedHead="true" :list="resultList"></FilterList>
+                <FilterList class="commodity-filter-list--coupon" 
+                        :type="'space'" 
+                        :fixedHead="true" 
+                        :list="resultList"
+                        @filter-has="filterHas"
+                        @filter-price="filterPrice"
+                ></FilterList>
             </div>
         </div>
 
-        <RulePop :modal="popShow" @visible-change="(val) => {this.popShow = val}"></RulePop>
+        <RulePop :modal="popShow" :obj="couponObj" @visible-change="(val) => {this.popShow = val}"></RulePop>
     </div>
 </template>
 
@@ -27,12 +38,19 @@ import CouponCard from '../coupon/Card'
 import FilterList from '../commodity/FilterList'
 import RulePop from './RulePop'
 export default {
+    props: {
+        couponObj: Object
+    },
     data () {
         return {
+            formInline: {
+                inStock: '', //0不过滤  1过滤
+                priceSort: '', //1从低到高  2从高到低
+                offset: 0,
+                limit: 20
+            },
             popShow: false,
-            resultList: [
-                {},{},{},{},{},{},{},{},{},{},{},{}
-            ],
+            resultList: [],
         }
     },
     components: {
@@ -41,10 +59,50 @@ export default {
         FilterList,
         RulePop
     },
+    mounted() {
+        if(this.couponObj.useType == 1){
+            this.handleSearch();
+        }else{
+            this.getByCouponId();   
+        }
+    },
     methods:{
+        // 获取优惠券可用商品
+        getByCouponId(){
+            this.$api.coupon.getByCouponId(this.couponObj.couponId, this.formInline).then(res => {
+                this.resultList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 获取全部商品
+        handleSearch(){
+            this.$api.search.search(this.formInline).then(res => {
+                this.resultList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 是否过滤有货
+        filterHas(val){
+            if(val){
+                this.formInline.inStock = 1;
+            }else{
+                this.formInline.inStock = 0;
+            }
+            this.getByCouponId();
+        },
+        // 价格排序
+        filterPrice(val){
+            this.formInline.priceSort = val;
+            this.getByCouponId();
+        },
         // 规则说明
         showInfo(){
             this.popShow = true;
+        },
+        goBack(){
+            this.$emit('close');
         }
     },
 }
@@ -70,7 +128,7 @@ export default {
                 .commodity-filter-list--coupon /deep/ {
                     .__top{
                         &.fixed{
-                            top: 176px !important;
+                            top: 174px !important;
                         }
                     }
                 }

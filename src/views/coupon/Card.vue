@@ -4,27 +4,28 @@
         <!-- 卡片 -->
         <div class="__card flex" @click="use()">
             <div class="left">
-                <h5><font>￥</font>{{ obj.couponVo.discount }}</h5>
-                <p>满{{ obj.couponVo.minPrice }}元可用</p>
+                <h5><font>￥</font>{{ couponObj.discount }}</h5>
+                <p>满{{ couponObj.minPrice }}元可用</p>
             </div>
             <div class="right flex-1">
-                <h5 class="double-row">{{ obj.couponVo.name }}</h5>
-                <p>{{ obj.startTime }}至{{ obj.endTime }}有效</p>
+                <h5 class="double-row">{{ couponObj.name }}</h5>
+                <p v-if="couponObj.timeType !== null && couponObj.timeType == 1">领取后{{ couponObj.days==0?'当':couponObj.days }}天内有效</p>
+                <p v-else>{{ couponObj.startTime }}至{{ couponObj.endTime }}有效</p>
                 <!-- <p class="today">今天到期</p> -->
                 <!-- 按钮 -->
-                <div v-show="!received && type==1" class="btn receive" @click.stop="handleReceive()">领取</div>
-                <div v-show="received && type==1 && page!=='shop'" class="btn">去使用</div>
+                <div v-show="!couponObj.received && type==1" class="btn receive" @click.stop="handleReceive(couponObj.couponId)">领取</div>
+                <div v-show="couponObj.received && type==1 && page!=='shop'" class="btn">去使用</div>
                 <van-icon v-show="page==''" class="arrow" :class="infoShow?'arrow-up':''" name="arrow-down" @click.stop="infoOpen()" />
                 <!-- 标识 -->
                 <div v-show="type!==1" class="mark">{{type=='ysy'?'已使用':'已过期'}}</div>
-                <div v-show="received && (page=='receive' || page=='shop')" class="mark_receive">已领取</div>
+                <div v-show="couponObj.received && (page=='receive' || page=='shop')" class="mark_receive">已领取</div>
             </div>
         </div>
 
         <!-- 规则说明 -->
         <div v-show="infoShow" class="__info">
-            <p style="margin-bottom: 15px">领取时间：{{ obj.createTime }}</p>
-            <p>{{ obj.couponVo.desc }}</p>
+            <p style="margin-bottom: 15px">领取时间：{{ couponObj.userReceivedTime }}</p>
+            <p>{{ couponObj.desc }}</p>
         </div>
     </div>
 </template>
@@ -43,36 +44,31 @@ export default {
             type: Number,
             default: 1
         },
-        // 是否已领取
-        isReceive: {
-            type: Boolean,
-            default: true
-        }
     },
     data () {
         return {
-            received: this.isReceive,
-            infoShow: false,
-        }
-    },
-    watch: {
-        isReceive(val){
-            this.received = val;
+            couponObj: this.obj,
+            infoShow: false
         }
     },
     methods:{
         // 去使用
         use(){
             if (this.page == 'shop' || this.type !== 1) return;
-            this.$router.push({ name: 'couponList' });
+            this.$emit('open', this.couponObj);
         },
         // 展开关闭规则说明
         infoOpen(){
             this.infoShow = !this.infoShow;
         },
         // 领取优惠券
-        handleReceive(){
-            this.received = true;
+        handleReceive(couponId){
+            this.$api.coupon.getCoupon(couponId).then(res => {
+                this.Util.tip('领取成功');
+                this.couponObj.received = true;
+            }).catch(e => {
+                console.log(e)
+            })
         }
     },
 }

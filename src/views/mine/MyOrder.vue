@@ -27,7 +27,7 @@ export default {
             formInline: {
                 status: '',
                 offset: 0,
-                list: 10
+                limit: 20
             },
             tabActive: '',
             tabList: [
