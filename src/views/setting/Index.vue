@@ -26,7 +26,7 @@
                     <div class="box flex flex-align-center flex-pack-justify">
                         <div class="left">
                             <h5>昵称</h5>
-                            <p>胖大喵</p>
+                            <p>{{ userInfo.nickname }}</p>
                         </div>
                         <div class="right">
                             修改
@@ -39,7 +39,7 @@
                     <div class="box flex flex-align-center flex-pack-justify">
                         <div class="left">
                             <h5>手机号</h5>
-                            <p>178****8888</p>
+                            <p>{{ Util.maskPhone(userInfo.phone) }}</p>
                         </div>
                         <div class="right">
                             修改
@@ -61,39 +61,49 @@ import VHeader from '../../components/VHeader'
 export default {
     data () {
         return {
-            // 修改头像
-            editHead(){
-
-            },
-            // 修改昵称
-            editNickname(){
-                this.$router.push({ name: 'editNickName' })
-            },
-            // 修改手机号
-            editTelephone(){
-                this.$router.push({ name: 'editTelephone' })
-            },
-            // 退出登录
-            loginOut(){
-                this.$dialog.confirm({
-                    message: '确定退出登录吗？',
-                    confirmButtonText: '确定'
-                })
-                .then(() => {
-                    // on confirm
-                    this.$router.replace({ name: 'mine'})
-                })
-                .catch(() => {
-                    // on cancel
-                });
-            }
+           userInfo: {}
         }
     },
     components: {
         VHeader
     },
+    mounted() {
+        this.getUserInfo();
+    },
     methods:{
+        getUserInfo(){
+            this.$api.mine.getUserInfo().then(res => {
+                this.userInfo = res.data.data;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+         // 修改头像
+        editHead(){
 
+        },
+        // 修改昵称
+        editNickname(){
+            this.$router.push({ name: 'editNickName' })
+        },
+        // 修改手机号
+        editTelephone(){
+            this.$router.push({ name: 'editTelephone' })
+        },
+        // 退出登录
+        loginOut(){
+            this.$dialog.confirm({
+                message: '确定退出登录吗？',
+                confirmButtonText: '确定'
+            })
+            .then(() => {
+                // on confirm
+                this.$router.replace({ name: 'mine'})
+            })
+            .catch(() => {
+                // on cancel
+            });
+        }
     },
 }
 </script>

@@ -23,10 +23,10 @@
 <script type="text/ecmascript-6">
 export default {
     props:{
-        shopPrice: Number,
-        deliveryPrice: Number,
-        allPrice: Number,
-        couponPrice: Number
+        shopPrice: String,
+        deliveryPrice: String,
+        allPrice: String,
+        couponPrice: String
     },
     data () {
         return {

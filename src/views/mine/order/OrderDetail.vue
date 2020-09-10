@@ -23,10 +23,10 @@
 
             <!-- 金额模块 -->
             <div class="order-detail__price __item bg_fff">
-                <VPrice :shopPrice="obj.productPrice" 
-                        :deliveryPrice="obj.deliveryPrice" 
-                        :allPrice="obj.totalPrice"
-                        :couponPrice="obj.couponPrice"
+                <VPrice :shopPrice="obj.productPriceStr" 
+                        :deliveryPrice="obj.deliveryPriceStr" 
+                        :allPrice="obj.totalPriceStr"
+                        :couponPrice="obj.couponPriceStr"
                 ></VPrice>
             </div>
 

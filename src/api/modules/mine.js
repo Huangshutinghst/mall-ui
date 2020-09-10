@@ -6,6 +6,13 @@ import axios from '@/libs/http'; // 导入http中创建的axios实例
 import qs from 'qs'; // 根据需求是否导入qs模块
 
 const mine = {
+    // =======用户信息=======
+    getUserInfo () {
+        return axios.get(`/api/user/info`)
+    },
+    updateUserInfo () {
+        return axios.post(`/api/user/update`, params)
+    },
     // =======地址管理=======
     getAddressList (params) {
         return axios.get(`/api/user/address/page`, {

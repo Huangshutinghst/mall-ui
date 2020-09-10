@@ -10,4 +10,8 @@ util.tip = (msg) => {
     });
 };
 
+util.maskPhone = (phone = '') => {
+    return phone.substr(0, 3) + phone.slice(3, -4).replace(/\d/g, '*') + phone.substr(-4)
+}
+
 export default util;

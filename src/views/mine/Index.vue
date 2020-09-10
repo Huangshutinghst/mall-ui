@@ -10,7 +10,7 @@
                 @click="handleUserInfo()"
             />
             <h5 @click="handleUserInfo()">
-                胖大喵
+                {{ userInfo.nickname }}
                 <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
             </h5>
             <div class="pot pot--1"></div>
@@ -31,7 +31,7 @@
         <!-- 我的 -->
         <div class="__mine">
             <div class="__cellbox">
-                <van-cell title="优惠券 3" is-link to="coupon" />
+                <van-cell :title="'优惠券' + (userInfo.couponCount==0?'':userInfo.couponCount)" is-link to="coupon" />
                 <van-cell title="我的收藏" is-link to="myFavorites" />
                 <!-- <van-cell title="我的足迹" is-link to="myfootprint" /> -->
                 <van-cell title="地址管理" is-link to="myAddress" />
@@ -48,13 +48,25 @@ import VFootNav from '../../components/VFootNav';
 export default {
     data () {
         return {
-
+            userInfo: {
+                couponCount: ''
+            },
         }
     },
     components: {
         VFootNav,
     },
+    mounted() {
+        this.getUserInfo();
+    },
     methods:{
+        getUserInfo(){
+            this.$api.mine.getUserInfo().then(res => {
+                this.userInfo = res.data.data;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         // 修改信息
         handleUserInfo(){
             this.$router.push({ name: 'setting' })
