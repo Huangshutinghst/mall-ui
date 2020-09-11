@@ -2,7 +2,7 @@
     <div class="home-grid">
         <van-grid :column-num="5">
             <van-grid-item v-for="(item,index) in categoryList" :key="index" icon="photo-o" :text="item.classifyName" @click="handleGridItem(item,index)" />
-            <van-grid-item icon="photo-o" :text="'全部分类'" @click="handleGridItem(item, 10)" />
+            <van-grid-item icon="photo-o" :text="'全部分类'" @click="handleGridItem({}, 10)" />
         </van-grid>
     </div>
 </template>
@@ -31,10 +31,10 @@ export default {
             var _this = this;
             if(index == 10){
                 //全部分类
-                _this.$router.replace({ name: 'category' })
+                _this.$router.replace({ name: 'category'})
             }else{
                 //选择分类
-                _this.$router.push({ name: 'categoryListAll' })
+                _this.$router.push({ name: 'categoryListAll', query:{id: item.classifyId} })
             }
         }
     },

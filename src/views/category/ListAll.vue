@@ -5,8 +5,8 @@
         <VHeader class="category-list-all__head">
             <van-icon slot="right" @click="search()" name="search" />
             <div slot="title">
-                <van-tabs animated @click="handleFirstTab">
-                    <van-tab v-for="(item,index) in firstTabs" :name="index" :title="item.text" :key="index"></van-tab>
+                <van-tabs animated @click="handleFirstTab" v-model="firstActive">
+                    <van-tab v-for="(item,index) in firstTabs" :name="item.classifyId" :title="item.text" :key="index"></van-tab>
                 </van-tabs>
             </div>
         </VHeader>
@@ -45,6 +45,7 @@ export default {
                 offset: 0,
                 limit: 20
             },
+            firstActive: 0,
             firstTabs: [],
             secondActive: 0,
             secondTabs: [],
@@ -67,7 +68,10 @@ export default {
         getClassifyList(){
             this.$api.category.getClassifyList().then(res => {
                 this.firstTabs = res.data.data;
-                this.secondTabs = this.firstTabs[0].children;
+                this.firstActive = this.$route.query.id;
+                this.secondTabs = this.firstTabs.filter(el =>{
+                    return el.classifyId == this.firstActive;
+                })[0].children;
                 this.formInline.classifyId = this.secondTabs[0].classifyId;
                 this.getListByClassifyId();
             }).catch(e => {
@@ -76,7 +80,10 @@ export default {
         },
         // 点击一级类目
         handleFirstTab(name, title){
-            this.secondTabs = this.firstTabs[name].children;
+            this.firstActive = name;
+            this.secondTabs = this.firstTabs.filter(el =>{
+                return el.classifyId == this.firstActive;
+            })[0].children;
         },
         // 点击二级类目
         handleSecondTab(index){
