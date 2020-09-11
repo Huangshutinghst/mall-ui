@@ -2,7 +2,7 @@
 <template>
     <div class="order-detail panel__hidden">
         <VHeader title="" leftText="订单"></VHeader>
-        
+
         <div class="panel__scroll panel__content">
             <!-- 顶部模块 -->
             <div class="order-detail__top __item bg_fff">
@@ -23,10 +23,10 @@
 
             <!-- 金额模块 -->
             <div class="order-detail__price __item bg_fff">
-                <VPrice :shopPrice="obj.productPriceStr" 
-                        :deliveryPrice="obj.deliveryPriceStr" 
-                        :allPrice="obj.totalPriceStr"
-                        :couponPrice="obj.couponPriceStr"
+                <VPrice :shopPrice="obj.productPrice"
+                        :deliveryPrice="obj.deliveryPrice"
+                        :allPrice="obj.totalPrice"
+                        :couponPrice="obj.couponPrice"
                 ></VPrice>
             </div>
 
@@ -145,10 +145,10 @@ export default {
                     >span{
                         width: 100%;
                         >font{
-                        
+
                         }
                     }
-                    
+
                 }
                 >span{
                     display: inline-block;
