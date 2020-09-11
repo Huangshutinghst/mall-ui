@@ -3,6 +3,9 @@
     <div class="commodity-detail panel__hidden">
         <!-- 1.header -->
         <VHeader title="详情页" leftText="">
+            <div slot="left" @click.stop="goBack()">
+                <van-icon class="left-icon" name="arrow-left" />
+            </div>
             <van-icon slot="right" name="share" @click="handleShare()" />
         </VHeader>
 
@@ -22,23 +25,29 @@
             <!-- 信息 -->
             <div class="__info bg_fff">
                 <h5 class="price">
-                    ￥16.9
-                    <s>12.5</s>
+                    ￥{{ obj.currentPrice }}
+                    <s>{{ obj.originalPrice }}</s>
                 </h5>
                 <!-- 新品/冷藏/3.1折 -->
                 <p class="tag">
-                    <font class="red">3.1折</font>
-                    <font class="blue">新品</font>
-                    <font class="purple">网红推荐</font>
+                    <font v-show="obj.discountStr" class="red">{{ obj.discountStr }}折</font>
+                    <font v-show="obj.newStatus == 1" class="blue">新品</font>
+                    <!-- <font class="purple">网红推荐</font> -->
                 </p>
-                <h5 class="title">商品名称</h5>
-                <p class="text">商品介绍介绍</p>
-                <p class="text blue">今天上市</p>
+                <h5 class="title">{{ obj.productName }}</h5>
+                <p class="text">{{ obj.desc }}</p>
+                <!-- <p class="text blue">今天上市</p> -->
                 <p class="address">
-                    <van-icon name="bag-o" />200ml*6，
-                    <van-icon name="bag-o" />常温，
-                    <van-icon name="location-o" />上海
+                    <van-icon name="bag-o" />{{ obj.format }}，
+                    <van-icon name="bag-o" />{{ obj.storage }}，
+                    <van-icon name="location-o" />{{ obj.origin }}
                 </p>
+            </div>
+            <!-- 可用优惠券 -->
+            <div v-if="obj.couponVoList && obj.couponVoList.length > 0" class="__counpon bg_fff" @click="showCouponPopup">
+                <span class="text1">领券</span>
+                <span class="text2" style="border: 1px solid #0db059;">满{{ Number(obj.couponVoList[0].minPrice).toFixed(0) }}减{{ Number(obj.couponVoList[0].discount).toFixed(0) }}</span>
+                <van-icon class="fr" name="arrow" />
             </div>
             <!-- 详情 -->
             <div class="__detail bg_fff">
@@ -64,34 +73,64 @@
             <div class="fr btn_bg" @click="handleAdd()">加入购物车</div>
         </div>
 
-
         <VShare :modal="shareModal" :title="'分享商品'" @visible-change="(val) => shareModal = val"></VShare>
+        <CouponPop 
+                :modal="couponPopShow" 
+                :couponList="obj.couponVoList"
+                @openProductList="openProductList"
+                @visible-change="(val) => {this.couponPopShow = val}"
+        ></CouponPop>
+        <!-- 优惠券适用商品列表 -->
+        <ProductList class="product-list" 
+                v-if="productListModal" 
+                :couponObj="couponObj" 
+                @close="(val)=>{this.productListModal = val}"
+        ></ProductList>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 import VHeader from '../../components/VHeader'
 import VShare from '../../components/share/VShare'
+import CouponPop from './CouponPop'
+import ProductList from '../couponlist/Index'
 export default {
+    props: {
+        productId: Number
+    },
     data () {
         return {
+            obj: {},
             shareModal: false,
             currentImage: 0,
-            images: [
-                'https://img.yzcdn.cn/vant/apple-1.jpg',
-                'https://img.yzcdn.cn/vant/apple-2.jpg',
-            ],
-            imageList: [
-                'https://img.yzcdn.cn/vant/apple-1.jpg',
-                'https://img.yzcdn.cn/vant/apple-2.jpg',
-            ]
+            images: [],
+            imageList: [],
+            couponPopShow: false,
+            productListModal: false,
+            couponObj: {},
         }
     },
     components: {
         VHeader,
         VShare,
+        CouponPop,
+        ProductList
+    },
+    mounted() {
+        this.getCommodityDetail();
     },
     methods:{
+        // 获取商品详情
+        getCommodityDetail() {
+            this.$api.commodity.getCommodityDetail(this.productId).then(res => {
+                this.obj = res.data.data;
+                this.images.push(this.$api.img + this.obj.pic);
+                this.imageList.push(this.$api.img + this.obj.pic);
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 分享商品
         handleShare(){
             this.shareModal = true;
         },
@@ -111,12 +150,34 @@ export default {
         handleAdd(){
 
         },
+
+        goBack() {
+            this.$emit('close', false);
+        },
+        // 打开优惠券领取弹窗
+        showCouponPopup() {
+            this.couponPopShow = true;
+        },
+        // 打开优惠券适用商品页
+        openProductList(couponObj){
+            this.couponObj = couponObj;
+            this.productListModal = true;
+        }
     },
 }
 </script>
 
 <style lang="scss" scoped>
     .commodity-detail{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        background: rgba(245, 247, 249, 1);
         .commodity-detail__content{
             height: calc(100% - 80px);
             >.van-swipe{
@@ -188,6 +249,57 @@ export default {
                 }
             }
 
+            >.__counpon{
+                height: 40px;
+                line-height: 40px;
+                margin-bottom: 10px;
+                padding: 0 15px;
+                >.text1{
+                    display: inline-block;
+                    margin-right: 6px;
+                    height: 18px;
+                    line-height: 18px;
+                    background: #0db059;
+                    color: #fff;
+                    font-size: 9px;
+                    vertical-align: middle;
+                    padding: 0 4px;
+                    position: relative;
+                    &::after, &::before{
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        width: 4px;
+                        height: 4px;
+                        margin-top: -2px;
+                        border-radius: 100%;
+                        background: #fff;
+                    }
+                    &::after{
+                        left: -2px;
+                    }
+                    &::before{
+                        right: -2px;
+                    }
+                }
+                >.text2{
+                    display: inline-block;
+                    height: 18px;
+                    line-height: 18px;
+                    color: #0db059;
+                    font-size: 12px;
+                    vertical-align: middle;
+                    padding: 0 6px;
+                    border-radius: 1px;
+                }
+                >i{
+                    font-size: 14px;
+                    padding: 12px 0;
+                    font-weight: normal;
+                    color: #969799;
+                }
+            }
+
             >.__detail{
                 padding-bottom: 40px;
                 >h5{
@@ -198,6 +310,7 @@ export default {
                     >.van-divider{
                         color: #333 !important;
                         line-height: 40px;
+                        margin: 0;
                     }
                 }
             }
@@ -243,6 +356,17 @@ export default {
                 font-size: 14px;
                 line-height: 40px;
             }
+        }
+
+        .product-list{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(245, 247, 249, 1);
         }
     }
 </style>

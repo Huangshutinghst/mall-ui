@@ -86,11 +86,11 @@ export default {
                 width: 95px;
                 height: 100%;
                 background: linear-gradient(to right,  rgba(255, 137, 47, 0.8), rgba(255, 179, 61, 1));
-                padding: 22px 5px 0 0;
+                padding: 26px 5px 0 0;
                 >h5{
                     color: #fff;
                     font-weight: bold;
-                    font-size: 36px;
+                    font-size: 28px;
                     text-align: center;
                     >font{
                         font-size: 14px;

@@ -45,12 +45,6 @@ export default new Router({
           name: 'categoryListAll',
           component: (resolve) => require(['@/views/category/ListAll'], resolve),
         },
-        // 商品详情页
-        {
-          path: 'commondity/detail',
-          name: 'commondityDetail',
-          component: (resolve) => require(['@/views/commodity/Detail'], resolve),
-        },
         // 带footbar的购物车
         {
           path: 'shoppingCart',

@@ -1,6 +1,6 @@
 <!-- 购物车-商品卡片 -->
 <template>
-    <div class="commodity-card flex" @click="detail()">
+    <div class="commodity-card flex" @click="detail(true)">
         <div class="commodity-card__img">
             <van-image
                 lazy-load
@@ -40,27 +40,32 @@
                 ></Stepper>
             </div>
         </div>
+
+        <Detail v-if="detailShow" :productId="cardInfo.productId" @close="detail"></Detail>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 import Stepper from '../stepper/StepperCart'
+import Detail from '../commodity/Detail'
 export default {
     props: {
         cardInfo: Object
     },
     data () {
         return {
-            count: this.cardInfo.cartVo?this.cardInfo.cartVo.quantity:0
+            count: this.cardInfo.cartVo?this.cardInfo.cartVo.quantity:0,
+            detailShow: false,
         }
     },
     components: {
         Stepper,
+        Detail
     },
     methods:{
         // 查看商品详情
-        detail(){
-            this.$router.push({ name: 'commondityDetail' })
+        detail(val){
+            this.detailShow = val;
         },
         countChange(val){
             this.count = this.count + val;
