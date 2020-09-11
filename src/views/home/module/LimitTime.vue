@@ -16,7 +16,7 @@
 
         <!-- 倒计时 -->
         <div class="__time bg_fff">
-            <van-count-down :time="currentTime" :class="currentIndex==0?'active':''">
+            <van-count-down :time="currentTime" :class="currentIndex==0?'active':''" format="HH:mm:ss">
                 <template #default="timeData">
                     {{currentIndex==0?'离本场结束':'离本场开始'}}
                     <span class="block">{{ timeData.hours }}</span>
@@ -31,7 +31,10 @@
         <!-- 商品列表 -->
         <ul class="__list">
             <li v-for="(item, index) in goodList" :key="index" class="bg_fff">
-                <CardLimit></CardLimit>
+                <CardLimit
+                    :cardInfo="item"
+                    :open="currentIndex==0 ? true : false"
+                ></CardLimit>
             </li>
         </ul>
     </div>
@@ -42,6 +45,10 @@ import CardLimit from '../../card/CardLimit'
 export default {
     data () {
         return {
+            formInline: {
+                offset: 0,
+                limit: 20
+            },
             currentTime: 0,  //毫秒数
             currentIndex: 0,
             timeList: [],
@@ -52,19 +59,34 @@ export default {
         CardLimit
     },
     methods:{
+        // 获取限时抢购时间
         getTodayFlash(){
             this.$api.home.getTodayFlash().then(res => {
                 this.timeList = res.data.data;
                 this.currentTime = new Date(this.timeList[0].endTime).getTime() - new Date().getTime();
-                console.log(this.currentTime)
-                console.log(this.timeList)
+                this.getProductByFlashId(this.timeList[0].flashId);
             }).catch(e => {
                 console.log(e)
             })
         },
+        // 选择时间
         beforeChange(index) {
             this.currentIndex = index;
+            if(new Date().getTime() > new Date(this.timeList[index].endTime)){
+                this.currentTime = new Date().getTime() - new Date(this.timeList[index].startTime).getTime();
+            }else{
+                this.currentTime = new Date(this.timeList[index].endTime).getTime() - new Date().getTime();
+            }
+            this.getProductByFlashId(this.timeList[index].flashId);
         },
+        // 获取显示抢购商品
+        getProductByFlashId(flashId) {
+            this.$api.home.getProductByFlashId(flashId, this.formInline).then(res => {
+                this.goodList = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     },
 }
 </script>

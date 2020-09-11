@@ -19,7 +19,12 @@ const home = {
     },
     getTodayFlash () {
         return axios.get(`/api/home/getTodayFlash`);
-    }
+    },
+    getProductByFlashId (flashId, params) {
+        return axios.get(`/api/home/getProductByFlashId/${flashId}`, {
+            params: params
+        });
+    },
 }
 
 export default home;

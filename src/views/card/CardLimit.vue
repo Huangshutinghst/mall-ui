@@ -31,12 +31,12 @@
                 </p>
             </div>
             <p class="price font">
-                ￥{{ cardInfo.currentPrice }}
-                <!-- 敬请期待 -->
+                <template v-if="open">￥{{ cardInfo.currentPrice }}</template>
+                <template v-if="!open">敬请期待</template>
                 <s>￥{{ cardInfo.originalPrice }}</s>
             </p>
             <!-- 计步器 -->
-            <div class="btn-wrap">
+            <div class="btn-wrap" v-if="open">
                 <!-- 售罄禁用样式：disable -->
                 <Stepper 
                     ref="stepper"
@@ -58,6 +58,10 @@ export default {
             type: Boolean,
             default: true
         },
+        open: {
+            type: Boolean,
+            default: true
+        }
     },
     data () {
         return {
