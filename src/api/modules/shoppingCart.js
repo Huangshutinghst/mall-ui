@@ -1,5 +1,5 @@
 /**
- * order模块接口列表
+ * 购物车模块接口列表
  */
 
 import axios from '@/libs/http'; // 导入http中创建的axios实例
@@ -19,6 +19,8 @@ const shoppingCart = {
     cartUpdate (params) {        
         return axios.post(`/api/cart/update`, params);
     },
+
+
 }
 
 export default shoppingCart;

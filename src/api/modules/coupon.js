@@ -1,5 +1,5 @@
 /**
- * order模块接口列表
+ * 优惠券模块接口列表
  */
 
 import axios from '@/libs/http'; // 导入http中创建的axios实例

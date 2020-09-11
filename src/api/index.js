@@ -10,6 +10,7 @@ import mine from '@/api/modules/mine';
 import order from '@/api/modules/order';
 import coupon from '@/api/modules/coupon';
 import shoppingCart from '@/api/modules/shoppingCart';
+import commodity from '@/api/modules/commodity';
 
 // 导出接口
 export default {    
@@ -22,5 +23,6 @@ export default {
     order,
     coupon,
     shoppingCart,
+    commodity,
     // ……
 }
