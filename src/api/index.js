@@ -9,6 +9,7 @@ import img from '@/api/modules/img';
 import mine from '@/api/modules/mine';
 import order from '@/api/modules/order';
 import coupon from '@/api/modules/coupon';
+import shoppingCart from '@/api/modules/shoppingCart';
 
 // 导出接口
 export default {    
@@ -20,5 +21,6 @@ export default {
     mine,
     order,
     coupon,
+    shoppingCart,
     // ……
 }

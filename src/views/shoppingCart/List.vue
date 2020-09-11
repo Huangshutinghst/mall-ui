@@ -13,7 +13,7 @@
                 <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="index">
                     <van-checkbox class="__checkbox fl" v-model="item.checked"></van-checkbox>
                     <div class="__card">
-                        <Card></Card>
+                        <Card :cardInfo="item"></Card>
                     </div>
                     <!-- 删除按钮 -->
                     <van-icon class="btn-delete" name="cross" @click="deleteItem(item)" />
@@ -50,16 +50,11 @@ export default {
     },
     data () {
         return {
-            goodlist: [
-                {num: 0, checked: false},
-                {num: 0, checked: false},
-                {num: 0, checked: false},
-                {num: 0, checked: false},
-                {num: 0, checked: false},
-                {num: 0, checked: false},
-                {num: 0, checked: false},
-                {num: 0, checked: false},
-            ],
+            formInline: {
+                offset: 0,
+                limit: 20
+            },
+            goodlist: [],
             checkedAll: false
         }
     },
@@ -67,7 +62,18 @@ export default {
         VHeader,
         Card,
     },
+    mounted() {
+        this.getCartList();
+    },
     methods:{
+        // 获取购物车商品
+        getCartList() {
+            this.$api.shoppingCart.getCartList(this.formInline).then(res => {
+                this.goodlist = res.data.data.list;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         // 清空
         handleClearAll(){
             

@@ -1,11 +1,11 @@
 <!-- 步进器 -->
 <template>
     <div class="commodity-stepper flex flex-pack-justify">
-        <div class="btn" v-if="count == 0" @click.stop="add()">立即抢</div>
+        <div class="btn" v-if="num == 0" @click.stop="add()">立即抢</div>
         <template v-else>
-            <div v-show="count > 0" class="round reduce" @click.stop="reduce()">—</div>
-            <div v-show="count > 0" class="num">{{num}}</div>
-            <div class="round add" :class="{disable: count >= limit}" @click.stop="add()">+</div>
+            <div v-show="num > 0" class="round reduce" @click.stop="reduce()">—</div>
+            <div v-show="num > 0" class="num">{{num}}</div>
+            <div class="round add" :class="{disable: num >= limit}" @click.stop="add()">+</div>
         </template>
     </div>
 </template>
@@ -15,6 +15,7 @@ export default {
     props: {
         limit: Number,
         count: Number,
+        productId: Number,
     },
     data () {
         return {
@@ -26,17 +27,28 @@ export default {
             this.num = val;
         }
     },
-    components: {
-
-    },
     methods:{
         reduce(){
-            this.$emit('count-change', -1);
+            this.changeCartCount(this.num - 1, 0);
         },
         add(){
-            if(this.count >= this.limit) return;
-            this.$emit('count-change', 1);
+            if(this.num >= this.limit) return;
+            this.changeCartCount(this.num + 1, 1);
         },
+        changeCartCount(num, type){
+            this.$api.shoppingCart.cartAdd({
+                productId: this.productId,
+                quantity: num
+            }).then(res => {
+                if(type == 0){
+                    this.$emit('count-change', -1);
+                }else if(type == 1){
+                    this.$emit('count-change', 1);
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     },
 }
 </script>

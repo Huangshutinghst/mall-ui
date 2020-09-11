@@ -24,17 +24,11 @@ export default {
         VFootNav,
         List,
     },
-    methods:{
-        
+    methods: {
+
     },
 }
 </script>
-
-<style lang="scss" scoped>
-    .shopping-index{
-
-    }
-</style>
 
 <style lang="scss">
     .shopping-index{

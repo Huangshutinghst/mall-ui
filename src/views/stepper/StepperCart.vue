@@ -3,13 +3,15 @@
     <div class="commodity-stepper flex flex-pack-justify">
         <div class="round reduce" @click.stop="reduce()">—</div>
         <div class="num">{{num}}</div>
-        <div class="round add" :class="{disable: count >= limit}" @click.stop="add()">+</div>
+        <div class="round add" :class="{disable: num >= limit}" @click.stop="add()">+</div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 export default {
     props: {
+        cartId: Number,
+        productId: Number,
         limit: Number,
         count: Number,
     },
@@ -25,13 +27,28 @@ export default {
     },
     methods:{
         reduce(){
-            if(this.count <= 1) return;
-            this.$emit('count-change', -1);
+            if(this.num <= 1) return;
+            this.changeCartCount(this.num - 1, 0);
         },
         add(){
-            if(this.count >= this.limit) return;
-            this.$emit('count-change', 1);
+            if(this.num >= this.limit) return;
+            this.changeCartCount(this.num + 1, 1);
         },
+        changeCartCount(num, type){
+            this.$api.shoppingCart.cartAdd({
+                cartId: this.cartId,
+                productId: this.productId,
+                quantity: num
+            }).then(res => {
+                if(type == 0){
+                    this.$emit('count-change', -1);
+                }else if(type == 1){
+                    this.$emit('count-change', 1);
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     },
 }
 </script>

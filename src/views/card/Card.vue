@@ -6,8 +6,8 @@
                 lazy-load
                 :src="$api.img + cardInfo.pic"
             />
-            <span v-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
-            <span v-else-if="cardInfo.discountStr" class="tag red">折扣</span>
+            <span v-if="cardInfo.discountStr" class="tag red">折扣</span>
+            <span v-else-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
             <div v-show="cardInfo.publishStatus == 0" class="mask">
                 <p>补货中</p>
             </div>
@@ -34,6 +34,7 @@
                     ref="stepper"
                     :limit="cardInfo.limit"
                     :count="count"
+                    :productId="cardInfo.productId"
                     @count-change="countChange"
                 ></Stepper>
             </div>

@@ -4,37 +4,38 @@
         <div class="commodity-card__img">
             <van-image
                 lazy-load
-                src=""
+                :src="$api.img + cardInfo.pic"
             />
-            <!-- <span class="tag blue">新品</span>
-            <span class="tag red">折扣</span> -->
+            <span v-if="cardInfo.discountStr" class="tag red">折扣</span>
+            <span v-else-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
 
-            <!-- <div class="mask_limit">
+            <div v-if="cardInfo.flashing && cardInfo.publishStatus == 0" class="mask_limit">
                 <div>
                     <p>限量</p>
                     <p>已抢光</p>
                 </div>
-            </div> -->
-
-            <!-- <div class="mask">
+            </div>
+            <div v-else-if="cardInfo.publishStatus == 0" class="mask">
                 <p>补货中</p>
-            </div> -->
+            </div>
         </div>
         
         <div class="commodity-card__info flex-1 flex flex-v flex-pack-justify">
             <div class="__top flex-1">
-                <h5 class="title double-row">商品名称</h5>
+                <h5 class="title double-row">{{ cardInfo.productName }}</h5>
             </div>
-            <p class="price"> <!-- 红色字: :class="'font'" -->
-                ￥29.9
-                <s>￥39</s>
+            <p class="price" :class="cardInfo.flashing?'font':''">
+                ￥{{ cardInfo.currentPrice }}
+                <s>￥{{ cardInfo.originalPrice }}</s>
             </p>
             <!-- 计步器 -->
             <div class="btn-wrap">
                 <Stepper 
                     ref="stepper"
-                    :limit="5"
+                    :limit="cardInfo.limit"
                     :count="count"
+                    :productId="cardInfo.productId"
+                    :cartId="cardInfo.cartVo.cartId"
                     @count-change="countChange"
                 ></Stepper>
             </div>
@@ -45,9 +46,12 @@
 <script type="text/ecmascript-6">
 import Stepper from '../stepper/StepperCart'
 export default {
+    props: {
+        cardInfo: Object
+    },
     data () {
         return {
-            count: 1
+            count: this.cardInfo.cartVo?this.cardInfo.cartVo.quantity:0
         }
     },
     components: {
