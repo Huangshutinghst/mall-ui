@@ -39,7 +39,7 @@
                     <div class="box flex flex-align-center flex-pack-justify">
                         <div class="left">
                             <h5>手机号</h5>
-                            <p>{{ Util.maskPhone(userInfo.phone) }}</p>
+                            <p>{{ userInfo.phone !== undefined && userInfo.phone !== null  ? Util.maskPhone(userInfo.phone): '' }}</p>
                         </div>
                         <div class="right">
                             修改

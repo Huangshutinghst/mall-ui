@@ -33,11 +33,11 @@ export default {
     methods:{
         submit(){
             const _this = this
-            if (_this.Util.checkNickName(_this.nickname)) {
+            if (_this.RegExpUtil.checkNickName(_this.nickname)) {
                 const userInfo = {
                     nickname: this.nickname
                 }
-                this.$api.mine.updateUserInfo(userInfo).then(res => {
+                this.$api.mine.updateUserInfo(userInfo).then(() => {
                     this.$router.back(-1);
                 }).catch(e => {
                     console.log(e)
