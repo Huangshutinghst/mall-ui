@@ -49,8 +49,7 @@ export default {
                 }
                 this.$api.mine.changePassword(password).then(() => {
                     localStorage.removeItem('token');
-                    _this.$router.replace({ path: '/login', query: { redirect: _this.$router.currentRoute.fullPath }
-                    });
+                    _this.$router.replace({ path: '/login', query: { redirect: _this.$router.currentRoute.fullPath }});
                 }).catch(e => {
                     console.log(e)
                 })

@@ -35,9 +35,9 @@
                 <p class="text">{{ obj.desc }}</p>
                 <!-- <p class="text blue">今天上市</p> -->
                 <p class="address">
-                    <van-icon name="bag-o" />{{ obj.format }}，
-                    <van-icon name="bag-o" />{{ obj.storage }}，
-                    <van-icon name="location-o" />{{ obj.origin }}
+                    <span v-if="obj.format !== undefined && obj.format !== null"><van-icon name="bag-o" />{{ obj.format }}，</span>
+                    <span v-if="obj.storage !== undefined && obj.storage !== null"><van-icon name="bag-o" />{{ obj.storage }}，</span>
+                    <span v-if="obj.origin !== undefined && obj.origin !== null"><van-icon name="location-o" />{{ obj.origin }}</span>
                 </p>
             </div>
             <!-- 可用优惠券 -->
@@ -93,6 +93,7 @@ export default {
             imageList: [],
             couponPopShow: false,
             productListModal: false,
+            isFavorite: false
         }
     },
     components: {
@@ -131,19 +132,27 @@ export default {
         },
         // 收藏
         favorite(){
-            this.$api.mine.favoriteAdd(this.obj.productId).then(res => {
-                this.obj.favoriteId = true;
-            }).catch(e => {
-                console.log(e)
-            })
+            if (!this.isFavorite) {
+                this.isFavorite = true
+                this.$api.mine.favoriteAdd(this.obj.productId).then(res => {
+                    this.obj.favoriteId = res.data.data;
+                    this.isFavorite = false
+                }).catch(e => {
+                    console.log(e)
+                })
+            }
         },
         // 取消收藏
         unfavorite(){
-            this.$api.mine.favoriteCancel(this.obj.productId).then(res => {
-                this.obj.favoriteId = null;
-            }).catch(e => {
-                console.log(e)
-            })
+            if (!this.isFavorite) {
+                this.isFavorite = true
+                this.$api.mine.favoriteCancel(this.obj.favoriteId).then(() => {
+                    this.obj.favoriteId = null;
+                    this.isFavorite = false
+                }).catch(e => {
+                    console.log(e)
+                })
+            }
         },
         // 去购物车
         handleCart(){

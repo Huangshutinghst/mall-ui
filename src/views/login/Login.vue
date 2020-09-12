@@ -44,8 +44,11 @@ export default {
                 }
             }
 
-            this.formInline.password = this.Md5Util.getEncryption(this.formInline.password)
-            this.$api.login.login(this.formInline).then(res => {
+            const userInfo = {
+                username: this.formInline.username,
+                password: this.Md5Util.getEncryption(this.formInline.password)
+            }
+            this.$api.login.login(userInfo).then(res => {
                 localStorage.setItem('token', res.headers.authorization);
                 this.$router.replace({ path: '/' });
             }).catch(e => {

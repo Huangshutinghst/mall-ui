@@ -114,7 +114,8 @@ export default {
             })
             .then(() => {
                 // on confirm
-                this.$router.replace({ name: 'mine'})
+                localStorage.removeItem('token');
+                this.$router.replace({ path: '/login', query: { redirect: this.$router.currentRoute.fullPath }});
             })
             .catch(() => {
                 // on cancel

@@ -35,14 +35,18 @@ const toLogin = () => {
 const errorHandle = (status, other) => {
     // 状态码判断
     switch (status) {
+        case 200:
+            tip(other.message);
+            break;
         // 401: 未登录状态，跳转登录页
         case 401:
+            tip(other.message);
             toLogin();
             break;
         // 403 token过期
         // 清除token并跳转登录页
         case 403:
-            tip('登录过期，请重新登录');
+            tip(other.message);
             localStorage.removeItem('token');
             setTimeout(() => {
                 toLogin();
@@ -52,9 +56,13 @@ const errorHandle = (status, other) => {
         case 404:
             tip('请求的资源不存在'); 
             break;
+        case 500:
+            tip(other.message);
+            break;
         default:
             console.log(other);   
-        }}
+    }
+}
 
 // 创建axios实例
 var instance = axios.create({ 
@@ -84,13 +92,13 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
     // 请求成功
-    res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),
+    res => res.status === 200 && res.data.code === 200 ? Promise.resolve(res) : Promise.reject(res),
     // 请求失败
     error => {
         const { response } = error;
         if (response) {
             // 请求已发出，但是不在2xx的范围 
-            errorHandle(response.status, response.data.message);
+            errorHandle(response.status, response.data);
             return Promise.reject(response);
         } else {
             // 处理断网的情况
