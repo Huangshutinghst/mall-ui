@@ -27,7 +27,7 @@
             </div>
             <p class="price" :class="cardInfo.flashing?'font':''">
                 ￥{{ cardInfo.currentPrice }}
-                <s>￥{{ cardInfo.originalPrice }}</s>
+                <s v-show="cardInfo.discountStr !== undefined && cardInfo.discountStr !== null">￥{{ cardInfo.originalPrice }}</s>
             </p>
             <!-- 计步器 -->
             <div class="btn-wrap">
