@@ -7,7 +7,7 @@
                 <div>
                     <CouponCard :page="'shop'" :obj="couponObj"></CouponCard>
                     <p>
-                        以下商品可使用满{{ couponObj.minPrice }}元减{{ couponObj.discount }}元的优惠券
+                        以下商品可使用满{{ couponObj.minPriceStr }}元减{{ couponObj.discountStr }}元的优惠券
                         <font class="fr" @click="showInfo()">规则说明></font>
                     </p>
                 </div>
