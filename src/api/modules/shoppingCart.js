@@ -6,10 +6,8 @@ import axios from '@/libs/http'; // 导入http中创建的axios实例
 
 const shoppingCart = {
     // 获取购物车商品
-    getCartList (params) {        
-        return axios.get(`/api/cart/page`, {
-            params: params
-        });
+    getCartList () {        
+        return axios.get(`/api/cart/list`);
     },
     // 添加商品到购物车
     cartAdd (params) {        
@@ -19,6 +17,30 @@ const shoppingCart = {
     cartClear () {        
         return axios.get(`/api/cart/clear`);
     },
+
+
+    // ===========================下单流程===========================
+    // 计算价格
+    calculate (params) {        
+        return axios.post(`/api/order/calculate`, params);
+    },
+    // 根据用户优惠券计算价格
+    calculateWithCoupon (params) {
+        return axios.post(`/api/order/calculateWithCoupon`, params);
+    },
+    // 取消订单
+    closeOrder (orderId) {
+        return axios.post(`/api/order/close/${orderId}`);
+    },
+    // 生成订单
+    generateOrder (params) {
+        return axios.post(`/api/order/generate`, params);
+    },
+
+
+
+
+    
 
 }
 

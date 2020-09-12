@@ -2,8 +2,8 @@
  * 用户模块接口列表
  */
 
-import axios from '@/libs/http';
-import qs from "qs"; // 导入http中创建的axios实例
+import axios from '@/libs/http'; // 导入http中创建的axios实例
+import qs from "qs";
 
 const mine = {
     // ==============用户信息==============

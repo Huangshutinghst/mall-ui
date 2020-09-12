@@ -11,7 +11,7 @@
             <ul class="shopping-index__list panel__content--fistlevel panel__scroll">
                 <!-- 商品卡片 -->
                 <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="index">
-                    <van-checkbox class="__checkbox fl" v-model="item.checked"></van-checkbox>
+                    <van-checkbox class="__checkbox fl" v-model="item.checked" @change="val => checkChange(val, item)"></van-checkbox>
                     <div class="__card">
                         <Card :cardInfo="item" :index="index"></Card>
                     </div>
@@ -24,8 +24,8 @@
             <div class="shopping-index__submit-bar flex bg_fff">
                 <div class="flex flex-1 flex-pack-justify">
                     <div class="check">
-                        <van-checkbox class="__checkbox fl" v-model="checkedAll"></van-checkbox>
-                        {{checkedAll?'已选（1）':'全选'}}
+                        <van-checkbox class="__checkbox fl" v-model="checkedAll" @change="checkAllChange"></van-checkbox>
+                        {{!checkedAll&&this.checkedList.length==0?'全选':'已选（'+ this.checkedList.length +'）'}}
                     </div>
                     <div class="price">
                         ￥18.80
@@ -50,12 +50,10 @@ export default {
     },
     data () {
         return {
-            formInline: {
-                offset: 0,
-                limit: 20
-            },
             goodlist: [],
-            checkedAll: false
+            checkedList: [],
+            checkedAll: false,
+            handleFlag: false,
         }
     },
     components: {
@@ -68,8 +66,88 @@ export default {
     methods:{
         // 获取购物车商品
         getCartList() {
-            this.$api.shoppingCart.getCartList(this.formInline).then(res => {
-                this.goodlist = res.data.data.list;
+            var _this = this;
+            this.$api.shoppingCart.getCartList().then(res => {
+                this.goodlist = res.data.data;
+                this.checkedList = this.$store.state.shopCheckedList;
+                this.checkedAll = this.$store.state.shopCheckedAll;
+                this.goodlist.forEach(el => {
+                    _this.$set(el, 'checked', false);
+                    _this.$store.state.shopCheckedList.forEach(val => {
+                        if(val.cartVo.cartId == el.cartVo.cartId){
+                            _this.$set(el, 'checked', true);
+                        }
+                    })
+                })
+                // this.calculate();
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 勾选商品
+        checkChange(val, item){
+            // console.log('触发')
+            this.handleFlag = false;
+            if(val){
+                this.checkedList.push(item);
+            }else{
+                this.checkedList = this.checkedList.filter(el => {
+                    return el.cartVo.cartId !== item.cartVo.cartId;
+                })
+            }
+            // 去重
+            var obj = {}, obj2 = {};
+            this.checkedList = this.checkedList.reduce(function(item, next) {
+                obj[next.productId] ? '' : obj[next.productId] = true && item.push(next);
+                return item;
+            }, []);
+            this.goodlist = this.goodlist.reduce(function(item, next) {
+                obj2[next.productId] ? '' : obj2[next.productId] = true && item.push(next);
+                return item;
+            }, []);
+            this.$store.commit('CHANGE_CHECKED', this.checkedList)
+            if(this.checkedList.length == this.goodlist.length){
+                if(this.checkedAll) return;
+                this.checkedAll = true;
+                this.handleFlag = true;
+                this.$store.commit('CHANGE_CHECKED_ALL', this.checkedAll);
+            }else{
+                if(!this.checkedAll) return;
+                this.checkedAll = false;
+                this.handleFlag = true;
+                this.$store.commit('CHANGE_CHECKED_ALL', this.checkedAll);
+            }
+        },
+        // 全选
+        checkAllChange(val){
+            // console.log('触发全选1')
+            var _this = this;
+            if(this.handleFlag){
+                this.handleFlag = false;
+                return
+            }
+            // console.log('触发全选2')
+            if(val){
+                this.goodlist.forEach(el => {
+                    _this.$set(el, 'checked', true);
+                })
+                _this.checkedList = this.goodlist;
+                _this.$store.commit('CHANGE_CHECKED', this.checkedList);
+            }else{
+                this.goodlist.forEach(el => {
+                    _this.$set(el, 'checked', false);
+                })
+                _this.checkedList = this.goodlist;
+                _this.$store.commit('CHANGE_CHECKED', []);
+            }
+            this.$store.commit('CHANGE_CHECKED_ALL', val);
+        },
+        // 计算商品价格
+        calculate() {
+            this.$api.shoppingCart.calculate({
+                cartIdList: [20]
+            }).then(res => {
+                
             }).catch(e => {
                 console.log(e)
             })
