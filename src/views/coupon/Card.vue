@@ -51,11 +51,19 @@ export default {
             infoShow: false
         }
     },
+    watch: {
+        obj:{
+            handler(newValue, oldValue) {
+                this.couponObj = newValue;
+            },
+            deep: true
+        }
+    },
     methods:{
         // 去使用
         use(){
             if (this.page == 'shop' || this.type !== 1) return;
-            this.$router.push({ name: 'couponList', query: {obj: JSON.stringify(this.couponObj)} })
+            this.$router.push({ name: 'couponList', query: {id: this.couponObj.couponId} })
         },
         // 展开关闭规则说明
         infoOpen(){
