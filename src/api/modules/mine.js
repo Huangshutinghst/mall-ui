@@ -2,7 +2,8 @@
  * 用户模块接口列表
  */
 
-import axios from '@/libs/http'; // 导入http中创建的axios实例
+import axios from '@/libs/http';
+import qs from "qs"; // 导入http中创建的axios实例
 
 const mine = {
     // ==============用户信息==============
@@ -13,6 +14,10 @@ const mine = {
     // 更新用户信息
     updateUserInfo (params) {
         return axios.post(`/api/user/update`, params)
+    },
+    // 更新密码
+    changePassword (params) {
+        return axios.post(`/api/user/changePassword`, qs.stringify(params))
     },
 
 

@@ -141,6 +141,12 @@ export default new Router({
           name: 'editTelephone',
           component: (resolve) => require(['@/views/setting/EditTelephone'], resolve),
         },
+        // 修改密码
+        {
+          path: 'setting/password',
+          name: 'editPassword',
+          component: (resolve) => require(['@/views/setting/editPassword'], resolve),
+        },
         //我的优惠券
         {
           path: 'coupon',

@@ -43,7 +43,7 @@ export default {
                     console.log(e)
                 })
             } else {
-                this.Util.tip('请输入汉字、字母和数字');
+                this.Util.tip('昵称只能包含汉字、字母和数字');
             }
         }
     },
