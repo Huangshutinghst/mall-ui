@@ -36,13 +36,12 @@
                 <s>￥{{ cardInfo.originalPrice }}</s>
             </p>
             <!-- 计步器 -->
-            <div class="btn-wrap" v-if="open">
+            <div class="btn-wrap" v-if="open && cardInfo.hasStock">
                 <Stepper 
                     ref="stepper"
                     :limit="cardInfo.limit"
                     :count="count"
                     :productId="cardInfo.productId"
-                    :hasStock="cardInfo.hasStock"
                     @count-change="countChange"
                 ></Stepper>
             </div>
