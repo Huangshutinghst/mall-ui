@@ -3,8 +3,8 @@
         <div class="flex flex-1 flex-pack-justify">
             <div class="check">
                 <van-icon name="shopping-cart-o" />
-                <span>2</span>
-                已选（0）
+                <span v-show="$store.state.shopCardCound > 0">{{ $store.state.shopCardCound }}</span>
+                已选（{{ $store.state.shopCardCound }}）
             </div>
             <div class="price">
                 ￥0.00

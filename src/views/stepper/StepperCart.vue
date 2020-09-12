@@ -14,7 +14,8 @@ export default {
         productId: Number,
         limit: Number,
         count: Number,
-        index: Number
+        index: Number,
+        hasStock: Boolean
     },
     data () {
         return {
@@ -28,6 +29,7 @@ export default {
     },
     methods:{
         reduce(){
+            if(!this.hasStock) return;
             if(this.num <= 1) {
                 this.$dialog.confirm({
                     title: '',
@@ -46,6 +48,7 @@ export default {
             }
         },
         add(){
+            if(!this.hasStock) return;
             if(this.num >= this.limit) return;
             this.changeCartCount(this.num + 1, 1);
         },
@@ -57,8 +60,10 @@ export default {
             }).then(res => {
                 if(type == 0){
                     this.$emit('count-change', -1);
+                    this.$store.commit('GET_SHOP_CARD_COUND');
                 }else if(type == 1){
                     this.$emit('count-change', 1);
+                    this.$store.commit('GET_SHOP_CARD_COUND');
                 }
             }).catch(e => {
                 console.log(e)

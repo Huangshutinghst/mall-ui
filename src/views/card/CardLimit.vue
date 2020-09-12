@@ -36,8 +36,7 @@
                 <s>￥{{ cardInfo.originalPrice }}</s>
             </p>
             <!-- 计步器 -->
-            <div class="btn-wrap" v-if="open">
-                <!-- 售罄禁用样式：disable -->
+            <div class="btn-wrap" v-if="open && cardInfo.hasStock">
                 <Stepper 
                     ref="stepper"
                     :limit="cardInfo.limit"

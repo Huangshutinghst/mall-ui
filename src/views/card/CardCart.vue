@@ -39,6 +39,7 @@
                     :productId="cardInfo.productId"
                     :cartId="cardInfo.cartVo.cartId"
                     :index="index"
+                    :hasStock="cardInfo.hasStock"
                     @count-change="countChange"
                 ></Stepper>
             </div>
