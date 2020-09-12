@@ -3,7 +3,7 @@
         <van-tabbar-item name="home" icon="home-o">首页</van-tabbar-item>
         <van-tabbar-item name="category" icon="apps-o">分类</van-tabbar-item>
         <van-tabbar-item name="shoppingCart" icon="cart-o">
-            <span class="num">2</span>
+            <span class="num" v-show="$store.state.shopCardCound > 0">{{ $store.state.shopCardCound }}</span>
             购物车
         </van-tabbar-item>
         <van-tabbar-item name="mine" icon="friends-o">我的</van-tabbar-item>

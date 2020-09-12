@@ -1,5 +1,5 @@
 <template>
-    <van-popup class="poupon-rule-pop flex flex-v panel__hidden" v-model="visible" @close="close" round position="bottom" :style="{ height: '50%' }">
+    <van-popup class="poupon-rule-pop flex flex-v panel__hidden" v-model="visible" @close="close" round position="bottom" :style="{ height: '55%' }">
         <div class="__top">
             领取优惠券
             <van-icon class="fr" name="cross" @click="close()" />

@@ -65,10 +65,9 @@
             <div class="btn cart" @click="handleCart()">
                 <van-icon name="shopping-cart-o" />
                 <p>购物车</p>
-                <span>2</span>
+                <span v-show="$store.state.shopCardCound > 0">{{ $store.state.shopCardCound }}</span>
             </div>
-            <!-- 加入购物车/立即抢 -->
-            <div class="fr btn_bg" @click="handleAdd()">加入购物车</div>
+            <div class="fr btn_bg" :class="obj.flashing?'font':''" @click="handleAdd()">{{ obj.flashing?'立即抢':'加入购物车' }}</div>
         </div>
 
         <VShare :modal="shareModal" :title="'分享商品'" @visible-change="(val) => shareModal = val"></VShare>
@@ -350,6 +349,9 @@ export default {
                 color: #fff;
                 font-size: 14px;
                 line-height: 40px;
+                &.font{
+                    background: #ee0a24;
+                }
             }
         }
 

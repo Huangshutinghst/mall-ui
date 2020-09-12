@@ -42,8 +42,14 @@ export default {
             }).then(res => {
                 if(type == 0){
                     this.$emit('count-change', -1);
+                    if(num == 0){
+                        this.$store.commit('GET_SHOP_CARD_COUND');
+                    }
                 }else if(type == 1){
                     this.$emit('count-change', 1);
+                    if(num == 1){
+                        this.$store.commit('GET_SHOP_CARD_COUND');
+                    }
                 }
             }).catch(e => {
                 console.log(e)

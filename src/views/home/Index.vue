@@ -50,6 +50,9 @@ export default {
         Hot,
         LimitTime,
     },
+    mounted(){
+        this.$store.commit('GET_SHOP_CARD_COUND');
+    },
     methods:{
         tabChange(name){
             let thiz = this;

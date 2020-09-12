@@ -156,6 +156,7 @@ export default {
         handleClearAll(){
             this.$api.shoppingCart.cartClear().then(res => {
                 this.goodlist = [];
+                this.$store.commit('GET_SHOP_CARD_COUND');
             }).catch(e => {
                 console.log(e)
             })
@@ -168,6 +169,7 @@ export default {
                 quantity: 0
             }).then(res => {
                 this.goodlist.splice(index, 1);
+                this.$store.commit('GET_SHOP_CARD_COUND');
             }).catch(e => {
                 console.log(e)
             })
