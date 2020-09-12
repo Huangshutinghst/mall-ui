@@ -53,14 +53,23 @@ export default {
         RulePop
     },
     mounted() {
-        this.couponObj = JSON.parse(this.$route.query.obj)
-        if(this.couponObj.useType == 1){
-            this.handleSearch();
-        }else{
-            this.getByCouponId();   
-        }
+        this.getCouponObj();
     },
     methods:{
+        // 获取当前优惠券信息
+        getCouponObj(){
+            this.$api.coupon.getCouponObj(this.$route.query.id).then(res => {
+                this.couponObj = res.data.data;
+                this.$forceUpdate();
+                if(this.couponObj.useType == 1){
+                    this.handleSearch();
+                }else{
+                    this.getByCouponId();   
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+        },
         // 获取优惠券可用商品
         getByCouponId(){
             this.$api.coupon.getByCouponId(this.couponObj.couponId, this.formInline).then(res => {

@@ -26,7 +26,11 @@ const coupon = {
         return axios.get(`/api/product/getByCouponId/${couponId}`, {
             params: params
         });
-    }
+    },
+    // 根据优惠券id获取优惠券
+    getCouponObj (couponId) {
+        return axios.get(`/api/coupon/${couponId}`);
+    },
 }
 
 export default coupon;
