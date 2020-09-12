@@ -7,8 +7,7 @@
                 <template #title>
                     <div class="tabs__item">
                         <h5>{{item.startTime.substring(11, 16)}}</h5>
-                        <!-- 即将开抢/明天开抢 -->
-                        <p>即将开抢</p>
+                        <p>{{item.today?'即将开抢':'明天开抢'}}</p>
                     </div>
                 </template>
             </van-tab>
@@ -16,9 +15,9 @@
 
         <!-- 倒计时 -->
         <div class="__time bg_fff">
-            <van-count-down :time="currentTime" :class="currentIndex==0?'active':''" format="HH:mm:ss">
+            <van-count-down :time="currentTime" :class="flag?'active':''" format="HH:mm:ss">
                 <template #default="timeData">
-                    {{currentIndex==0?'离本场结束':'离本场开始'}}
+                    {{flag?'离本场结束':'离本场开始'}}
                     <span class="block">{{ timeData.hours }}</span>
                     <span class="colon">:</span>
                     <span class="block">{{ timeData.minutes }}</span>
@@ -33,7 +32,7 @@
             <li v-for="(item, index) in goodList" :key="index" class="bg_fff">
                 <CardLimit
                     :cardInfo="item"
-                    :open="currentIndex==0 ? true : false"
+                    :open="flag ? true : false"
                 ></CardLimit>
             </li>
         </ul>
@@ -50,9 +49,9 @@ export default {
                 limit: 20
             },
             currentTime: 0,  //毫秒数
-            currentIndex: 0,
             timeList: [],
-            goodList: []
+            goodList: [],
+            flag: false,
         }
     },
     components: {
@@ -63,7 +62,18 @@ export default {
         getTodayFlash(){
             this.$api.home.getTodayFlash().then(res => {
                 this.timeList = res.data.data;
-                this.currentTime = new Date(this.timeList[0].endTime).getTime() - new Date().getTime();
+                // 1.
+                if(new Date().getTime() > new Date(this.timeList[0].endTime).getTime()){
+                    this.timeList.shift();
+                }
+                // 2.
+                if(new Date(this.timeList[0].startTime).getTime() > new Date().getTime()){
+                    this.currentTime = new Date(this.timeList[0].startTime).getTime() - new Date().getTime();
+                    this.flag = false;
+                }else{
+                    this.currentTime = new Date(this.timeList[0].endTime).getTime() - new Date().getTime();
+                    this.flag = true;
+                }
                 this.getProductByFlashId(this.timeList[0].flashId);
             }).catch(e => {
                 console.log(e)
@@ -71,11 +81,12 @@ export default {
         },
         // 选择时间
         beforeChange(index) {
-            this.currentIndex = index;
-            if(new Date().getTime() > new Date(this.timeList[index].endTime)){
-                this.currentTime = new Date().getTime() - new Date(this.timeList[index].startTime).getTime();
-            }else{
+            if(new Date().getTime() > new Date(this.timeList[index].startTime).getTime() && new Date().getTime() < new Date(this.timeList[index].endTime).getTime()){
                 this.currentTime = new Date(this.timeList[index].endTime).getTime() - new Date().getTime();
+                this.flag = true;
+            }else{
+                this.currentTime = new Date(this.timeList[index].startTime).getTime() - new Date().getTime();
+                this.flag = false;
             }
             this.getProductByFlashId(this.timeList[index].flashId);
         },
