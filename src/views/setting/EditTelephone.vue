@@ -1,23 +1,20 @@
 <!-- 修改手机号 -->
 <template>
     <div class="setting-telephone panel__hidden">
-        <VHeader title="" leftText="验证原手机号"></VHeader>
+        <VHeader title="" leftText="修改手机号"></VHeader>
 
         <div class="setting-telephone__content">
             <van-cell-group class="form bg_fff">
-                <van-field v-model="telphone" label="原手机号" readonly />
+                <van-field
+                        type="tel"
+                        v-model="telphone"
+                        maxlength="15"
+                        placeholder="请输入手机号"
+                />
             </van-cell-group>
-            <van-field
-                v-model="sms"
-                center
-                clearable
-                label="验证码"
-                placeholder="请输入验证码"
-                >
-                <template #button>
-                    <van-button size="small" type="primary">获取验证码</van-button>
-                </template>
-            </van-field>
+            <div class="btn-submit bg_fff" @click="submit()">
+                确认保存
+            </div>
         </div>
     </div>
 </template>
@@ -27,24 +24,52 @@ import VHeader from '../../components/VHeader'
 export default {
     data () {
         return {
-            telphone: '178****8888',
-            sms: ''
+            telphone: undefined
         }
     },
     components: {
         VHeader
     },
     methods:{
-
+        submit(){
+            const _this = this
+            if (_this.Util.checkTelphone(_this.telphone)) {
+                const userInfo = {
+                    phone: this.telphone
+                }
+                this.$api.mine.updateUserInfo(userInfo).then(res => {
+                    this.$router.back(-1);
+                }).catch(e => {
+                    console.log(e)
+                })
+            } else {
+                this.Util.tip('请输入正确手机号');
+            }
+        }
     },
+    mounted() {
+        this.telphone = this.$route.query.telphone
+    }
 }
 </script>
 
 <style lang="scss" scoped>
     .setting-telephone{
         .setting-telephone__content{
-
-
+            >.form{
+                height: 40px;
+                margin: 14px 0;
+            }
+            .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after{
+                border-width: 0;
+            }
+            >.btn-submit{
+                margin: 14px 0;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                font-size: 12px;
+            }
         }
     }
 </style>

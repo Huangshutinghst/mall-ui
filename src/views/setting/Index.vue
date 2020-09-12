@@ -47,6 +47,18 @@
                         </div>
                     </div>
                 </li>
+                <!-- 修改密码 -->
+                <li class="flex flex-align-center" @click="editPassword()">
+                    <div class="box flex flex-align-center flex-pack-justify">
+                        <div class="left">
+                            <h5>密码</h5>
+                        </div>
+                        <div class="right">
+                            修改
+                            <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
+                        </div>
+                    </div>
+                </li>
             </ul>
 
             <div class="btn-login-out bg_fff" @click="loginOut()">
@@ -84,11 +96,15 @@ export default {
         },
         // 修改昵称
         editNickname(){
-            this.$router.push({ name: 'editNickName' })
+            this.$router.push({ name: 'editNickName', query:{ nickname: this.userInfo.nickname } })
         },
         // 修改手机号
         editTelephone(){
-            this.$router.push({ name: 'editTelephone' })
+            this.$router.push({ name: 'editTelephone', query:{ telphone: this.userInfo.phone } })
+        },
+        // 修改密码
+        editPassword() {
+            this.$router.push({ name: 'editPassword' })
         },
         // 退出登录
         loginOut(){
