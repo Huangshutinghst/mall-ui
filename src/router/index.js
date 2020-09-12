@@ -45,6 +45,12 @@ export default new Router({
           name: 'categoryListAll',
           component: (resolve) => require(['@/views/category/ListAll'], resolve),
         },
+        // 商品详情
+        {
+          path: 'shoppingCartDetail',
+          name: 'shoppingCartDetail',
+          component: (resolve) => require(['@/views/commodity/Detail'], resolve),
+        },
         // 带footbar的购物车
         {
           path: 'shoppingCart',
@@ -146,6 +152,12 @@ export default new Router({
           path: 'coupon/receive',
           name: 'receive',
           component: (resolve) => require(['@/views/coupon/Receive'], resolve),
+        },
+        //优惠券可用商品
+        {
+          path: 'coupon/List',
+          name: 'couponList',
+          component: (resolve) => require(['@/views/couponlist/Index'], resolve),
         },
       ]
     }

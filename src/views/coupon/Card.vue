@@ -55,7 +55,7 @@ export default {
         // 去使用
         use(){
             if (this.page == 'shop' || this.type !== 1) return;
-            this.$emit('open', this.couponObj);
+            this.$router.push({ name: 'couponList', query: {obj: JSON.stringify(this.couponObj)} })
         },
         // 展开关闭规则说明
         infoOpen(){

@@ -1,31 +1,23 @@
 <!-- 领券中心 -->
 <template>
     <div class="coupon-receive panel__hidden">
-        <div class="wrap bg_fff" v-show="!productListModal">
+        <div class="wrap bg_fff">
             <VHeader title="" leftText="领券中心"></VHeader>
             <div class="panel__scroll panel__content">
                 <ul v-if="couponList.length > 0">
                     <li v-for="(item, index) in couponList" :key="index">
-                        <CouponCard :page="'receive'" :obj="item" @open="openProductList"></CouponCard>
+                        <CouponCard :page="'receive'" :obj="item"></CouponCard>
                     </li>
                 </ul>
                 <VBlank v-else text="没有可领取的优惠券"></VBlank>
             </div>
         </div>
-
-        <!-- 优惠券适用商品列表 -->
-        <ProductList class="product-list" 
-                v-if="productListModal" 
-                :couponObj="couponObj" 
-                @close="(val)=>{this.productListModal = val}"
-        ></ProductList>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 import VHeader from '../../components/VHeader'
 import CouponCard from './Card'
-import ProductList from '../couponlist/Index'
 export default {
     data () {
         return {
@@ -34,14 +26,11 @@ export default {
                 limit: 20
             },
             couponList: [],
-            productListModal: false,
-            couponObj: {},
         }
     },
     components: {
         VHeader,
         CouponCard,
-        ProductList
     },
     mounted(){
         this.getCouponList();
@@ -55,11 +44,6 @@ export default {
                 console.log(e)
             })
         },
-        // 打开优惠券适用商品页
-        openProductList(couponObj){
-            this.couponObj = couponObj;
-            this.productListModal = true;
-        }
     },
 }
 </script>

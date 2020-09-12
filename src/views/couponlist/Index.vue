@@ -1,12 +1,7 @@
 <!-- 优惠券适用商品 -->
 <template>
     <div class="coupon-list-index panel__hidden">
-        <VHeader title="" leftText="">
-            <div slot="left" @click.stop="goBack()">
-                <van-icon class="left-icon" name="arrow-left" />
-                优惠券适用商品
-            </div>
-        </VHeader>
+        <VHeader title="" leftText="优惠券适用商品"></VHeader>
         <div class="panel__content flex flex-v">
             <div class="__top bg_fff">
                 <div>
@@ -38,9 +33,6 @@ import CouponCard from '../coupon/Card'
 import FilterList from '../commodity/FilterList'
 import RulePop from './RulePop'
 export default {
-    props: {
-        couponObj: Object
-    },
     data () {
         return {
             formInline: {
@@ -51,6 +43,7 @@ export default {
             },
             popShow: false,
             resultList: [],
+            couponObj: {},
         }
     },
     components: {
@@ -60,6 +53,7 @@ export default {
         RulePop
     },
     mounted() {
+        this.couponObj = JSON.parse(this.$route.query.obj)
         if(this.couponObj.useType == 1){
             this.handleSearch();
         }else{
@@ -101,9 +95,6 @@ export default {
         showInfo(){
             this.popShow = true;
         },
-        goBack(){
-            this.$emit('close');
-        }
     },
 }
 </script>

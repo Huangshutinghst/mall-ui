@@ -6,7 +6,7 @@
         </div>
         <ul class="__content flex-1 panel__scroll">
             <li v-for="item in couponList" :key="item.couponId" >
-                <Card :page="'receive'" :obj="item" @open="openProductList"></Card>
+                <Card :page="'receive'" :obj="item"></Card>
             </li>
         </ul>
     </van-popup>
@@ -37,11 +37,6 @@ export default {
             this.visible = false;
             this.$emit('visible-change', false);
         },
-        // 打开优惠券适用商品页
-        openProductList(couponObj){
-            this.$emit('openProductList', couponObj);
-            this.$emit('visible-change', false);
-        }
     },
 }
 </script>

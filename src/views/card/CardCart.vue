@@ -6,16 +6,17 @@
                 lazy-load
                 :src="$api.img + cardInfo.pic"
             />
-            <span v-if="cardInfo.discountStr" class="tag red">折扣</span>
+            <span v-if="cardInfo.flashing" class="tag purple">限时购</span>
             <span v-else-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
+            <span v-else-if="cardInfo.discountStr" class="tag red">折扣</span>
 
-            <div v-if="cardInfo.flashing && cardInfo.publishStatus == 0" class="mask_limit">
+            <div v-if="cardInfo.flashing && !cardInfo.hasStock" class="mask_limit">
                 <div>
                     <p>限量</p>
                     <p>已抢光</p>
                 </div>
             </div>
-            <div v-else-if="cardInfo.publishStatus == 0" class="mask">
+            <div v-else-if="!cardInfo.hasStock" class="mask">
                 <p>补货中</p>
             </div>
         </div>
@@ -40,8 +41,6 @@
                 ></Stepper>
             </div>
         </div>
-
-        <Detail v-if="detailShow" :productId="cardInfo.productId" @close="detail"></Detail>
     </div>
 </template>
 
@@ -55,7 +54,6 @@ export default {
     data () {
         return {
             count: this.cardInfo.cartVo?this.cardInfo.cartVo.quantity:0,
-            detailShow: false,
         }
     },
     components: {
@@ -65,7 +63,7 @@ export default {
     methods:{
         // 查看商品详情
         detail(val){
-            this.detailShow = val;
+            this.$router.push({ name: 'shoppingCartDetail', query: {id: this.cardInfo.productId}})
         },
         countChange(val){
             this.count = this.count + val;
@@ -104,6 +102,9 @@ export default {
                 }
                 &.red{
                     background: linear-gradient(to right, #ee0a24 , #ff919d);
+                }
+                &.purple{
+                    background: linear-gradient(to right, #6e4aef, #a68cff)
                 }
             }
             >.mask{

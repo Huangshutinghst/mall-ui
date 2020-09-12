@@ -1,7 +1,7 @@
 <!-- 我的优惠券 -->
 <template>
     <div class="coupon-index panel__hidden">
-        <div class="wrap bg_fff" v-show="!productListModal">
+        <div class="wrap bg_fff">
             <VHeader title="" leftText="我的优惠券"></VHeader>
 
             <van-tabs v-model="formInline.status" class="__tabs" :before-change="beforeChange">
@@ -11,7 +11,7 @@
             <div class="panel__scroll">
                 <ul v-if="couponList.length > 0">
                     <li v-for="(item, index) in couponList" :key="index">
-                        <CouponCard :type="formInline.status" :obj="item" @open="openProductList" ></CouponCard>
+                        <CouponCard :type="formInline.status" :obj="item"></CouponCard>
                     </li>
                     <li class="text" v-show="formInline.status==1">特别提示：每位用户1天最多可使用2张优惠券</li>
                 </ul>
@@ -20,20 +20,12 @@
                 <div class="__bottom bg_fff" @click="receive()">领更多好券<span>></span></div>
             </div>
         </div>
-
-        <!-- 优惠券适用商品列表 -->
-        <ProductList class="product-list" 
-                v-if="productListModal" 
-                :couponObj="couponObj" 
-                @close="(val)=>{this.productListModal = val}"
-        ></ProductList>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 import VHeader from '../../components/VHeader'
 import CouponCard from './Card'
-import ProductList from '../couponlist/Index'
 export default {
     data () {
         return {
@@ -48,14 +40,11 @@ export default {
                 {name: '已过期',type: 3}
             ],
             couponList: [],
-            productListModal: false,
-            couponObj: {},
         }
     },
     components: {
         VHeader,
         CouponCard,
-        ProductList
     },
     mounted(){
         this.getUserCouponList();
@@ -80,11 +69,6 @@ export default {
         receive(){
             this.$router.push({ name: 'receive' })
         },
-        // 打开优惠券适用商品页
-        openProductList(couponObj){
-            this.couponObj = couponObj;
-            this.productListModal = true;
-        }
     },
 }
 </script>

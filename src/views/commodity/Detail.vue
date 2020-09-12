@@ -3,9 +3,6 @@
     <div class="commodity-detail panel__hidden">
         <!-- 1.header -->
         <VHeader title="详情页" leftText="">
-            <div slot="left" @click.stop="goBack()">
-                <van-icon class="left-icon" name="arrow-left" />
-            </div>
             <van-icon slot="right" name="share" @click="handleShare()" />
         </VHeader>
 
@@ -61,7 +58,8 @@
         <!-- 3.foot -->
         <div class="commodity-detail__foot bg_fff">
             <div class="btn" @click="handleLike()">
-                <van-icon name="like-o" />
+                <van-icon v-if="obj.favoriteId" name="like" color="#ee0a24" />
+                <van-icon v-else name="like-o" />
                 <p>收藏</p>
             </div>
             <div class="btn cart" @click="handleCart()">
@@ -77,15 +75,8 @@
         <CouponPop 
                 :modal="couponPopShow" 
                 :couponList="obj.couponVoList"
-                @openProductList="openProductList"
                 @visible-change="(val) => {this.couponPopShow = val}"
         ></CouponPop>
-        <!-- 优惠券适用商品列表 -->
-        <ProductList class="product-list" 
-                v-if="productListModal" 
-                :couponObj="couponObj" 
-                @close="(val)=>{this.productListModal = val}"
-        ></ProductList>
     </div>
 </template>
 
@@ -93,11 +84,7 @@
 import VHeader from '../../components/VHeader'
 import VShare from '../../components/share/VShare'
 import CouponPop from './CouponPop'
-import ProductList from '../couponlist/Index'
 export default {
-    props: {
-        productId: Number
-    },
     data () {
         return {
             obj: {},
@@ -107,14 +94,12 @@ export default {
             imageList: [],
             couponPopShow: false,
             productListModal: false,
-            couponObj: {},
         }
     },
     components: {
         VHeader,
         VShare,
         CouponPop,
-        ProductList
     },
     mounted() {
         this.getCommodityDetail();
@@ -122,10 +107,10 @@ export default {
     methods:{
         // 获取商品详情
         getCommodityDetail() {
-            this.$api.commodity.getCommodityDetail(this.productId).then(res => {
+            this.$api.commodity.getCommodityDetail(this.$route.query.id).then(res => {
                 this.obj = res.data.data;
                 this.images.push(this.$api.img + this.obj.pic);
-                this.imageList.push(this.$api.img + this.obj.pic);
+                this.imageList.push(this.$api.img + this.obj.detail);
             }).catch(e => {
                 console.log(e)
             })
@@ -138,11 +123,30 @@ export default {
         onChangeImage(index){
             this.currentImage = index;
         },
-        // 收藏
-        handleLike(){
-
+        handleLike() {
+            if(this.obj.favoriteId == null){
+                this.favorite();
+            }else{
+                this.unfavorite();
+            }
         },
-        // 购物车
+        // 收藏
+        favorite(){
+            this.$api.mine.favoriteAdd(this.obj.productId).then(res => {
+                this.obj.favoriteId = true;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 取消收藏
+        unfavorite(){
+            this.$api.mine.favoriteCancel(this.obj.productId).then(res => {
+                this.obj.favoriteId = null;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        // 去购物车
         handleCart(){
             this.$router.push({ name: 'shoppingCartList' })
         },
@@ -150,19 +154,10 @@ export default {
         handleAdd(){
 
         },
-
-        goBack() {
-            this.$emit('close', false);
-        },
         // 打开优惠券领取弹窗
         showCouponPopup() {
             this.couponPopShow = true;
         },
-        // 打开优惠券适用商品页
-        openProductList(couponObj){
-            this.couponObj = couponObj;
-            this.productListModal = true;
-        }
     },
 }
 </script>

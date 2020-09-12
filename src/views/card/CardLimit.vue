@@ -6,11 +6,11 @@
                 lazy-load
                 src=""
             />
-            <span v-if="cardInfo.discountStr" class="tag red">折扣</span>
-            <span v-else-if="item.flashing" class="tag purple">限时购</span>
-            <span v-else-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
+            <!-- <span v-if="cardInfo.flashing" class="tag purple">限时购</span> -->
+            <span v-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
+            <span v-else-if="cardInfo.discountStr" class="tag red">折扣</span>
 
-            <div v-show="cardInfo.publishStatus == 0" class="mask">
+            <div v-show="!cardInfo.hasStock" class="mask">
                 <div>
                     <p>限量</p>
                     <p>已抢光</p>
@@ -47,14 +47,11 @@
                 ></Stepper>
             </div>
         </div>
-
-        <Detail v-if="detailShow" :productId="cardInfo.productId" @close="detail"></Detail>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
 import Stepper from '../stepper/StepperLimit'
-import Detail from '../commodity/Detail'
 export default {
     props: {
         cardInfo: Object,
@@ -70,16 +67,14 @@ export default {
     data () {
         return {
             count: this.cardInfo.cartVo?this.cardInfo.cartVo.quantity:0,
-            detailShow: false,
         }
     },
     components: {
         Stepper,
-        Detail
     },
     methods:{
         detail(val){
-            this.detailShow = val;
+            this.$router.push({ name: 'shoppingCartDetail', query: {id: this.cardInfo.productId}})
         },
         countChange(val){
             this.count = this.count + val;

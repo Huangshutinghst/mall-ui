@@ -15,10 +15,6 @@ const shoppingCart = {
     cartAdd (params) {        
         return axios.post(`/api/cart/add`, params);
     },
-    // 更新购物车商品
-    cartUpdate (params) {        
-        return axios.post(`/api/cart/update`, params);
-    },
 
 
 }
