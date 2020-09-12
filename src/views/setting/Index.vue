@@ -84,7 +84,7 @@ export default {
         },
         // 修改昵称
         editNickname(){
-            this.$router.push({ name: 'editNickName' })
+            this.$router.push({ name: 'editNickName', query:{ nickname: this.userInfo.nickname } })
         },
         // 修改手机号
         editTelephone(){

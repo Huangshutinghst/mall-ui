@@ -1,8 +1,8 @@
-let util = {};
+let Util = {};
 
 import { Toast } from 'vant';
 
-util.tip = (msg) => {
+Util.tip = (msg) => {
     Toast({        
         message: msg,        
         duration: 1000,        
@@ -10,8 +10,12 @@ util.tip = (msg) => {
     });
 };
 
-util.maskPhone = (phone = '') => {
+Util.maskPhone = (phone = '') => {
     return phone.substr(0, 3) + phone.slice(3, -4).replace(/\d/g, '*') + phone.substr(-4)
-}
+};
 
-export default util;
+Util.checkNickName = (nickname) => {
+    return new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$').test(nickname)
+};
+
+export default Util;

@@ -11,7 +11,7 @@ const mine = {
         return axios.get(`/api/user/info`)
     },
     // 更新用户信息
-    updateUserInfo () {
+    updateUserInfo (params) {
         return axios.post(`/api/user/update`, params)
     },
 
