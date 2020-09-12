@@ -88,7 +88,7 @@ export default {
         },
         // 修改手机号
         editTelephone(){
-            this.$router.push({ name: 'editTelephone' })
+            this.$router.push({ name: 'editTelephone', query:{ telphone: this.userInfo.phone } })
         },
         // 退出登录
         loginOut(){

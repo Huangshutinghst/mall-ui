@@ -18,4 +18,8 @@ Util.checkNickName = (nickname) => {
     return new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$').test(nickname)
 };
 
+Util.checkTelphone = (telphone) => {
+    return new RegExp('^[1]([3-9])[0-9]{9}$').test(telphone)
+};
+
 export default Util;
