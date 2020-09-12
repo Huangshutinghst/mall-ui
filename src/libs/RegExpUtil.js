@@ -62,4 +62,14 @@ RegExpUtil.checkIdCard = function(idCard) {
     }
 }
 
+// 检查昵称
+RegExpUtil.checkNickName = (nickname) => {
+    return new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$').test(nickname)
+};
+
+// 检查密码
+RegExpUtil.checkPassword = (password) => {
+    return new RegExp('^[A-Za-z0-9_]{6,20}$').test(password)
+};
+
 export default RegExpUtil;

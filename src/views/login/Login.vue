@@ -29,13 +29,22 @@ export default {
     data(){
         return {
             formInline: {
-                username: 'zhangsan',
-                password: 'zhangsan'
+                username: undefined,
+                password: undefined
             }
         }
     },
     methods: {
         loginSubmit(){
+            // todo 测试用，待删除
+            if (this.formInline.username === undefined && this.formInline.password === undefined) {
+                this.formInline = {
+                    username: 'zhangsan',
+                    password: 'zhangsan'
+                }
+            }
+
+            this.formInline.password = this.Md5Util.getEncryption(this.formInline.password)
             this.$api.login.login(this.formInline).then(res => {
                 localStorage.setItem('token', res.headers.authorization);
                 this.$router.replace({ path: '/' });

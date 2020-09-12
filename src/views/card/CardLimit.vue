@@ -4,7 +4,7 @@
         <div class="commodity-card__img">
             <van-image
                 lazy-load
-                src=""
+                :src="$api.img + cardInfo.pic"
             />
             <!-- <span v-if="cardInfo.flashing" class="tag purple">限时购</span> -->
             <span v-if="cardInfo.newStatus == 1" class="tag blue">新品</span>
@@ -24,7 +24,7 @@
                 <p class="text single-row">{{ cardInfo.desc }}</p>
                 <p class="tag">
                     <span class="stock">剩余{{ cardInfo.remainStockPercent }}%</span>
-                    <span v-show="cardInfo.discountStr" class="red">{{ cardInfo.discountStr }}折</span>
+                    <span v-show="open && cardInfo.discountStr" class="red">{{ cardInfo.discountStr }}折</span>
                     <!-- <span class="green">领40元券</span> -->
                     <!-- <span class="yellow">网红推荐</span> -->
                     <!-- <span class="bule">-18°冷藏</span> -->

@@ -20,7 +20,7 @@
                         placeholder="请输入新密码"
                 />
             </van-cell-group>
-            <div class="btn-submit bg_fff" @click="test()">
+            <div class="btn-submit bg_fff" @click="submit()">
                 确认保存
             </div>
         </div>
@@ -40,18 +40,17 @@ export default {
         VHeader
     },
     methods:{
-        test() {
-            console.log(this.Md5Util.getEncryption(this.oldPassword))
-        },
         submit(){
             const _this = this
-            if (_this.Util.checkPassword(_this.newPassword)) {
+            if (_this.RegExpUtil.checkPassword(_this.newPassword)) {
                 const password = {
-                    oldPassword: this.oldPasssword,
-                    newPassword: this.newPassword
+                    oldPassword: this.Md5Util.getEncryption(this.oldPassword),
+                    newPassword: this.Md5Util.getEncryption(this.newPassword)
                 }
-                this.$api.mine.changePassword(userInfo).then(res => {
-                    this.$router.back(-1);
+                this.$api.mine.changePassword(password).then(() => {
+                    localStorage.removeItem('token');
+                    _this.$router.replace({ path: '/login', query: { redirect: _this.$router.currentRoute.fullPath }
+                    });
                 }).catch(e => {
                     console.log(e)
                 })
@@ -59,9 +58,6 @@ export default {
                 this.Util.tip('密码只能包含大于六位的字母、数字和下划线');
             }
         }
-    },
-    mounted() {
-        this.telphone = this.$route.query.telphone
     }
 }
 </script>

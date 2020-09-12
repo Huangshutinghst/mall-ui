@@ -33,11 +33,11 @@ export default {
     methods:{
         submit(){
             const _this = this
-            if (_this.Util.checkTelphone(_this.telphone)) {
+            if (_this.RegExpUtil.checkMobile(_this.telphone)) {
                 const userInfo = {
                     phone: this.telphone
                 }
-                this.$api.mine.updateUserInfo(userInfo).then(res => {
+                this.$api.mine.updateUserInfo(userInfo).then(() => {
                     this.$router.back(-1);
                 }).catch(e => {
                     console.log(e)

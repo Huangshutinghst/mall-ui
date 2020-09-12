@@ -4,14 +4,14 @@
         <!-- 卡片 -->
         <div class="__card flex" @click="use()">
             <div class="left">
-                <h5><font>￥</font>{{ couponObj.discount }}</h5>
-                <p>满{{ couponObj.minPrice }}元可用</p>
+                <h5><font>￥</font>{{ couponObj.discountStr }}</h5>
+                <p>满{{ couponObj.minPriceStr }}元可用</p>
             </div>
             <div class="right flex-1">
                 <h5 class="double-row">{{ couponObj.name }}</h5>
                 <p v-if="couponObj.timeType !== null && couponObj.timeType == 1 && couponObj.days==0" class="today">今天有效</p>
                 <p v-else-if="couponObj.timeType !== null && couponObj.timeType == 1">领取后{{ couponObj.days==0?'当':couponObj.days }}天内有效</p>
-                <p v-else>{{ couponObj.startTime }}至{{ couponObj.endTime }}有效</p>
+                <p v-else>{{ couponObj.startTime | getDate }} - {{ couponObj.endTime | getDate }}有效</p>
                 <!-- 按钮 -->
                 <div v-show="!couponObj.received && type==1" class="btn receive" @click.stop="handleReceive(couponObj.couponId)">领取</div>
                 <div v-show="couponObj.received && type==1 && page!=='shop'" class="btn">去使用</div>
@@ -49,6 +49,14 @@ export default {
         return {
             couponObj: this.obj,
             infoShow: false
+        }
+    },
+    filters: {
+        getDate (datetime) {
+            if (!datetime) return ''
+            const month = datetime.substring(5,7)
+            const day = datetime.substring(8,10)
+            return month + "月" + day + "日"
         }
     },
     watch: {
