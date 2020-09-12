@@ -1,6 +1,6 @@
 <!-- 商品卡片 -->
 <template>
-    <div class="commodity-card flex" :class="{no_padding: !padding}" @click="detail(true)">
+    <div class="commodity-card flex" :class="{no_padding: !padding}" @click="detail()">
         <div class="commodity-card__img">
             <van-image
                 lazy-load
@@ -63,7 +63,7 @@ export default {
         Detail
     },
     methods:{
-        detail(val){
+        detail(){
             this.$router.push({ name: 'shoppingCartDetail', query: {id: this.cardInfo.productId}})
         },
         countChange(val){

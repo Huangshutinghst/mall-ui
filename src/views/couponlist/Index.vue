@@ -60,12 +60,7 @@ export default {
         getCouponObj(){
             this.$api.coupon.getCouponObj(this.$route.query.id).then(res => {
                 this.couponObj = res.data.data;
-                this.$forceUpdate();
-                if(this.couponObj.useType == 1){
-                    this.handleSearch();
-                }else{
-                    this.getByCouponId();   
-                }
+                this.getByCouponId();
             }).catch(e => {
                 console.log(e)
             })
@@ -73,14 +68,6 @@ export default {
         // 获取优惠券可用商品
         getByCouponId(){
             this.$api.coupon.getByCouponId(this.couponObj.couponId, this.formInline).then(res => {
-                this.resultList = res.data.data.list;
-            }).catch(e => {
-                console.log(e)
-            })
-        },
-        // 获取全部商品
-        handleSearch(){
-            this.$api.search.search(this.formInline).then(res => {
                 this.resultList = res.data.data.list;
             }).catch(e => {
                 console.log(e)

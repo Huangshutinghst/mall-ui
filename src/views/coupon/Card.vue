@@ -9,9 +9,9 @@
             </div>
             <div class="right flex-1">
                 <h5 class="double-row">{{ couponObj.name }}</h5>
-                <p v-if="couponObj.timeType !== null && couponObj.timeType == 1">领取后{{ couponObj.days==0?'当':couponObj.days }}天内有效</p>
+                <p v-if="couponObj.timeType !== null && couponObj.timeType == 1 && couponObj.days==0" class="today">今天有效</p>
+                <p v-else-if="couponObj.timeType !== null && couponObj.timeType == 1">领取后{{ couponObj.days==0?'当':couponObj.days }}天内有效</p>
                 <p v-else>{{ couponObj.startTime }}至{{ couponObj.endTime }}有效</p>
-                <!-- <p class="today">今天到期</p> -->
                 <!-- 按钮 -->
                 <div v-show="!couponObj.received && type==1" class="btn receive" @click.stop="handleReceive(couponObj.couponId)">领取</div>
                 <div v-show="couponObj.received && type==1 && page!=='shop'" class="btn">去使用</div>

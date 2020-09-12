@@ -1,6 +1,7 @@
 <!-- 购物车-商品卡片 -->
 <template>
-    <div class="commodity-card flex" @click="detail(true)">
+    <!-- <div class="commodity-card flex" @touchstart="gtouchstart($event)" @touchmove="gtouchmove()" @touchend="gtouchend()"> -->
+    <div class="commodity-card flex" @click="detail()">
         <div class="commodity-card__img">
             <van-image
                 lazy-load
@@ -37,6 +38,7 @@
                     :count="count"
                     :productId="cardInfo.productId"
                     :cartId="cardInfo.cartVo.cartId"
+                    :index="index"
                     @count-change="countChange"
                 ></Stepper>
             </div>
@@ -49,11 +51,14 @@ import Stepper from '../stepper/StepperCart'
 import Detail from '../commodity/Detail'
 export default {
     props: {
-        cardInfo: Object
+        cardInfo: Object,
+        index: Number
     },
     data () {
         return {
             count: this.cardInfo.cartVo?this.cardInfo.cartVo.quantity:0,
+            // 定时器
+            timeOutEvent: 0,
         }
     },
     components: {
@@ -62,12 +67,37 @@ export default {
     },
     methods:{
         // 查看商品详情
-        detail(val){
+        detail(){
             this.$router.push({ name: 'shoppingCartDetail', query: {id: this.cardInfo.productId}})
         },
         countChange(val){
             this.count = this.count + val;
-        }
+        },
+
+        //开始按   
+        gtouchstart(e){   
+            this.timeOutEvent = setTimeout(this.longPress(), 3000);//这里设置定时器，定义长按500毫秒触发长按事件，时间可以自己改，个人感觉500毫秒非常合适   
+            e.preventDefault();
+        },
+        //手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件   
+        gtouchend(){   
+            clearTimeout(this.timeOutEvent);//清除定时器   
+            if(this.timeOutEvent != 0){   
+                this.detail();
+            }   
+            return false;   
+        },
+        //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按   
+        gtouchmove(){   
+            clearTimeout(this.timeOutEvent);//清除定时器   
+            this.timeOutEvent = 0;   
+        },
+        //真正长按后应该执行的内容   
+        longPress(){   
+            this.timeOutEvent = 0;   
+            //执行长按要执行的内容，如弹出菜单   
+            alert("长按事件触发发");   
+        },
     },
 }
 </script>

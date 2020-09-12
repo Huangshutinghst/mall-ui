@@ -14,6 +14,7 @@ export default {
         productId: Number,
         limit: Number,
         count: Number,
+        index: Number
     },
     data () {
         return {
@@ -27,8 +28,22 @@ export default {
     },
     methods:{
         reduce(){
-            if(this.num <= 1) return;
-            this.changeCartCount(this.num - 1, 0);
+            if(this.num <= 1) {
+                this.$dialog.confirm({
+                    title: '',
+                    message: '是否从购物车中删除？',
+                    confirmButtonText: '确定'
+                })
+                .then(() => {
+                    // on confirm
+                    this.$parent.$parent.deleteItem(this.cartId, this.productId, this.index);
+                })
+                .catch(() => {
+                    // on cancel
+                });
+            }else{
+                this.changeCartCount(this.num - 1, 0);   
+            }
         },
         add(){
             if(this.num >= this.limit) return;

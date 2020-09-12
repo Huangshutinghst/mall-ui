@@ -13,10 +13,10 @@
                 <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="index">
                     <van-checkbox class="__checkbox fl" v-model="item.checked"></van-checkbox>
                     <div class="__card">
-                        <Card :cardInfo="item"></Card>
+                        <Card :cardInfo="item" :index="index"></Card>
                     </div>
                     <!-- 删除按钮 -->
-                    <van-icon class="btn-delete" name="cross" @click="deleteItem(item)" />
+                    <van-icon class="btn-delete" name="cross" @click="deleteItem(item.cartId, item.productId, index)" />
                 </li>
             </ul>
 
@@ -76,18 +76,29 @@ export default {
         },
         // 清空
         handleClearAll(){
-            
+            this.$api.shoppingCart.cartClear().then(res => {
+                this.goodlist = [];
+            }).catch(e => {
+                console.log(e)
+            })
         },
         // 删除商品
-        deleteItem(item){
-
+        deleteItem(cartId, productId, index){
+            this.$api.shoppingCart.cartAdd({
+                cartId: cartId,
+                productId: productId,
+                quantity: 0
+            }).then(res => {
+                this.goodlist.splice(index, 1);
+            }).catch(e => {
+                console.log(e)
+            })
         },
         // 去结算
         handleSubmit(){
             var thiz = this;
-            
             thiz.$router.push({ name: 'settle' });
-        }
+        },
     },
 }
 </script>

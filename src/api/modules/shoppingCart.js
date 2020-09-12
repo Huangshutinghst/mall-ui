@@ -15,7 +15,10 @@ const shoppingCart = {
     cartAdd (params) {        
         return axios.post(`/api/cart/add`, params);
     },
-
+    // 清空购物车
+    cartClear () {        
+        return axios.get(`/api/cart/clear`);
+    },
 
 }
 
