@@ -14,7 +14,8 @@ export default {
         productId: Number,
         limit: Number,
         count: Number,
-        index: Number
+        index: Number,
+        hasStock: Boolean
     },
     data () {
         return {
@@ -28,6 +29,7 @@ export default {
     },
     methods:{
         reduce(){
+            if(!this.hasStock) return;
             if(this.num <= 1) {
                 this.$dialog.confirm({
                     title: '',
@@ -46,6 +48,7 @@ export default {
             }
         },
         add(){
+            if(!this.hasStock) return;
             if(this.num >= this.limit) return;
             this.changeCartCount(this.num + 1, 1);
         },

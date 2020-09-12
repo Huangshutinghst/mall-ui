@@ -2,13 +2,13 @@
     <div class="shopping-index-componnet panel__hidden">
             <!-- 头部 -->
             <VHeader title="购物车" leftText="" :leftArrow="leftArrow">
-                <div slot="right" @click="handleClearAll()">
+                <div v-if="goodlist.length > 0" slot="right" @click="handleClearAll()">
                     清空
                 </div>
             </VHeader>
 
             <!-- 列表 -->
-            <ul class="shopping-index__list panel__content--fistlevel panel__scroll">
+            <ul v-if="goodlist.length > 0" class="shopping-index__list panel__content--fistlevel panel__scroll">
                 <!-- 商品卡片 -->
                 <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="index">
                     <van-checkbox class="__checkbox fl" v-model="item.checked" @change="val => checkChange(val, item)"></van-checkbox>
@@ -21,7 +21,7 @@
             </ul>
 
             <!-- 提交订单栏 -->
-            <div class="shopping-index__submit-bar flex bg_fff">
+            <div v-if="goodlist.length > 0" class="shopping-index__submit-bar flex bg_fff">
                 <div class="flex flex-1 flex-pack-justify">
                     <div class="check">
                         <van-checkbox class="__checkbox fl" v-model="checkedAll" @change="checkAllChange"></van-checkbox>
@@ -35,6 +35,8 @@
                     去结算
                 </div>
             </div>
+
+            <VBlank v-if="goodlist.length == 0" text="您还没有添加商品哦~"></VBlank>
     </div>
 </template>
 
@@ -154,12 +156,23 @@ export default {
         },
         // 清空
         handleClearAll(){
-            this.$api.shoppingCart.cartClear().then(res => {
-                this.goodlist = [];
-                this.$store.commit('GET_SHOP_CARD_COUND');
-            }).catch(e => {
-                console.log(e)
+            this.$dialog.confirm({
+                title: '',
+                message: '您确定要清空购物车吗？',
+                confirmButtonText: '确定'
             })
+            .then(() => {
+                // on confirm
+                this.$api.shoppingCart.cartClear().then(res => {
+                    this.goodlist = [];
+                    this.$store.commit('GET_SHOP_CARD_COUND');
+                }).catch(e => {
+                    console.log(e)
+                })
+            })
+            .catch(() => {
+                // on cancel
+            });
         },
         // 删除商品
         deleteItem(cartId, productId, index){

@@ -29,7 +29,7 @@
                 <s v-show="cardInfo.discountStr !== undefined && cardInfo.discountStr !== null">￥{{ cardInfo.originalPrice }}</s>
             </p>
             <!-- 计步器 -->
-            <div class="btn-wrap">
+            <div v-show="cardInfo.hasStock" class="btn-wrap">
                 <Stepper 
                     ref="stepper"
                     :limit="cardInfo.limit"
