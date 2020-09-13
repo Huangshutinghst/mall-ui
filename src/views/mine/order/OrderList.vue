@@ -1,51 +1,66 @@
 <!-- 订单列表组件 -->
 <template>
-    <ul v-if="orderList.length > 0" class="order-list">
-        <!-- 订单列表 -->
-        <li class="order-list__item bg_fff" v-for="(item,index) in orderList" :key="index" @click="toOrderDetail(item)">
-            <h5>
-                <template v-if="item.status == -1">订单已关闭</template>
-                <template v-if="item.status == 0">订单待支付</template>
-                <template v-if="item.status == 1">订单已支付</template>
-                <template v-if="item.status == 2">订单待收货</template>
-                <template v-if="item.status == 3">订单待评价</template>
-                <template v-if="item.status == 4">订单已完成</template>
-                <span>{{ item.orderTime }}</span>
-                <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
-            </h5>
-            <div class="__content">
-                <!-- 商品列表 -->
-                <div v-for="(val,i) in item.orderItemVoList" :key="i" class="__info flex flex-pack-justify">
-                    <template v-if="i == 0 || i == 1">
-                        <van-image
-                            class="__img"
-                            fit="contain"
-                            :src="$api.img + val.pic"
-                        />
-                        <p>
-                            <span>{{ val.productName }}</span>
-                            <span class="fr">x{{ val.quantity }}</span>
-                        </p>
-                    </template>
+    <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+    >
+        <ul v-if="orderList.length > 0" class="order-list">
+            <!-- 订单列表 -->
+            <li class="order-list__item bg_fff" v-for="(item,index) in orderList" :key="index" @click="toOrderDetail(item)">
+                <h5>
+                    <template v-if="item.status == -1">订单已关闭</template>
+                    <template v-if="item.status == 0">订单待支付</template>
+                    <template v-if="item.status == 1">订单已支付</template>
+                    <template v-if="item.status == 2">订单待收货</template>
+                    <template v-if="item.status == 3">订单待评价</template>
+                    <template v-if="item.status == 4">订单已完成</template>
+                    <span>{{ item.orderTime }}</span>
+                    <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
+                </h5>
+                <div class="__content">
+                    <!-- 商品列表 -->
+                    <div v-for="(val,i) in item.orderItemVoList" :key="i" class="__info flex flex-pack-justify">
+                        <template v-if="i == 0 || i == 1">
+                            <van-image
+                                    class="__img"
+                                    fit="contain"
+                                    :src="$api.img + val.pic"
+                            />
+                            <p>
+                                <span>{{ val.productName }}</span>
+                                <span class="fr">x{{ val.quantity }}</span>
+                            </p>
+                        </template>
+                    </div>
+                    <div v-if="item.orderItemVoList.length > 2" class="over-text">. . .</div>
+
+                    <div class="__price">
+                        共{{ item.productAmount }}件,实付：<span>￥{{ item.totalPrice }}</span>
+                    </div>
+                    <div class="__btn-box">
+                        <div class="btn fr" v-if="item.status == 0" @click.stop="toPay(item)">去支付</div>
+                        <div class="btn fr" v-if="item.status == 3" @click.stop="toComment(item)">去评价</div>
+                    </div>
                 </div>
-                <div v-if="item.orderItemVoList.length > 2" class="over-text">. . .</div>
-                
-                <div class="__price">
-                    共{{ item.productAmount }}件,实付：<span>￥{{ item.totalPrice }}</span>
-                </div>
-                <div class="__btn-box">
-                    <div class="btn fr" v-if="item.status == 0" @click.stop="toPay(item)">去支付</div>
-                    <div class="btn fr" v-if="item.status == 3" @click.stop="toComment(item)">去评价</div>
-                </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </van-list>
 </template>
 
 <script type="text/ecmascript-6">
 export default {
     props: {
-        orderList: Array
+        orderList: Array,
+        loading: {
+            type: Boolean,
+            default: false
+        },
+        finished: {
+            type: Boolean,
+            default: false
+        }
     },
     data () {
         return {
@@ -67,6 +82,9 @@ export default {
         toComment(item){
             this.$router.push({ name: 'comment', query:{id: item.orderId} });
         },
+        onLoad () {
+            this.$emit('on-load')
+        }
     },
 }
 </script>

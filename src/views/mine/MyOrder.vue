@@ -11,7 +11,13 @@
         
         <div class="panel__scroll panel__content">
             <!-- 订单列表 -->
-            <OrderListPanel v-if="orderList.length > 0" :orderList="orderList"></OrderListPanel>
+            <OrderListPanel
+                    v-if="orderList.length > 0"
+                    :orderList="orderList"
+                    :loading="loading"
+                    :finished="finished"
+                    @on-load="onLoadOrderList"
+            ></OrderListPanel>
             <VBlank v-else text="您没有该类型的订单"></VBlank>
         </div>
     </div>
@@ -27,7 +33,7 @@ export default {
             formInline: {
                 status: '',
                 offset: 0,
-                limit: 20
+                limit: 10
             },
             tabActive: '',
             tabList: [
@@ -36,7 +42,9 @@ export default {
                 {name: '待收货',type: 2},
                 {name: '待评价',type: 3}
             ],
-            orderList: []
+            orderList: [],
+            loading: false,
+            finished: false
         }
     },
     components: {
@@ -50,7 +58,8 @@ export default {
         loadTabActive(){
             let type = this.$route.query.type;
             this.tabActive = type;
-            this.getOrderList(type);
+            this.clearPage()
+            this.onLoadOrderList()
         },
         beforeChange(type){
             this.tabActive = type;
@@ -61,19 +70,37 @@ export default {
                     type: type
                 }
             })
-            this.getOrderList(type);
+            this.clearPage()
+            this.onLoadOrderList()
+        },
+        search(){
+            this.$router.push({ name: 'orderSearch'})
         },
         // 分页获取订单
-        getOrderList(type){
-            this.formInline.status = type;
-            this.$api.order.getOrderList(this.formInline).then(res => {
-                this.orderList = res.data.data.list;
+        onLoadOrderList () {
+            const _this = this
+            _this.loading = true;
+            this.formInline.status = this.tabActive;
+            _this.$api.order.getOrderList(_this.formInline).then(res => {
+                _this.loading = false;
+                if (res.data.data.list.length === 0) {
+                    _this.finished = true;
+                } else {
+                    _this.formInline.offset = _this.formInline.offset + _this.formInline.limit
+                    res.data.data.list.forEach(item => {
+                        _this.orderList.push(item)
+                    })
+                }
             }).catch(e => {
                 console.log(e)
             })
         },
-        search(){
-            this.$router.push({ name: 'orderSearch'})
+        // 清空分页相关参数
+        clearPage() {
+            this.finished = false
+            this.orderList = []
+            this.formInline.offset = 0
+            this.formInline.limit = 10
         }
     },
 }

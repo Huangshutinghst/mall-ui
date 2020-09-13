@@ -5,7 +5,7 @@
         <div class="order-search__top bg_fff flex">
             <i class="van-icon van-icon-arrow-left van-nav-bar__arrow" @click="goBack()"></i>
             <van-search class="flex-1" v-model="formInline.productName" clearable placeholder="请输入商品名称" />
-            <div class="btn" @click="handleSearch()">搜索</div>
+            <div class="btn" @click="filterName()">搜索</div>
         </div>
 
         <!-- 内容 -->
@@ -18,12 +18,18 @@
                         <van-icon name="delete" @click="historyDelete()" />
                     </h5>                
                     <ul>
-                        <li v-for="(item,index) in historyList" :key="index" @click="handleSearch(item)">{{ item }}</li>
+                        <li v-for="(item,index) in historyList" :key="index" @click="filterName(item)">{{ item }}</li>
                     </ul>
                 </template>
             </div>
             <!-- 2.搜索内容 -->
-            <OrderListPanel v-if="searchFlag && orderList.length>0" :orderList="orderList"></OrderListPanel>
+            <OrderListPanel
+                    v-if="searchFlag && orderList.length>0"
+                    :orderList="orderList"
+                    :loading="loading"
+                    :finished="finished"
+                    @on-load="onLoadSearch"
+            ></OrderListPanel>
             <!-- 3.暂无内容 -->
             <VBlank v-if="searchFlag && orderList.length == 0" text="没有相关的订单哦"></VBlank>
         </div>
@@ -44,6 +50,8 @@ export default {
             historyList: [],
             orderList: [],
             searchFlag: false,
+            loading: false,
+            finished: false
         }
     },
     components: {
@@ -63,7 +71,25 @@ export default {
     },
     methods:{
         // 搜索订单
-        handleSearch(text){
+        onLoadSearch () {
+            const _this = this
+            _this.loading = true;
+            _this.$api.order.search(_this.formInline).then(res => {
+                _this.loading = false;
+                if (res.data.data.list.length === 0) {
+                    _this.finished = true;
+                } else {
+                    _this.formInline.offset = _this.formInline.offset + _this.formInline.limit
+                    res.data.data.list.forEach(item => {
+                        _this.orderList.push(item)
+                    })
+                }
+                this.searchFlag = true;
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        filterName(text) {
             if(text){
                 this.formInline.productName = text;
             }
@@ -72,12 +98,8 @@ export default {
                 this.formInline.productName = '';
                 return
             };
-            this.$api.order.search(this.formInline).then(res => {
-                this.orderList = res.data.data.list;
-                this.searchFlag = true;
-            }).catch(e => {
-                console.log(e)
-            })
+            this.clearPage()
+            this.onLoadSearch();
         },
         // 获取历史搜索词
         getHistoryList(){
@@ -98,6 +120,13 @@ export default {
         goBack(){
             this.$router.back(-1);
         },
+        // 清空分页相关参数
+        clearPage() {
+            this.finished = false
+            this.orderList = []
+            this.formInline.offset = 0
+            this.formInline.limit = 10
+        }
     },
 }
 </script>
