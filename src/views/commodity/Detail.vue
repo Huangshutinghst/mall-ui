@@ -184,11 +184,11 @@ export default {
         .commodity-detail__content{
             height: calc(100% - 80px);
             >.van-swipe{
-                height: 250px;
+                max-height: 250px;
                 .custom-indicator {
                     position: absolute;
                     right: 0;
-                    bottom: 6px;
+                    bottom: 16px;
                     padding: 2px 8px 0 10px;
                     font-size: 12px;
                     border-radius: 10px 0 0 10px;

@@ -13,12 +13,13 @@
                 <p v-else-if="couponObj.timeType !== null && couponObj.timeType == 1">领取后{{ couponObj.days==0?'当':couponObj.days }}天内有效</p>
                 <p v-else>{{ couponObj.startTime | getDate }} - {{ couponObj.endTime | getDate }}有效</p>
                 <!-- 按钮 -->
-                <div v-show="!couponObj.received && type==1" class="btn receive" @click.stop="handleReceive(couponObj.couponId)">领取</div>
-                <div v-show="couponObj.received && type==1 && page!=='shop'" class="btn">去使用</div>
-                <van-icon v-show="page==''" class="arrow" :class="infoShow?'arrow-up':''" name="arrow-down" @click.stop="infoOpen()" />
+                <div v-show="page!=='choose' && !couponObj.received && type==1" class="btn receive" @click.stop="handleReceive(couponObj.couponId)">领取</div>
+                <div v-show="page!=='choose' && couponObj.received && type==1 && page!=='shop'" class="btn">去使用</div>
+                <div v-show="page=='choose' && type!==5" class="btn receive">选择</div>
+                <van-icon v-show="page!=='choose' && page==''" class="arrow" :class="infoShow?'arrow-up':''" name="arrow-down" @click.stop="infoOpen()" />
                 <!-- 标识 -->
-                <div v-show="type!==1" class="mark">{{type=='ysy'?'已使用':'已过期'}}</div>
-                <div v-show="couponObj.received && (page=='receive' || page=='shop')" class="mark_receive">已领取</div>
+                <div v-show="page!=='choose' && type!==1" class="mark">{{type==2?'已使用':'已过期'}}</div>
+                <div v-show="page!=='choose' && couponObj.received && (page=='receive' || page=='shop')" class="mark_receive">已领取</div>
             </div>
         </div>
 
@@ -34,12 +35,12 @@
 export default {
     props: {
         obj: Object,
-        // 卡片使用场景：已领取、未领取、适用商品页
+        // 卡片使用场景：已领取、未领取、适用商品页、选择优惠券
         page: {
             type: String,
             default: ''
         },
-        // 卡片类型：未使用、已使用、已过期
+        // 卡片类型：未使用、已使用、已过期、（适用、5不适用）
         type: {
             type: Number,
             default: 1
@@ -70,6 +71,13 @@ export default {
     methods:{
         // 去使用
         use(){
+            if (this.page == 'choose'){
+                if(this.type == 5){
+                    return
+                }else{
+                    this.$emit('choose', this.couponObj)
+                }
+            }
             if (this.page == 'shop' || this.type !== 1) return;
             this.$router.push({ name: 'couponList', query: {id: this.couponObj.couponId} })
         },

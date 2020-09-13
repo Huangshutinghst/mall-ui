@@ -35,13 +35,13 @@ export default {
 
 <style lang="scss">
     .home-swipe {
-        height: 180px;
+        height: 160px;
         overflow: hidden;
         .van-swipe__indicator{
             background: rgba(0, 0, 0, 0.5);
         }
         .van-swipe-item {
-            height: 180px;
+            height: 160px;
             overflow: hidden;
             background-color: #eee;
         }

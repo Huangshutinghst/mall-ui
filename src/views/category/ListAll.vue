@@ -80,10 +80,12 @@ export default {
         },
         // 点击一级类目
         handleFirstTab(name, title){
+            console.log(name, title)
             this.firstActive = name;
             this.secondTabs = this.firstTabs.filter(el =>{
                 return el.classifyId == this.firstActive;
             })[0].children;
+            this.handleSecondTab(0);
         },
         // 点击二级类目
         handleSecondTab(index){

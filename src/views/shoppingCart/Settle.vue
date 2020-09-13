@@ -113,6 +113,13 @@
                 :modal="timeModal"
                 @visible-change="(val) => timeModal = val"
         ></TimeChoosePop>
+
+        <!-- 选择优惠券组件 -->
+        <CouponPop
+                :modal="couponPopShow" 
+                :couponList="orderWithCoupon"
+                @visible-change="(val) => {this.couponPopShow = val}"
+        ></CouponPop>
     </div>
 </template>
 
@@ -121,6 +128,7 @@ import VHeader from '../../components/VHeader'
 import VPrice from '../../components/price/VPrice'
 import VShoplist from '../../components/shoplist/VShoplist'
 import TimeChoosePop from './settle/TimeChoosePop'
+import CouponPop from './settle/CouponPop'
 export default {
     data () {
         return {
@@ -147,7 +155,8 @@ export default {
                 can: [],
                 cannot: []
             },
-            cartIdList: []
+            cartIdList: [],
+            couponPopShow: false,
         }
     },
     components: {
@@ -155,6 +164,7 @@ export default {
         VPrice,
         VShoplist,
         TimeChoosePop,
+        CouponPop
     },
     methods:{
         // 地址选择
@@ -167,7 +177,7 @@ export default {
         },
         // 优惠券选择
         couponChoose() {
-            // todo 优惠券选择
+            this.couponPopShow = true;
         },
         // 快捷备注
         handleRemark(text){

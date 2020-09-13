@@ -72,7 +72,7 @@ export default {
     .module-active{
         >.panel__content{
             >.__top{
-                height: 180px;
+                height: 160px;
                 width: 100%;
                 overflow: hidden;
                 position: relative;
