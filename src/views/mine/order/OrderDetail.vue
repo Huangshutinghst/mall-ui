@@ -8,7 +8,16 @@
             <div class="order-detail__top __item bg_fff">
                 <h5>
                     <template v-if="obj.status == -1">已关闭</template>
-                    <template v-if="obj.status == 0">待支付</template>
+                    <template v-if="obj.status == 0">
+                        等待支付 
+                        &nbsp;
+                        剩余<van-count-down :time="time" format="mm : ss" />
+                        <p>逾期未支付订单将自动取消</p>
+                        <div class="btn-box">
+                            <div class="btn1">取消订单</div>
+                            <div class="btn2" @click="toPay();">去支付</div>
+                        </div>
+                    </template>
                     <template v-if="obj.status == 1">已支付</template>
                     <template v-if="obj.status == 2">待收货</template>
                     <template v-if="obj.status == 3">待评价</template>
@@ -89,7 +98,8 @@ import VShoplist from '../../../components/shoplist/VShoplist'
 export default {
     data () {
         return {
-            obj: {}
+            obj: {},
+            time: 1000000
         }
     },
     components: {
@@ -107,6 +117,9 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
+        },
+        toPay(){
+            this.$router.push({ name: 'pay', query:{id: this.obj.orderId} });
         },
     },
 }
@@ -126,6 +139,45 @@ export default {
             >h5{
                 font-size: 16px;
                 font-weight: bold;
+                /deep/ .van-count-down{
+                    color: #ff6f00;
+                    font-size: 16px;
+                    display: inline;
+                    font-weight: bold;
+                }
+                >p{
+                    font-size: 12px;
+                    margin-top: 8px;
+                }
+                >.btn-box{
+                    overflow: hidden;
+                    text-align: center;
+                    >.btn1{
+                        display: inline-block;
+                        vertical-align: middle;
+                        height: 24px;
+                        line-height: 22px;
+                        width: 74px;
+                        text-align: center;
+                        border: 1px solid #eee;
+                        margin: 10px 0 0;
+                        font-size: 12px;
+                        margin-right: 15px;
+                    }
+                    >.btn2{
+                        display: inline-block;
+                        vertical-align: middle;
+                        height: 24px;
+                        line-height: 22px;
+                        width: 74px;
+                        text-align: center;
+                        color: #fff;
+                        border: 1px solid #ff6f00;
+                        background: #ff6f00;
+                        margin: 10px 0 0;
+                        font-size: 12px;
+                    }
+                }
             }
         }
 

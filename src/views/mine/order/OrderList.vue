@@ -124,6 +124,7 @@ export default {
                         color: #ff6f00;
                         border: 1px solid #ff6f00;
                         margin: 10px 0;
+                        font-size: 12px;
                     }
                 }
             }
