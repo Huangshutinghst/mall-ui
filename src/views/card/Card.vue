@@ -19,9 +19,10 @@
                 <p class="text single-row">{{ cardInfo.desc }}</p>
                 <p class="tag">
                     <span v-show="cardInfo.discountStr" class="red">{{ cardInfo.discountStr }}折</span>
-                    <!-- <span class="green">领40元券</span>
-                    <span class="yellow">网红推荐</span> -->
-                    <!-- <span class="bule">-18°冷藏</span> -->
+                    <span v-show="cardInfo.label && cardInfo.labelColor=='green'" class="green">{{ cardInfo.label }}</span>
+                    <span v-show="cardInfo.label && cardInfo.labelColor=='pink'" class="yellow">{{ cardInfo.label }}</span>
+                    <span v-show="cardInfo.label && cardInfo.labelColor=='blue'" class="bule">{{ cardInfo.label }}</span>
+                    <span v-show="cardInfo.label && cardInfo.labelColor=='gray'" class="purple">{{ cardInfo.label }}</span>
                 </p>
             </div>
             <p class="price">
@@ -171,6 +172,10 @@ export default {
                     &.bule{
                         color: #3698fb;
                         background: rgba(54, 152, 251, 0.1);
+                    }
+                    &.purple{
+                        color: #5030c0;
+                        background: rgba(80, 48, 192, 0.1);
                     }
                 }
             }
