@@ -33,6 +33,14 @@ const order = {
     comment (params) {
         return axios.post(`/api/order/comment`, params);
     },
+    // 支付订单
+    payOrder (params) {
+        return axios.get(`/api/order/pay/${params.orderId}`, { params: params });
+    },
+    // 取消订单
+    closeOrder (orderId) {
+        return axios.get(`/api/order/close/${orderId}`);
+    },
 }
 
 export default order;

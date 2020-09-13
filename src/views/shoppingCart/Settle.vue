@@ -125,7 +125,7 @@ export default {
     data () {
         return {
             myAddress: {},
-            remark: '',
+            remark: undefined,
             payRadio: '1',
             timeModal: false,
             remarkList: [
@@ -186,6 +186,11 @@ export default {
                 cartIdList: [..._this.cartIdList]
             }
             _this.$api.shoppingCart.generateOrder(order).then((res) => {
+                // 清空购物车vuex数据
+                this.$store.commit('CHANGE_CHECKED', [])
+                this.$store.commit('CHANGE_CHECKED_ALL', false);
+                this.$store.commit('GET_SHOP_CARD_COUND');
+
                 const div = document.createElement('div')
                 div.innerHTML = res.data
                 document.body.appendChild(div)
@@ -201,47 +206,50 @@ export default {
         let productTotal = 0;
         _this.cartIdList = []
         const shopCheckedList = [..._this.$store.state.shopCheckedList]
-        shopCheckedList.forEach(item => {
-            productTotal += item.cartVo.quantity
-            item.quantity = item.cartVo.quantity
-            item.price = item.currentPrice
-            _this.productList.push(item)
-            _this.cartIdList.push(item.cartVo.cartId)
-        })
-        _this.productTotal = productTotal
+        if (shopCheckedList.length === 0) {
+            this.$router.push({ name: 'shoppingCart' })
+        } else {
+            shopCheckedList.forEach(item => {
+                productTotal += item.cartVo.quantity
+                item.quantity = item.cartVo.quantity
+                item.price = item.currentPrice
+                _this.productList.push(item)
+                _this.cartIdList.push(item.cartVo.cartId)
+            })
+            _this.productTotal = productTotal
 
-        // 获取价格
-        _this.$api.shoppingCart.calculate({
-            cartIdList: _this.cartIdList.join(',')
-        }).then(res => {
-            const order = res.data.data
-            _this.order = {
-                productPrice: order.productPrice,
-                deliveryPrice: order.deliveryPrice,
-                couponPrice: order.couponPrice,
-                totalPrice: order.totalPrice
-            }
-        }).catch(e => {
-            console.log(e)
-        })
+            // 获取价格
+            _this.$api.shoppingCart.calculate({
+                cartIdList: _this.cartIdList.join(',')
+            }).then(res => {
+                const order = res.data.data
+                _this.order = {
+                    productPrice: order.productPrice,
+                    deliveryPrice: order.deliveryPrice,
+                    couponPrice: order.couponPrice,
+                    totalPrice: order.totalPrice
+                }
+            }).catch(e => {
+                console.log(e)
+            })
 
-        // 是否能使用优惠券
-        _this.$api.shoppingCart.canUseCoupon().then(res => {
-            _this.canUseCoupon = res.data.data
-            // 能使用优惠券
-            if (_this.canUseCoupon) {
-                this.$api.shoppingCart.calculateWithCoupon({
-                    cartIdList: _this.cartIdList.join(',')
-                }).then(res => {
-                    _this.orderWithCoupon = res.data.data
-                }).catch(e => {
-                    console.log(e)
-                })
-            }
-        }).catch(e => {
-            console.log(e)
-        })
-
+            // 是否能使用优惠券
+            _this.$api.shoppingCart.canUseCoupon().then(res => {
+                _this.canUseCoupon = res.data.data
+                // 能使用优惠券
+                if (_this.canUseCoupon) {
+                    this.$api.shoppingCart.calculateWithCoupon({
+                        cartIdList: _this.cartIdList.join(',')
+                    }).then(res => {
+                        _this.orderWithCoupon = res.data.data
+                    }).catch(e => {
+                        console.log(e)
+                    })
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     }
 }
 </script>

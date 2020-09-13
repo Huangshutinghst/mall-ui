@@ -7,21 +7,21 @@
             <!-- 顶部模块 -->
             <div class="order-detail__top __item bg_fff">
                 <h5>
-                    <template v-if="obj.status == -1">已关闭</template>
+                    <template v-if="obj.status == -1">订单已关闭</template>
                     <template v-if="obj.status == 0">
                         等待支付 
                         &nbsp;
                         剩余<van-count-down :time="time" format="mm : ss" />
                         <p>逾期未支付订单将自动取消</p>
                         <div class="btn-box">
-                            <div class="btn1">取消订单</div>
-                            <div class="btn2" @click="toPay();">去支付</div>
+                            <div class="btn1" @click="toClose()">取消订单</div>
+                            <div class="btn2" @click="toPay()">去支付</div>
                         </div>
                     </template>
-                    <template v-if="obj.status == 1">已支付</template>
-                    <template v-if="obj.status == 2">待收货</template>
-                    <template v-if="obj.status == 3">待评价</template>
-                    <template v-if="obj.status == 4">已完成</template>
+                    <template v-if="obj.status == 1">订单已支付</template>
+                    <template v-if="obj.status == 2">订单待收货</template>
+                    <template v-if="obj.status == 3">订单待评价</template>
+                    <template v-if="obj.status == 4">订单已完成</template>
                 </h5>
             </div>
 
@@ -99,7 +99,7 @@ export default {
     data () {
         return {
             obj: {},
-            time: 1000000
+            time: 0
         }
     },
     components: {
@@ -114,12 +114,27 @@ export default {
         getOrderDetail(){
             this.$api.order.getOrderDetail(this.$route.query.id).then(res => {
                 this.obj = res.data.data;
+                if (this.obj.status === 0) {
+                    this.time = new Date(this.obj.endTime).getTime() - new Date().getTime();
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        toClose() {
+            this.$api.order.closeOrder(this.obj.orderId).then(res => {
+                this.$router.push({ name: 'myOrder', query: {type:''} });
             }).catch(e => {
                 console.log(e)
             })
         },
         toPay(){
-            this.$router.push({ name: 'pay', query:{id: this.obj.orderId} });
+            this.$router.push({ name: 'pay', query:{
+                orderId: this.obj.orderId,
+                orderNumber: this.obj.orderNumber,
+                totalPrice: this.obj.totalPrice,
+                endTime: this.obj.endTime
+            } });
         },
     },
 }

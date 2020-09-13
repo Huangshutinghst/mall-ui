@@ -4,12 +4,12 @@
         <!-- 订单列表 -->
         <li class="order-list__item bg_fff" v-for="(item,index) in orderList" :key="index" @click="toOrderDetail(item)">
             <h5>
-                <template v-if="item.status == -1">已关闭</template>
-                <template v-if="item.status == 0">待支付</template>
-                <template v-if="item.status == 1">已支付</template>
-                <template v-if="item.status == 2">待收货</template>
-                <template v-if="item.status == 3">待评价</template>
-                <template v-if="item.status == 4">已完成</template>
+                <template v-if="item.status == -1">订单已关闭</template>
+                <template v-if="item.status == 0">订单待支付</template>
+                <template v-if="item.status == 1">订单已支付</template>
+                <template v-if="item.status == 2">订单待收货</template>
+                <template v-if="item.status == 3">订单待评价</template>
+                <template v-if="item.status == 4">订单已完成</template>
                 <span>{{ item.orderTime }}</span>
                 <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
             </h5>
@@ -57,7 +57,12 @@ export default {
             this.$router.push({ name: 'orderDetail',query: {id: item.orderId} });
         },
         toPay(item){
-            this.$router.push({ name: 'pay', query:{id: item.orderId} });
+            this.$router.push({ name: 'pay', query:{
+                    orderId: item.orderId,
+                    orderNumber: item.orderNumber,
+                    totalPrice: item.totalPrice,
+                    endTime: item.endTime
+                } });
         },
         toComment(item){
             this.$router.push({ name: 'comment', query:{id: item.orderId} });

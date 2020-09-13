@@ -21,10 +21,10 @@
         <div class="commodity-card__info flex-1 flex flex-v flex-pack-justify">
             <div class="__top flex-1">
                 <h5 class="title double-row">{{ cardInfo.productName }}</h5>
-                <p class="text single-row">{{ cardInfo.desc }}</p>
+                <p class="text single-row" v-if="open">每人限购{{ cardInfo.limit }}份</p>
+                <p class="text single-row" v-else>{{ cardInfo.desc }}</p>
                 <p class="tag">
                     <span class="stock">剩余{{ cardInfo.remainStockPercent }}%</span>
-                    <span v-show="open && cardInfo.discountStr" class="red">{{ cardInfo.discountStr }}折</span>
                     <!-- <span class="green">领40元券</span> -->
                     <!-- <span class="yellow">网红推荐</span> -->
                     <!-- <span class="bule">-18°冷藏</span> -->
