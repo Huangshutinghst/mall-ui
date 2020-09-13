@@ -1,8 +1,8 @@
 <template>
     <div class="home-grid">
         <van-grid :column-num="5">
-            <van-grid-item v-for="(item,index) in categoryList" :key="index" icon="photo-o" :text="item.classifyName" @click="handleGridItem(item,index)" />
-            <van-grid-item icon="photo-o" :text="'全部分类'" @click="handleGridItem({}, 10)" />
+            <van-grid-item v-for="(item,index) in categoryList" :key="index" :icon="$api.img + item.pic" :text="item.classifyName" @click="handleGridItem(item,index)" />
+            <van-grid-item icon="more-o" :text="'全部分类'" @click="handleGridItem({}, 10)" />
         </van-grid>
     </div>
 </template>
@@ -45,6 +45,9 @@ export default {
     .home-grid{
         .van-grid-item__content{
             padding: 10px 8px;
+        }
+        .van-grid-item__icon{
+            color: #8d8e8f;
         }
         .van-grid-item__text{
             font-size: 11px;
