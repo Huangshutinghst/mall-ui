@@ -3,6 +3,7 @@
  */
 
 import axios from '@/libs/http'; // 导入http中创建的axios实例
+import qs from 'qs';
 
 const shoppingCart = {
     // 获取购物车商品
@@ -22,7 +23,7 @@ const shoppingCart = {
     // ===========================下单流程===========================
     // 计算价格
     calculate (params) {        
-        return axios.post(`/api/order/calculate`, params);
+        return axios.post(`/api/order/calculate`, qs.stringify(params));
     },
     // 根据用户优惠券计算价格
     calculateWithCoupon (params) {

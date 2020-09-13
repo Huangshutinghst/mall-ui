@@ -28,7 +28,7 @@
                         {{!checkedAll&&this.checkedList.length==0?'全选':'已选（'+ this.checkedList.length +'）'}}
                     </div>
                     <div class="price">
-                        ￥18.80
+                        ￥{{productPrice}}
                     </div>
                 </div>
                 <div class="btn btn_bg" @click="handleSubmit()">
@@ -56,6 +56,7 @@ export default {
             checkedList: [],
             checkedAll: false,
             handleFlag: false,
+            productPrice: '0.00',
         }
     },
     components: {
@@ -81,7 +82,7 @@ export default {
                         }
                     })
                 })
-                // this.calculate();
+                this.calculate();
             }).catch(e => {
                 console.log(e)
             })
@@ -107,6 +108,7 @@ export default {
                 obj2[next.productId] ? '' : obj2[next.productId] = true && item.push(next);
                 return item;
             }, []);
+            this.calculate();
             this.$store.commit('CHANGE_CHECKED', this.checkedList)
             if(this.checkedList.length == this.goodlist.length){
                 if(this.checkedAll) return;
@@ -114,6 +116,7 @@ export default {
                 this.handleFlag = true;
                 this.$store.commit('CHANGE_CHECKED_ALL', this.checkedAll);
             }else{
+                this.productPrice = '0.00'
                 if(!this.checkedAll) return;
                 this.checkedAll = false;
                 this.handleFlag = true;
@@ -143,13 +146,22 @@ export default {
                 _this.$store.commit('CHANGE_CHECKED', []);
             }
             this.$store.commit('CHANGE_CHECKED_ALL', val);
+            this.calculate();
         },
         // 计算商品价格
         calculate() {
+            if(this.checkedList.length == 0) {
+                this.productPrice = '0.00'
+                return
+            };
+            let cartIdList = [];
+            this.checkedList.forEach(el => {
+                cartIdList.push(el.cartVo.cartId)
+            })
             this.$api.shoppingCart.calculate({
-                cartIdList: [20]
+                cartIdList: cartIdList.join(',')
             }).then(res => {
-                
+                this.productPrice = res.data.data.productPrice;
             }).catch(e => {
                 console.log(e)
             })
