@@ -257,7 +257,7 @@ export default {
                 font-size: 16px;
                 font-weight: 400;
                 padding: 0 30px;
-                text-align: right;
+                text-align: center;
                 height: 40px;
                 line-height: 40px;
                 overflow: hidden;
@@ -305,7 +305,7 @@ export default {
                 >h5{
                     height: 40px;
                     line-height: 40px;
-                    font-size: 12px;
+                    font-size: 14px;
                     font-weight: bold;
                 }
             }
@@ -396,6 +396,10 @@ export default {
                     display: none;
                 }
             }
+        }
+        .van-radio__icon--checked .van-icon{
+            background-color: #0db059;
+            border-color: #0db059;
         }
     }   
 </style>

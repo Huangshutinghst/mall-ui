@@ -52,6 +52,7 @@ export default {
             line-height: 40px;
             font-weight: bold;
             border-bottom: 1px solid #eee;
+            font-size: 14px
         }
         >.__info{
             overflow: hidden;

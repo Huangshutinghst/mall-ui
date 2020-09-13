@@ -34,7 +34,7 @@
                     共{{ item.productAmount }}件,实付：<span>￥{{ item.totalPrice }}</span>
                 </div>
                 <div class="__btn-box">
-                    <div class="btn fr" v-if="item.status == 0" @click.stop="toPay()">去支付</div>
+                    <div class="btn fr" v-if="item.status == 0" @click.stop="toPay(item)">去支付</div>
                     <div class="btn fr" v-if="item.status == 3" @click.stop="toComment(item)">去评价</div>
                 </div>
             </div>
@@ -56,8 +56,8 @@ export default {
         toOrderDetail(item){
             this.$router.push({ name: 'orderDetail',query: {id: item.orderId} });
         },
-        toPay(){
-
+        toPay(item){
+            this.$router.push({ name: 'pay', query:{id: item.orderId} });
         },
         toComment(item){
             this.$router.push({ name: 'comment', query:{id: item.orderId} });

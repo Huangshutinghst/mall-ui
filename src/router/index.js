@@ -111,6 +111,12 @@ export default new Router({
           name: 'comment',
           component: (resolve) => require(['@/views/comment/Index'], resolve),
         },
+        // 去支付
+        {
+          path: 'pay',
+          name: 'pay',
+          component: (resolve) => require(['@/views/pay/Index'], resolve),
+        },
         // 我的足迹
         {
           path: 'myfootprint',
