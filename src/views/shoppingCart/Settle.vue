@@ -25,7 +25,7 @@
                         <h5 @click="timeChoose()">
                             送达时间
                             <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
-                            <span class="fr text">尽快送达 预计09:10送达</span>
+                            <span class="fr text">尽快送达</span>
                         </h5>
                     </div>
 
@@ -35,8 +35,11 @@
                             优惠券
                             <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
                             <span class="fr text" >
-                            <span v-if="orderWithCoupon.can.length === 0">暂无优惠券可用</span>
-                            <span v-else="orderWithCoupon.can.length > 0">{{ orderWithCoupon.can.length }}张可用</span>
+                                <span v-if="order.couponId === undefined">
+                                    <span v-if="orderWithCoupon.can.length === 0">暂无优惠券可用</span>
+                                    <span v-else="orderWithCoupon.can.length > 0">{{ orderWithCoupon.can.length }}张可用</span>
+                                </span>
+                                <span v-else style="color:red">-￥{{ order.couponPrice }}</span>
                         </span>
                         </h5>
                     </div>
@@ -118,6 +121,7 @@
         <CouponPop
                 :modal="couponPopShow" 
                 :couponList="orderWithCoupon"
+                @choose="couponChooseReturn"
                 @visible-change="(val) => {this.couponPopShow = val}"
         ></CouponPop>
     </div>
@@ -133,7 +137,7 @@ export default {
     data () {
         return {
             myAddress: {},
-            remark: undefined,
+            remark: '',
             payRadio: '1',
             timeModal: false,
             remarkList: [
@@ -173,7 +177,7 @@ export default {
         },
         // 时间选择
         timeChoose(){
-            this.timeModal = true;
+            //this.timeModal = true;
         },
         // 优惠券选择
         couponChoose() {
@@ -182,6 +186,16 @@ export default {
         // 快捷备注
         handleRemark(text){
             this.remark = this.remark + text + '；'
+        },
+        // 优惠券选择返回
+        couponChooseReturn (couponObj) {
+            this.order = {
+                couponId: couponObj.couponId,
+                productPrice: couponObj.orderVo.productPrice,
+                deliveryPrice: couponObj.orderVo.deliveryPrice,
+                couponPrice: couponObj.orderVo.couponPrice,
+                totalPrice: couponObj.orderVo.totalPrice
+            }
         },
         // 去支付
         pay(){

@@ -70,7 +70,7 @@
                     <label><span class="flex flex-pack-justify"><font>订</font><font>单</font><font>号</font></span></label>：
                     <span>{{ obj.orderNumber }}</span>
                 </p>
-                <p v-if="obj.remark !== null">
+                <p v-if="obj.remark !== null && obj.remark !== ''">
                     <label><span class="flex flex-pack-justify"><font>备</font><font>注</font></span></label>：
                     <span>{{ obj.remark }}</span>
                 </p>
