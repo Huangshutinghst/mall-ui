@@ -23,7 +23,7 @@ const toLogin = () => {
     router.push({
         path: '/login',        
         query: {
-            redirect: router.currentRoute.fullPath
+            redirect: '/'
         }
     });
 }
@@ -36,6 +36,9 @@ const errorHandle = (status, other) => {
     // 状态码判断
     switch (status) {
         case 200:
+            tip(other.message);
+            break;
+        case 400:
             tip(other.message);
             break;
         // 401: 未登录状态，跳转登录页
@@ -60,7 +63,7 @@ const errorHandle = (status, other) => {
             tip(other.message);
             break;
         default:
-            console.log(other);   
+            console.log('errorHandle', other);
     }
 }
 
@@ -92,7 +95,7 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
     // 请求成功
-    res => res.status === 200 && res.data.code === 200 ? Promise.resolve(res) : Promise.reject(res),
+    res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),
     // 请求失败
     error => {
         const { response } = error;

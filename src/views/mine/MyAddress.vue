@@ -7,7 +7,7 @@
 
         <div class="panel__scroll panel__content">
             <ul v-if="addressList.length > 0" class="mall-address-list">
-                <li class="bg_fff" v-for="(item,index) in addressList" :key="index" @click="addressChoose">
+                <li class="bg_fff" v-for="(item,index) in addressList" :key="index" @click="addressChoose(item)">
                     <AddressCard :addressItem="item"></AddressCard>
                 </li>
             </ul>
@@ -48,10 +48,9 @@ export default {
         addAddress(){
             this.$router.push({name:'addressAdd'});
         },
-        addressChoose(){
+        addressChoose(address){
             if(this.$route.query.choose){
-                console.log('选择地址')
-                this.$router.back(-1);
+                this.$router.push({ name: 'settle', query: {myAddress: address} });
             }
         }
     },

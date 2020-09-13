@@ -21,13 +21,17 @@ const shoppingCart = {
 
 
     // ===========================下单流程===========================
+    // 今日是否能使用优惠券
+    canUseCoupon () {
+        return axios.get(`/api/user/coupon/can`);
+    },
     // 计算价格
     calculate (params) {        
         return axios.post(`/api/order/calculate`, qs.stringify(params));
     },
     // 根据用户优惠券计算价格
     calculateWithCoupon (params) {
-        return axios.post(`/api/order/calculateWithCoupon`, params);
+        return axios.post(`/api/order/calculateWithCoupon`, qs.stringify(params));
     },
     // 取消订单
     closeOrder (orderId) {
