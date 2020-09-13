@@ -2,8 +2,9 @@
     <div class="shopping-index-componnet panel__hidden">
             <!-- 头部 -->
             <VHeader title="购物车" leftText="" :leftArrow="leftArrow">
-                <div v-if="goodlist.length > 0" slot="right" @click="handleClearAll()">
-                    清空
+                <div slot="right">
+                    <img @click="getCoupon()" src="../../images/coupon_btn.png">
+                    <p v-if="goodlist.length > 0" @click="handleClearAll()">清空</p>
                 </div>
             </VHeader>
 
@@ -208,6 +209,10 @@ export default {
                 thiz.Util.tip('请先勾选商品');
             }
         },
+        // 跳到领券中心
+        getCoupon(){
+            this.$router.push({ name: 'receive' })
+        }
     },
 }
 </script>
@@ -288,6 +293,20 @@ export default {
             .van-checkbox__icon--checked .van-icon{
                 background-color: #0db059;
                 border-color: #0db059;
+            }
+        }
+        .van-nav-bar__right{
+            >div{
+                >img{
+                    display: inline-block;
+                    width: 24px;
+                    vertical-align: middle;
+                    margin-right: 15px;
+                }
+                >p{
+                    display: inline-block;
+                    vertical-align: middle;
+                }
             }
         }
     }
