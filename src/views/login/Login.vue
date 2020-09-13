@@ -1,6 +1,9 @@
 <template>
     <div class="mall_login scroll-hidden">
         <VHeader title="账号登陆" leftText=""></VHeader>
+
+        <div class="title">Mall</div>
+
         <van-form @submit="loginSubmit">
             <van-field
                 v-model="formInline.username"
@@ -68,8 +71,32 @@ export default {
 
 <style lang="scss" scoped>
     .mall_login{
+        >.title{
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            background: #0db059;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 40px auto;
+            position: relative;
+            &::before{
+                content: '';
+                position: absolute;
+                left: -6px;
+                top: -6px;
+                width: 70px;
+                height: 70px;
+                border-radius: 26px;
+                border: 1px solid #eee;
+            }
+        }
+
         .van-form /deep/{
-            margin-top: 100px;
+            margin-top: 40px;
             .van-cell{
                 padding: 10px 20px;
                 &::after{
