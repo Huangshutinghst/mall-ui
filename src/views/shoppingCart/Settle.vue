@@ -7,10 +7,14 @@
             <!-- 1.顶部模块 -->
             <div class="settle-index__top" @click="addressChoose()">
                 <h5>
-                    这是地址地址地址地址地址地址地址地址地址地址
+                    {{ myAddress.address }}
                     <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
                 </h5>
-                <p>胖大喵(女士)&nbsp;&nbsp;17888888888</p>
+                <p>{{ myAddress.name }}
+                    <span v-if="myAddress.sex === 1">(先生)</span>
+                    <span v-if="myAddress.sex === 2">(女士)</span>
+                    {{ myAddress.phone }}
+                </p>
             </div>
 
             <!-- 2.中间滚动区域 -->
@@ -25,6 +29,18 @@
                         </h5>
                     </div>
 
+                    <!-- 优惠券模块 -->
+                    <div v-if="canUseCoupon" class="settle-index__coupon __item bg_fff">
+                        <h5 @click="couponChoose()">
+                            优惠券
+                            <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
+                            <span class="fr text" >
+                            <span v-if="orderWithCoupon.can.length === 0">暂无优惠券可用</span>
+                            <span v-else="orderWithCoupon.can.length > 0">{{ orderWithCoupon.can.length }}张可用</span>
+                        </span>
+                        </h5>
+                    </div>
+
                     <!-- 支付方式模块 -->
                     <div class="settle-index__pay __item bg_fff">
                         <h5>支付方式</h5>
@@ -32,7 +48,7 @@
                             <van-cell-group>
                                 <van-cell clickable @click="radio = '1'">
                                     <template #title>
-                                        支付宝支付
+                                        支付宝支付<span>(沙箱账号：jopdhq0178@sandbox.com 账号/支付密码：111111)</span>
                                     </template>
                                     <template #right-icon>
                                         <van-radio name="1" />
@@ -43,31 +59,23 @@
                                         微信支付
                                     </template>
                                     <template #right-icon>
-                                        <van-radio name="2" />
-                                    </template>
-                                </van-cell>
-                                <van-cell clickable @click="radio = '3'">
-                                    <template #title>
-                                        花呗支付
-                                    </template>
-                                    <template #right-icon>
-                                        <van-radio name="3" />
+                                        <van-radio disabled name="2" />
                                     </template>
                                 </van-cell>
                             </van-cell-group>
                         </van-radio-group>
                     </div>
-                
+
                     <!-- 备注模块 -->
                     <div class="settle-index__remark __item bg_fff">
                         <h5>备注</h5>
                         <van-field
-                            v-model="remark"
-                            rows="2"
-                            autosize
-                            type="textarea"
-                            maxlength="100"
-                            placeholder="输入备注信息"
+                                v-model="remark"
+                                rows="2"
+                                autosize
+                                type="textarea"
+                                maxlength="100"
+                                placeholder="输入备注信息"
                         />
                         <ul>
                             <li v-for="(item, index) in remarkList" :key="index" @click="handleRemark(item)">{{item}}</li>
@@ -76,12 +84,16 @@
 
                     <!-- 商品列表模块 -->
                     <div class="settle-index__shoplist __item bg_fff">
-                        <VShoplist :title="'商品'" :bold="false"></VShoplist>
+                        <VShoplist :list="productList" :total="productTotal" :title="'商品'" :bold="false"></VShoplist>
                     </div>
 
                     <!-- 总价模块 -->
                     <div class="settle-index__price __item bg_fff">
-                        <VPrice :shopPrice="0" :deliveryPrice="0" :allPrice="0"></VPrice>
+                        <VPrice :shopPrice="order.productPrice"
+                                :deliveryPrice="order.deliveryPrice"
+                                :allPrice="order.totalPrice"
+                                :couponPrice="order.couponPrice"
+                        ></VPrice>
                     </div>
 
                     <!-- 号码保护模块 -->
@@ -91,15 +103,15 @@
 
             <!-- 3.底部支付 -->
             <div class="settle-index__foot bg_fff">
-                应付<span>￥36.78</span>
+                应付<span>￥{{ order.totalPrice }}</span>
                 <div class="fr btn_bg" @click="pay()">去支付</div>
             </div>
         </div>
 
         <!-- 选择时间组件 -->
-        <TimeChoosePop 
-            :modal="timeModal" 
-            @visible-change="(val) => timeModal = val"
+        <TimeChoosePop
+                :modal="timeModal"
+                @visible-change="(val) => timeModal = val"
         ></TimeChoosePop>
     </div>
 </template>
@@ -112,6 +124,7 @@ import TimeChoosePop from './settle/TimeChoosePop'
 export default {
     data () {
         return {
+            myAddress: {},
             remark: '',
             payRadio: '1',
             timeModal: false,
@@ -120,7 +133,21 @@ export default {
                 '电话联系不上时，请直接帮我把商品放自提点自取。',
                 '快到的时候，请提前电话联系我；谢谢',
                 '保护环境，生鲜商品无需使用塑料袋隔离',
-            ]
+            ],
+            productList: [],
+            productTotal: 0,
+            canUseCoupon: false,
+            order: {
+                productPrice: '0.00',
+                deliveryPrice: '0.00',
+                couponPrice: null,
+                totalPrice: '0.00'
+            },
+            orderWithCoupon: {
+                can: [],
+                cannot: []
+            },
+            cartIdList: []
         }
     },
     components: {
@@ -138,15 +165,84 @@ export default {
         timeChoose(){
             this.timeModal = true;
         },
+        // 优惠券选择
+        couponChoose() {
+            // todo 优惠券选择
+        },
         // 快捷备注
         handleRemark(text){
             this.remark = this.remark + text + '；'
         },
         // 去支付
         pay(){
-
+            const _this = this
+            _this.order.addressId = _this.myAddress.addressId
+            const order = {
+                addressId: _this.myAddress.addressId,
+                expectTime: '尽快送达',
+                couponId: _this.order.couponId,
+                payType: _this.payRadio,
+                remark: _this.remark,
+                cartIdList: [..._this.cartIdList]
+            }
+            _this.$api.shoppingCart.generateOrder(order).then((res) => {
+                const div = document.createElement('div')
+                div.innerHTML = res.data
+                document.body.appendChild(div)
+                document.forms[0].submit()
+            }).catch(e => {
+                console.log(e)
+            })
         },
     },
+    mounted() {
+        const _this = this
+        _this.myAddress = _this.$route.query.myAddress
+        let productTotal = 0;
+        _this.cartIdList = []
+        const shopCheckedList = [..._this.$store.state.shopCheckedList]
+        shopCheckedList.forEach(item => {
+            productTotal += item.cartVo.quantity
+            item.quantity = item.cartVo.quantity
+            item.price = item.currentPrice
+            _this.productList.push(item)
+            _this.cartIdList.push(item.cartVo.cartId)
+        })
+        _this.productTotal = productTotal
+
+        // 获取价格
+        _this.$api.shoppingCart.calculate({
+            cartIdList: _this.cartIdList.join(',')
+        }).then(res => {
+            const order = res.data.data
+            _this.order = {
+                productPrice: order.productPrice,
+                deliveryPrice: order.deliveryPrice,
+                couponPrice: order.couponPrice,
+                totalPrice: order.totalPrice
+            }
+        }).catch(e => {
+            console.log(e)
+        })
+
+        // 是否能使用优惠券
+        _this.$api.shoppingCart.canUseCoupon().then(res => {
+            _this.canUseCoupon = res.data.data
+            // 能使用优惠券
+            if (_this.canUseCoupon) {
+                this.$api.shoppingCart.calculateWithCoupon({
+                    cartIdList: _this.cartIdList.join(',')
+                }).then(res => {
+                    _this.orderWithCoupon = res.data.data
+                }).catch(e => {
+                    console.log(e)
+                })
+            }
+        }).catch(e => {
+            console.log(e)
+        })
+
+    }
 }
 </script>
 
@@ -215,6 +311,25 @@ export default {
             }
 
             .settle-index__time{
+                margin-top: 10px;
+                >h5{
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    >span{
+                        font-size: 12px;
+                        font-weight: normal;
+                        color: #999;
+                    }
+                    >i{
+                        margin-top: 8px;
+                        font-size: 12px;
+                    }
+                }
+            }
+
+            .settle-index__coupon{
                 margin-top: 10px;
                 >h5{
                     height: 40px;

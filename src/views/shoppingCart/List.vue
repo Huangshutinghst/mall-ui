@@ -202,7 +202,7 @@ export default {
         // 去结算
         handleSubmit(){
             var thiz = this;
-            thiz.$router.push({ name: 'settle' });
+            thiz.$router.push({ name: 'myAddress', query: {choose: true} });
         },
     },
 }
