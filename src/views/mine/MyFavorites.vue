@@ -4,19 +4,25 @@
         <VHeader title="" leftText="我的收藏"></VHeader>
 
         <div class="panel__scroll panel__content">
+            <van-list
+                    v-model="loading"
+                    :finished="finished"
+                    finished-text="没有更多了"
+                    @load="onLoad"
+            >
             <ul class="mall-favorites__list bg_fff">
-                <li class="__item" v-for="(item,index) in goodlist" :key="index">
-                    <Card 
-                        v-if="!item.flashing" 
-                        :cardInfo="item"
+                <li class="__item" v-for="(item,index) in goodList" :key="index">
+                    <Card
+                            v-if="!item.flashing"
+                            :cardInfo="item"
                     ></Card>
                     <CardLimit
-                        v-if="item.flashing" 
-                        :cardInfo="item"
+                            v-if="item.flashing"
+                            :cardInfo="item"
                     ></CardLimit>
                 </li>
             </ul>
-            <!-- <VBlank v-else text="没有相关商品"></VBlank> -->
+            </van-list>
         </div>
     </div>
 </template>
@@ -30,9 +36,11 @@ export default {
         return {
             formInline: {
                 offset: 0,
-                limit: 20
+                limit: 10
             },
-            goodlist: []
+            goodList: [],
+            loading: false,
+            finished: false
         }
     },
     components: {
@@ -40,13 +48,20 @@ export default {
         Card,
         CardLimit
     },
-    mounted() {
-        this.getFavoriteList();
-    },
     methods:{
-        getFavoriteList(){
-            this.$api.mine.getFavoriteList(this.formInline).then(res => {
-                this.goodlist = res.data.data.list;
+        onLoad() {
+            const _this = this
+            _this.loading = true;
+            _this.$api.mine.getFavoriteList(_this.formInline).then(res => {
+                _this.loading = false;
+                if (res.data.data.list.length === 0) {
+                    _this.finished = true;
+                } else {
+                    _this.formInline.offset = _this.formInline.offset + _this.formInline.limit
+                    res.data.data.list.forEach(item => {
+                        _this.goodList.push(item)
+                    })
+                }
             }).catch(e => {
                 console.log(e)
             })

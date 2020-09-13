@@ -1,6 +1,8 @@
 <template>
     <div class="mall_login scroll-hidden">
-        <VHeader title="账号登陆" leftText=""></VHeader>
+        <VHeader title="账号登录" leftText="">
+            <van-icon slot="left" @click.stop="back()" name="arrow-left" />
+        </VHeader>
 
         <div class="title">Mall</div>
 
@@ -43,14 +45,6 @@ export default {
     },
     methods: {
         loginSubmit(){
-            // todo 测试用，待删除
-            if (this.formInline.username === undefined && this.formInline.password === undefined) {
-                this.formInline = {
-                    username: 'zhangsan',
-                    password: 'zhangsan'
-                }
-            }
-
             const userInfo = {
                 username: this.formInline.username,
                 password: this.Md5Util.getEncryption(this.formInline.password)
@@ -64,6 +58,9 @@ export default {
         },
         toRegister() {
             this.$router.push({ path: '/register' });
+        },
+        back() {
+            this.$router.push({ path: '/' })
         }
     }
 }
@@ -71,6 +68,10 @@ export default {
 
 <style lang="scss" scoped>
     .mall_login{
+        /deep/ .van-icon-arrow-left{
+            font-size: 16px;
+            vertical-align: middle;
+        }
         >.title{
             width: 60px;
             height: 60px;

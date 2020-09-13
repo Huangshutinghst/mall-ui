@@ -153,11 +153,14 @@ export default {
         },
         // 获取历史搜索词
         getHistoryList(){
-            this.$api.search.getHistoryKeyword().then(res => {
-                this.historyList = res.data.data;
-            }).catch(e => {
-                console.log(e)
-            })
+            const token = localStorage.getItem('token');
+            if(token){
+                this.$api.search.getHistoryKeyword().then(res => {
+                    this.historyList = res.data.data;
+                }).catch(e => {
+                    console.log(e)
+                })
+            }
         },
         // 删除历史记录
         historyDelete(){

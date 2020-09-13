@@ -38,7 +38,7 @@
             </ul>
         </van-list>
 
-        <VBlank v-if="list.length == 0" text="没有相关商品"></VBlank>
+<!--        <VBlank v-if="list.length == 0" text="没有相关商品"></VBlank>-->
 
 
     </div>
