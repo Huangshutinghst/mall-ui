@@ -11,6 +11,8 @@
             <FilterList 
                 :list="goodList" 
                 :type="'space'"
+                :loading="loading"
+                :finished="finished"
                 @filter-has="filterHas"
                 @filter-price="filterPrice"
             ></FilterList>
@@ -35,7 +37,9 @@ export default {
                 offset: 0,
                 limit: 20
             },
-            goodList: []
+            goodList: [],
+            loading: false,
+            finished: false
         }
     },
     components: {
@@ -52,7 +56,10 @@ export default {
         },
         // 获取商品列表
         getListByClassifyId(){
+            this.loading = true
             this.$api.category.getByClassifyId(this.$route.query.type, this.formInline).then(res => {
+                this.loading = false
+                this.finished = true
                 this.goodList = res.data.data.list;
             }).catch(e => {
                 console.log(e)
