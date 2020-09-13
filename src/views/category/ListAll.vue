@@ -19,6 +19,8 @@
                         :padding="false" 
                         :list="goodList" 
                         :type="'border'"
+                        :loading="loading"
+                        :finished="finished"
                         @filter-has="filterHas"
                         @filter-price="filterPrice"
                     ></FilterList>
@@ -49,7 +51,9 @@ export default {
             firstTabs: [],
             secondActive: 0,
             secondTabs: [],
-            goodList: []
+            goodList: [],
+            loading: false,
+            finished: false
         }
     },
     components: {
@@ -80,7 +84,6 @@ export default {
         },
         // 点击一级类目
         handleFirstTab(name, title){
-            console.log(name, title)
             this.firstActive = name;
             this.secondTabs = this.firstTabs.filter(el =>{
                 return el.classifyId == this.firstActive;
@@ -94,7 +97,10 @@ export default {
         },
         // 获取商品列表
         getListByClassifyId(){
+            this.loading = true
             this.$api.category.getByClassifyId(this.formInline.classifyId, this.formInline).then(res => {
+                this.loading = false
+                this.finished = true
                 this.goodList = res.data.data.list;
             }).catch(e => {
                 console.log(e)

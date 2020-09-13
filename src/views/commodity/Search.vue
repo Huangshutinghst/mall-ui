@@ -169,7 +169,6 @@ export default {
         },
         // 清空分页相关参数
         clearPage() {
-            this.loading = true
             this.finished = false
             this.resultList = []
             this.formInline.offset = 0
