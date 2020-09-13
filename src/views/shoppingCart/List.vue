@@ -202,7 +202,11 @@ export default {
         // 去结算
         handleSubmit(){
             var thiz = this;
-            thiz.$router.push({ name: 'myAddress', query: {choose: true} });
+            if (thiz.$store.state.shopCheckedList.length > 0) {
+                thiz.$router.push({ name: 'myAddress', query: {choose: true} });
+            } else {
+                thiz.Util.tip('请先勾选商品');
+            }
         },
     },
 }

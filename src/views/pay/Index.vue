@@ -14,19 +14,15 @@
             <div class="price box bg_fff">
                 <p>
                     订单编号：
-                    <span class="fr">123123131232</span>
+                    <span class="fr">{{ orderNumber }}</span>
                 </p>
                 <p>
                     订单金额：
-                    <span class="fr">￥44.00</span>
-                </p>
-                <p>
-                    余额抵扣：
-                    <span class="fr">￥0</span>
+                    <span class="fr">￥{{ totalPrice }}</span>
                 </p>
                 <p>
                     支付金额：
-                    <span class="fr">￥0</span>
+                    <span class="fr">￥{{ totalPrice }}</span>
                 </p>
             </div>
             <!-- 支付方式模块 -->
@@ -69,15 +65,35 @@ export default {
     },
     data () {
         return {
-            time: 1000000,
+            time: 0,
+            orderId: undefined,
+            orderNumber: undefined,
+            totalPrice: undefined,
             payRadio: '1',
         }
     },
     methods:{
         handleSubmit(){
-            
+            const params = {
+                orderId: this.orderId,
+                payType: this.payRadio
+            }
+            this.$api.order.payOrder(params).then(res => {
+                const div = document.createElement('div')
+                div.innerHTML = res.data
+                document.body.appendChild(div)
+                document.forms[0].submit()
+            }).catch(e => {
+                console.log(e)
+            })
         }
     },
+    mounted() {
+        this.orderId = this.$route.query.orderId
+        this.orderNumber = this.$route.query.orderNumber
+        this.totalPrice = this.$route.query.totalPrice
+        this.time = new Date(this.$route.query.endTime).getTime() - new Date().getTime();
+    }
 }
 </script>
 

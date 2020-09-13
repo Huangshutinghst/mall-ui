@@ -1,6 +1,6 @@
 <template>
     <div class="mall-search panel__header bg_fff">
-        <van-search v-model="value" placeholder="请输入搜索关键词" @focus="handleFocus" />
+        <van-search v-model="value" placeholder="请输入商品名" @focus="handleFocus" />
     </div>
 </template>
 
