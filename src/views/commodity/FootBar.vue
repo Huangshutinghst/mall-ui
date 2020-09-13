@@ -4,7 +4,7 @@
             <div class="check">
                 <van-icon name="shopping-cart-o" />
                 <span v-show="$store.state.shopCardCound > 0">{{ $store.state.shopCardCound }}</span>
-                已选（{{ $store.state.shopCardCound }}）
+                已选（{{ $store.state.shopCheckedList.length }}）
             </div>
             <div class="price">
                 ￥0.00

@@ -3,7 +3,7 @@
     <div class="cmomodity-search-index panel__hidden">
         <!-- 顶部搜索栏 -->
         <VHeader class="cmomodity-search__top">
-            <div slot="right" @click="handleSearch()">搜索</div>
+            <div slot="right" @click="filterName()">搜索</div>
             <div slot="title">
                 <van-search v-model="formInline.productName" clearable placeholder="请输入商品名称" />
             </div>
@@ -19,7 +19,7 @@
                         <van-icon name="delete" @click="historyDelete()" />
                     </h5>
                     <ul>
-                        <li v-for="(item,index) in historyList" :key="index" @click="handleSearch(item)">{{item}}</li>
+                        <li v-for="(item,index) in historyList" :key="index" @click="filterName(item)">{{item}}</li>
                     </ul>
                 </div>
                 <div v-if="hotList.length>0" class="__box bg_fff">
@@ -27,25 +27,26 @@
                         <span>热门搜索</span>
                     </h5>
                     <ul>
-                        <li v-for="(item,index) in hotList" :key="index" @click="handleSearch(item)">{{item}}</li>
+                        <li v-for="(item,index) in hotList" :key="index" @click="filterName(item)">{{item}}</li>
                     </ul>
                 </div>
             </div>
             <!-- 2.搜索内容 -->
-            <div class="panel__hidden" v-if="searchFlag && resultList.length>0" >
+            <div class="panel__hidden" v-show="searchFlag" >
                 <div class="panel__content panel__scroll">
-                    <FilterList 
-                        :type="'space'" 
+                    <FilterList
+                        :type="'space'"
                         :fixedHead="true" 
                         :list="resultList"
+                        :loading="loading"
+                        :finished="finished"
                         @filter-has="filterHas"
                         @filter-price="filterPrice"
+                        @on-load="onLoadSearch"
                     ></FilterList>
                 </div>
                 <FootBar></FootBar>
             </div>
-            <!-- 3.暂无内容 -->
-            <VBlank v-if="searchFlag && resultList.length == 0" text="没有相关商品"></VBlank>
         </div>
     </div>
 </template>
@@ -63,12 +64,14 @@ export default {
                 priceSort: '',   //1从低到高  2从高到低
                 productName: '',  //商品名称
                 offset: 0,
-                limit: 20
+                limit: 10
             },
             historyList: [],
             hotList: [],
             resultList: [],
             searchFlag: false,
+            loading: false,
+            finished: false
         }
     },
     components: {
@@ -90,18 +93,20 @@ export default {
         this.getHistoryList();
     },
     methods:{
-        // 搜索
-        handleSearch(text){
-            if(text){
-                this.formInline.productName = text;
-            }
-            if(this.formInline.productName.trim() == ''){
-                this.Util.tip('搜索内容不能为空')
-                this.formInline.productName = '';
-                return
-            };
-            this.$api.search.search(this.formInline).then(res => {
-                this.resultList = res.data.data.list;
+        // 滚动搜索
+        onLoadSearch(){
+            const _this = this
+            _this.loading = true;
+            _this.$api.search.search(_this.formInline).then(res => {
+                _this.loading = false;
+                if (res.data.data.list.length === 0) {
+                    _this.finished = true;
+                } else {
+                    _this.formInline.offset = _this.formInline.offset + _this.formInline.limit
+                    res.data.data.list.forEach(item => {
+                        _this.resultList.push(item)
+                    })
+                }
                 this.searchFlag = true;
             }).catch(e => {
                 console.log(e)
@@ -114,12 +119,27 @@ export default {
             }else{
                 this.formInline.inStock = 0;
             }
-            this.handleSearch();
+            this.clearPage()
+            this.onLoadSearch();
         },
         // 价格排序
         filterPrice(val){
             this.formInline.priceSort = val;
-            this.handleSearch();
+            this.clearPage()
+            this.onLoadSearch();
+        },
+        // 名称过滤
+        filterName(text) {
+            if(text){
+                this.formInline.productName = text;
+            }
+            if(this.formInline.productName.trim() == ''){
+                this.Util.tip('搜索内容不能为空')
+                this.formInline.productName = '';
+                return
+            };
+            this.clearPage()
+            this.onLoadSearch();
         },
         // 获取热门搜索词
         getHotList(){
@@ -147,6 +167,14 @@ export default {
                 console.log(e)
             })
         },
+        // 清空分页相关参数
+        clearPage() {
+            this.loading = true
+            this.finished = false
+            this.resultList = []
+            this.formInline.offset = 0
+            this.formInline.limit = 10
+        }
     },
 }
 </script>

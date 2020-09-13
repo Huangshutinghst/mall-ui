@@ -15,21 +15,32 @@
                 </li>
             </ul>
         </div>
-        
-        <ul class="__list">
-            <li v-for="(item, index) in list" :key="index" class="bg_fff">
-                <Card 
-                    v-if="!item.flashing" 
-                    :padding="padding"
-                    :cardInfo="item"
-                ></Card>
-                <CardLimit 
-                    v-if="item.flashing" 
-                    :padding="padding"
-                    :cardInfo="item"
-                ></CardLimit>
-            </li>
-        </ul>
+
+        <van-list
+                v-model="loading"
+                :finished="finished"
+                finished-text="没有更多了"
+                @load="onLoad"
+        >
+            <ul class="__list">
+                <li v-for="(item, index) in list" :key="index" class="bg_fff">
+                    <Card
+                            v-if="!item.flashing"
+                            :padding="padding"
+                            :cardInfo="item"
+                    ></Card>
+                    <CardLimit
+                            v-if="item.flashing"
+                            :padding="padding"
+                            :cardInfo="item"
+                    ></CardLimit>
+                </li>
+            </ul>
+        </van-list>
+
+        <VBlank v-if="list.length == 0" text="没有相关商品"></VBlank>
+
+
     </div>
 </template>
 
@@ -47,7 +58,15 @@ export default {
             default: false
         },
         type: String,
-        list: Array
+        list: Array,
+        loading: {
+            type: Boolean,
+            default: false
+        },
+        finished: {
+            type: Boolean,
+            default: false
+        },
     },
     data () {
         return {
@@ -76,6 +95,9 @@ export default {
             }
             this.$emit('filter-price', this.priceFlag)
         },
+        onLoad () {
+            this.$emit('on-load')
+        }
     },
 }
 </script>
@@ -144,7 +166,7 @@ export default {
             &.fixed{
                 width: 100%;
                 position: fixed;
-                top: 40px;
+                top: 38px;
                 left: 0;
                 z-index: 9;
             }
@@ -152,7 +174,7 @@ export default {
 
         // 样式1
         &.commodity-filter-list--space{
-            >.__list{
+            .__list{
                 margin: 10px;
                 >li{
                     margin-bottom: 10px;
@@ -163,7 +185,7 @@ export default {
 
         // 样式2
         &.commodity-filter-list--border{
-            >.__list{
+            .__list{
                 margin: 0 10px;
                 >li{
                     &:not(:last-child){
