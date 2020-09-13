@@ -21,6 +21,13 @@
                 </van-button>
             </div>
         </van-form>
+        <van-form @submit="toRegister">
+            <div class="loagin_submit_btn">
+                <van-button round block type="info" native-type="submit">
+                    注册
+                </van-button>
+            </div>
+        </van-form>
     </div>
 </template>
 
@@ -54,6 +61,9 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
+        },
+        toRegister() {
+            this.$router.push({ path: '/register' });
         }
     }
 }

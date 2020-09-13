@@ -11,10 +11,10 @@
             <!-- 列表 -->
             <ul v-if="goodlist.length > 0" class="shopping-index__list panel__content--fistlevel panel__scroll">
                 <!-- 商品卡片 -->
-                <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="index">
+                <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="`${item.cartVo.cartId}||${index}`">
                     <van-checkbox class="__checkbox fl" v-model="item.checked" @change="val => checkChange(val, item)"></van-checkbox>
                     <div class="__card">
-                        <Card :cardInfo="item" :index="index"></Card>
+                        <Card :cardInfo="item" :index="`${item.cartVo.cartId}||${index}`"></Card>
                     </div>
                     <!-- 删除按钮 -->
                     <van-icon class="btn-delete" name="cross" @click="deleteItem(item.cartId, item.productId, index)" />

@@ -7,7 +7,8 @@
                 <template #title>
                     <div class="tabs__item">
                         <h5>{{item.startTime.substring(11, 16)}}</h5>
-                        <p>{{item.today?'即将开抢':'明天开抢'}}</p>
+                        <p v-if="item.flashing">立即开抢</p>
+                        <p v-else>{{item.today?'即将开抢':'明天开抢'}}</p>
                     </div>
                 </template>
             </van-tab>
@@ -15,7 +16,7 @@
 
         <!-- 倒计时 -->
         <div class="__time bg_fff">
-            <van-count-down :time="currentTime" :class="flag?'active':''" format="HH:mm:ss">
+            <van-count-down :time="currentTime" :class="flag?'active':''" format="HH:mm:ss" @finish="countDownFinish">
                 <template #default="timeData">
                     {{flag?'离本场结束':'离本场开始'}}
                     <span class="block">{{ timeData.hours }}</span>
@@ -52,6 +53,7 @@ export default {
             timeList: [],
             goodList: [],
             flag: false,
+            currentFlashId: undefined
         }
     },
     components: {
@@ -89,6 +91,7 @@ export default {
                 this.flag = false;
             }
             this.getProductByFlashId(this.timeList[index].flashId);
+            this.currentFlashId = this.timeList[index].flashId
         },
         // 获取显示抢购商品
         getProductByFlashId(flashId) {
@@ -97,6 +100,11 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
+        },
+        countDownFinish() {
+            if (this.currentFlashId !== undefined) {
+                this.getProductByFlashId(this.currentFlashId)
+            }
         }
     },
 }

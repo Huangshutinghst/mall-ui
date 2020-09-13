@@ -11,6 +11,11 @@ export default new Router({
       component: (resolve) => require(['@/views/login/Login'], resolve)
     },
     {
+      path: '/register',
+      name: 'Register',
+      component: (resolve) => require(['@/views/login/Register'], resolve)
+    },
+    {
       path: '/',
       name: 'Layout',
       component: (resolve) => require(['@/views/layout/Layout'], resolve),
