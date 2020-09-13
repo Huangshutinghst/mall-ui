@@ -53,7 +53,7 @@ import Detail from '../commodity/Detail'
 export default {
     props: {
         cardInfo: Object,
-        index: Number
+        index: String
     },
     data () {
         return {
