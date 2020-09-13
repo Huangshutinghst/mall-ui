@@ -177,6 +177,7 @@ export default {
         },
         // 时间选择
         timeChoose(){
+            this.Util.tip('目前暂未支持自选时间');
             //this.timeModal = true;
         },
         // 优惠券选择

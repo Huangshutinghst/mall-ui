@@ -8,7 +8,7 @@
         <div class="panel__content">
             <!-- 支付倒计时 -->
             <p class="title">
-                支付剩余时间：<van-count-down :time="time" format="mm 分钟 ss 秒"/>
+                支付剩余时间：<van-count-down :time="time" format="mm 分钟 ss 秒" @finish="countDownFinish"/>
             </p>
             <!-- 订单信息模块 -->
             <div class="price box bg_fff">
@@ -86,6 +86,17 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
+        },
+        toClose() {
+            this.$api.order.closeOrder(this.orderId).then(res => {
+                this.$router.push({ name: 'myOrder', query: {type:''} });
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        countDownFinish() {
+            // 逾期未支付订单将自动取消
+            this.toClose();
         }
     },
     mounted() {

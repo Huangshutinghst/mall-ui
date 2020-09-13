@@ -43,7 +43,7 @@ export default {
                     console.log(e)
                 })
             } else {
-                this.Util.tip('请输入正确手机号');
+                this.Util.tip('请输入有效的手机号码');
             }
         }
     },

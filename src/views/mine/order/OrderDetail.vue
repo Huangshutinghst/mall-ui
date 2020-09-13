@@ -11,7 +11,7 @@
                     <template v-if="obj.status == 0">
                         等待支付 
                         &nbsp;
-                        剩余<van-count-down :time="time" format="mm : ss" />
+                        剩余<van-count-down :time="time" format="mm : ss" @finish="countDownFinish"/>
                         <p>逾期未支付订单将自动取消</p>
                         <div class="btn-box">
                             <div class="btn1" @click="toClose()">取消订单</div>
@@ -136,6 +136,10 @@ export default {
                 endTime: this.obj.endTime
             } });
         },
+        countDownFinish() {
+            // 逾期未支付订单将自动取消
+            this.toClose()
+        }
     },
 }
 </script>
