@@ -67,7 +67,13 @@
                 <p>购物车</p>
                 <span v-show="$store.state.shopCardCound > 0">{{ $store.state.shopCardCound }}</span>
             </div>
-            <div class="fr btn_bg" :class="obj.flashing?'font':''" @click="handleAdd()">{{ obj.flashing?'立即抢':'加入购物车' }}</div>
+            <!-- 步进器 -->
+            <div v-if="quantity == 0" class="fr btn_bg" :class="obj.flashing?'font':''" @click="handleAdd()">{{ obj.flashing?'立即抢':'加入购物车' }}</div>
+            <div class="fr stepper-box" :class="obj.flashing?'font':''" v-else>
+                <div class="round reduce" @click.stop="reduce()">—</div>
+                <div class="num">{{quantity}}</div>
+                <div class="round add" :class="{disable: quantity >= obj.limit}" @click.stop="add()">+</div>
+            </div>
         </div>
 
         <VShare :modal="shareModal" :title="'分享商品'" @visible-change="(val) => shareModal = val"></VShare>
@@ -93,7 +99,8 @@ export default {
             imageList: [],
             couponPopShow: false,
             productListModal: false,
-            isFavorite: false
+            isFavorite: false,
+            quantity: 0,
         }
     },
     components: {
@@ -109,6 +116,7 @@ export default {
         getCommodityDetail() {
             this.$api.commodity.getCommodityDetail(this.$route.query.id).then(res => {
                 this.obj = res.data.data;
+                this.quantity = this.obj.cartVo ? this.obj.cartVo.quantity : 0;
                 this.images.push(this.$api.img + this.obj.pic);
                 this.imageList.push(this.$api.img + this.obj.detail);
             }).catch(e => {
@@ -158,14 +166,43 @@ export default {
         handleCart(){
             this.$router.push({ name: 'shoppingCartList' })
         },
-        // 加入购物车/立即抢
-        handleAdd(){
-
-        },
         // 打开优惠券领取弹窗
         showCouponPopup() {
             this.couponPopShow = true;
         },
+        // 加入购物车/立即抢
+        handleAdd(){
+            this.changeCartCount(1, 1);
+        },
+        // 步进器
+        reduce(){
+            this.changeCartCount(this.quantity - 1, 0);
+        },
+        add(){
+            if(this.quantity >= this.obj.limit) {
+                this.Util.tip('无法购买更多了');
+                return;
+            };
+            this.changeCartCount(this.quantity + 1, 1);
+        },
+        changeCartCount(quantity, type){
+            this.$api.shoppingCart.cartAdd({
+                productId: this.obj.productId,
+                quantity: quantity
+            }).then(res => {
+                if(type == 0){
+                    this.quantity = this.quantity - 1;
+                    this.$forceUpdate();
+                    this.$store.commit('GET_SHOP_CARD_COUND');
+                }else if(type == 1){
+                    this.quantity = this.quantity + 1;
+                    this.$forceUpdate();
+                    this.$store.commit('GET_SHOP_CARD_COUND');
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     },
 }
 </script>
@@ -360,6 +397,32 @@ export default {
                 line-height: 40px;
                 &.font{
                     background: #ee0a24;
+                }
+            }
+            >.stepper-box{
+                background: #0db059;
+                &.font{
+                    background: #ee0a24;
+                }
+                font-size: 0;
+                >.round{
+                    width: 35%;
+                    height: 100%;
+                    display: inline-block;
+                    vertical-align: top;
+                    font-size: 32px;
+                    &.reduce{
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+                }
+                >.num{
+                    width: 30%;
+                    height: 100%;
+                    display: inline-block;
+                    vertical-align: top;
+                    font-size: 16px;
+                    background: rgba(255, 255, 255, 0.1);
                 }
             }
         }
