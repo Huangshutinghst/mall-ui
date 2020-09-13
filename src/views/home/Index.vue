@@ -24,6 +24,11 @@
 
         <!-- 底部导航 -->
         <VFootNav active="home"></VFootNav>
+
+        <!-- 领券 -->
+        <div class="get-coupon">
+            <img @click="getCoupon" src="../../images/coupon_icon.png">
+        </div>
     </div>
 </template>
 
@@ -64,6 +69,10 @@ export default {
                     thiz.$refs['limitTimeRel'].getTodayFlash();
                 }
             })
+        },
+        // 跳到领券中心
+        getCoupon(){
+            this.$router.push({ name: 'receive' })
         }
     },
 }
@@ -71,5 +80,25 @@ export default {
 
 <style lang="scss" scoped>
     .home-index{
+        .get-coupon{
+            position: fixed;
+            bottom: 100px;
+            right: 10px;
+            >img{
+                width: 34px;
+                position: relative;
+                z-index: 2;
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 10px;
+                background: #fff;
+                width: 24px;
+                height: 20px;
+                z-index: 1;
+            }
+        }
     }
 </style>
