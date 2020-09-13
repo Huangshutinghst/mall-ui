@@ -29,6 +29,10 @@ const order = {
     deleteHistorySearchText () {
         return axios.get(`/api/user/history/deleteByOrder`);
     },
+    // 评价订单
+    comment (params) {
+        return axios.post(`/api/order/comment`, params);
+    },
 }
 
 export default order;

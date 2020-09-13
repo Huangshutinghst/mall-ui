@@ -33,7 +33,10 @@
                 <div class="__price">
                     共{{ item.productAmount }}件,实付：<span>￥{{ item.totalPrice }}</span>
                 </div>
-                <div class="__btn-box"></div>
+                <div class="__btn-box">
+                    <div class="btn fr" v-if="item.status == 0" @click.stop="toPay()">去支付</div>
+                    <div class="btn fr" v-if="item.status == 3" @click.stop="toComment(item)">去评价</div>
+                </div>
             </div>
         </li>
     </ul>
@@ -52,6 +55,12 @@ export default {
     methods:{
         toOrderDetail(item){
             this.$router.push({ name: 'orderDetail',query: {id: item.orderId} });
+        },
+        toPay(){
+
+        },
+        toComment(item){
+            this.$router.push({ name: 'comment', query:{id: item.orderId} });
         },
     },
 }
@@ -105,7 +114,18 @@ export default {
                         color: #ff6f00;
                     }
                 }
-                >.__btn-box{}
+                >.__btn-box{
+                    overflow: hidden;
+                    >.btn{
+                        height: 24px;
+                        line-height: 22px;
+                        width: 74px;
+                        text-align: center;
+                        color: #ff6f00;
+                        border: 1px solid #ff6f00;
+                        margin: 10px 0;
+                    }
+                }
             }
         }
     }

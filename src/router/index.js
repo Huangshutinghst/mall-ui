@@ -105,6 +105,12 @@ export default new Router({
           name: 'myFavorites',
           component: (resolve) => require(['@/views/mine/MyFavorites'], resolve),
         },
+        // 评价
+        {
+          path: 'comment',
+          name: 'comment',
+          component: (resolve) => require(['@/views/comment/Index'], resolve),
+        },
         // 我的足迹
         {
           path: 'myfootprint',
