@@ -1,7 +1,7 @@
 <template>
     <div class="home-swiper">
         <van-swipe class="home-swipe" :autoplay="3000" indicator-color="white">
-            <van-swipe-item v-for="(image, index) in imageList" :key="index">
+            <van-swipe-item v-for="(image, index) in imageList" :key="index" @click="handleActive(image)">
                 <img v-lazy="$api.img + image.pic" />
             </van-swipe-item>
         </van-swipe>
@@ -26,19 +26,22 @@ export default {
                 console.log(e)
             })
         },
+        handleActive(row){
+            this.$router.push({ name: 'active', query: {id: row.activityId, pic: row.pic} })
+        }
     },
 }
 </script>
 
 <style lang="scss">
     .home-swipe {
-        height: 150px;
+        height: 180px;
         overflow: hidden;
         .van-swipe__indicator{
             background: rgba(0, 0, 0, 0.5);
         }
         .van-swipe-item {
-            height: 150px;
+            height: 180px;
             overflow: hidden;
             background-color: #eee;
         }

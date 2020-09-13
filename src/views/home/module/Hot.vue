@@ -3,7 +3,14 @@
     <div class="module-hot">
         <ul class="bg_fff">
             <li v-for="(item, index) in goodList" :key="index">
-                <Card :cardInfo="item"></Card>
+                <Card 
+                    v-if="!item.flashing" 
+                    :cardInfo="item"
+                ></Card>
+                <CardLimit 
+                    v-if="item.flashing" 
+                    :cardInfo="item"
+                ></CardLimit>
             </li>
         </ul>
     </div>
@@ -11,6 +18,7 @@
 
 <script type="text/ecmascript-6">
 import Card from '../../card/Card'
+import CardLimit from '../../card/CardLimit'
 export default {
     data () {
         return {
@@ -23,6 +31,7 @@ export default {
     },
     components: {
         Card,
+        CardLimit
     },
     mounted(){
         this.getHotList();

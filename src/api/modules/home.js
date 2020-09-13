@@ -9,6 +9,10 @@ const home = {
     getTodayActivity () {
         return axios.get(`/api/home/getTodayActivity`)
     },
+    // 根据活动id获取活动分类和商品
+    getActivityShop (activityId) {
+        return axios.get(`/api/activity/${activityId}`)
+    },
     // 获取首页商品分类
     getHomeClassify () {        
         return axios.get(`/api/home/getHomeClassify`);    
