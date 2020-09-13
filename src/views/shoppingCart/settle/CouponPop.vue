@@ -56,6 +56,7 @@ export default {
         couponChoose(couponObj){
             this.close();
             console.log(couponObj)
+            this.$emit('choose', couponObj);
         }
     },
 }

@@ -76,6 +76,7 @@ export default {
                     return
                 }else{
                     this.$emit('choose', this.couponObj)
+                    return;
                 }
             }
             if (this.page == 'shop' || this.type !== 1) return;
