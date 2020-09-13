@@ -7,7 +7,8 @@
                 <template #title>
                     <div class="tabs__item">
                         <h5>{{item.startTime.substring(11, 16)}}</h5>
-                        <p>{{item.today?'即将开抢':'明天开抢'}}</p>
+                        <p v-if="item.flashing">立即开抢</p>
+                        <p v-else>{{item.today?'即将开抢':'明天开抢'}}</p>
                     </div>
                 </template>
             </van-tab>
