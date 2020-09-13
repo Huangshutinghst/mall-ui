@@ -13,7 +13,7 @@
             <!-- 一级分类 -->
             <HomeGrid></HomeGrid>
             <!-- 吸顶类别 -->
-            <HomeSticky @change-tab="tabChange"></HomeSticky>
+            <HomeSticky @change-tab="tabChange" @btn-show="btnShow"></HomeSticky>
             
             <!-- 热门商品 -->
             <Hot :ref="'hotRef'" v-show="currentModule == 'hot'"></Hot>
@@ -26,8 +26,9 @@
         <VFootNav active="home"></VFootNav>
 
         <!-- 领券 -->
-        <div class="get-coupon">
-            <img @click="getCoupon" src="../../images/coupon_icon.png">
+        <div v-show="couponBtnShow" class="get-coupon" @click="getCoupon">
+            <img src="../../images/coupon_icon.png">
+            <div>领券</div>
         </div>
     </div>
 </template>
@@ -43,7 +44,8 @@ import LimitTime from './module/LimitTime';
 export default {
     data () {
         return {
-            currentModule: 'hot'
+            currentModule: 'hot',
+            couponBtnShow: true,
         }
     },
     components: {
@@ -73,6 +75,9 @@ export default {
         // 跳到领券中心
         getCoupon(){
             this.$router.push({ name: 'receive' })
+        },
+        btnShow(val){
+            this.couponBtnShow = !val;
         }
     },
 }
@@ -87,7 +92,19 @@ export default {
             >img{
                 width: 34px;
                 position: relative;
-                z-index: 2;
+                z-index: 3;
+            }
+            >div{
+                height: 14px;
+                line-height: 16px;
+                background: linear-gradient(#c898fc , #7f1eff);
+                border-radius: 0 0 4px 4px;
+                text-align: center;
+                color: #fff;
+                font-size: 8px;
+                margin-top: -6px;
+                position: relative;
+                z-index: 1;
             }
             &::after{
                 content: '';
@@ -97,7 +114,7 @@ export default {
                 background: #fff;
                 width: 24px;
                 height: 20px;
-                z-index: 1;
+                z-index: 2;
             }
         }
     }

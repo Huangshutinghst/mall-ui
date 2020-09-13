@@ -301,11 +301,11 @@ export default {
                     display: inline-block;
                     width: 24px;
                     vertical-align: middle;
-                    margin-right: 15px;
                 }
                 >p{
                     display: inline-block;
                     vertical-align: middle;
+                    margin-left: 15px;
                 }
             }
         }

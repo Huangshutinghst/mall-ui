@@ -7,7 +7,7 @@
                 已选（{{ $store.state.shopCheckedList.length }}）
             </div>
             <div class="price">
-                ￥0.00
+                <!-- ￥0.00 -->
             </div>
         </div>
         <div class="btn btn_bg" @click="handleToCart()">

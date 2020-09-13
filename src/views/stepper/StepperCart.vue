@@ -14,7 +14,7 @@ export default {
         productId: Number,
         limit: Number,
         count: Number,
-        index: Number,
+        index: String,
         hasStock: Boolean
     },
     data () {
@@ -37,8 +37,9 @@ export default {
                     confirmButtonText: '确定'
                 })
                 .then(() => {
+                    let i = this.index.split('||')[1];
                     // on confirm
-                    this.$parent.$parent.deleteItem(this.cartId, this.productId, this.index);
+                    this.$parent.$parent.deleteItem(this.cartId, this.productId, i);
                 })
                 .catch(() => {
                     // on cancel

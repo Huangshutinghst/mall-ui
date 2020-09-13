@@ -1,5 +1,5 @@
 <template>
-    <van-sticky class="home-sticky">
+    <van-sticky class="home-sticky" @scroll="isScroll">
         <van-tabs :before-change="beforeChange">
             <van-tab v-for="(item) in tabList" :title="item.name" :name="item.label" :key="item.label"></van-tab>
         </van-tabs>
@@ -35,6 +35,9 @@ export default {
                 _this.index = index;
                 _this.$emit('change-tab', index);
             });
+        },
+        isScroll(val){
+            this.$emit('btn-show', val.isFixed)
         }
     },
 }
