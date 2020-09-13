@@ -1,9 +1,9 @@
 <template>
     <div class="mall_register scroll-hidden">
+        <VHeader title="账号注册" leftText=""></VHeader>
         <van-form @submit="registerSubmit">
             <van-field
                     v-model="formInline.username"
-                    label="用户名"
                     placeholder="请输入用户名"
                     :rules="[{ required: true}]"
             />
@@ -11,7 +11,6 @@
                     v-model="formInline.password"
                     type="password"
                     name="密码"
-                    label="密码"
                     placeholder="请输入密码"
                     :rules="[{ required: true}]"
             />
@@ -25,6 +24,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import VHeader from '../../components/VHeader'
 export default {
     data(){
         return {
@@ -33,6 +33,9 @@ export default {
                 password: undefined
             }
         }
+    },
+    components: {
+        VHeader
     },
     methods: {
         registerSubmit(){
@@ -63,8 +66,27 @@ export default {
 
 <style lang="scss" scoped>
     .mall_register{
+        .van-form /deep/{
+            margin-top: 100px;
+            .van-cell{
+                padding: 10px 20px;
+                &::after{
+                    border-bottom: 1px solid rgb(59, 59, 59);
+                }
+            }
+            .van-field__control{
+                text-align: center;
+            }
+        }
         .register_submit_btn{
-            margin: 16px;
+            margin: 26px 60px 14px;
+            font-size: 14px;
+            color: #0db059;
+            text-align: center;
+        }
+        /deep/ .van-button--info{
+            background: #0db059;
+            border: 1px solid #0db059;
         }
     }
 </style>
