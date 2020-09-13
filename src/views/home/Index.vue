@@ -13,7 +13,7 @@
             <!-- 一级分类 -->
             <HomeGrid></HomeGrid>
             <!-- 吸顶类别 -->
-            <HomeSticky @change-tab="tabChange"></HomeSticky>
+            <HomeSticky @change-tab="tabChange" @btn-show="btnShow"></HomeSticky>
             
             <!-- 热门商品 -->
             <Hot :ref="'hotRef'" v-show="currentModule == 'hot'"></Hot>
@@ -26,7 +26,7 @@
         <VFootNav active="home"></VFootNav>
 
         <!-- 领券 -->
-        <div class="get-coupon" @click="getCoupon">
+        <div v-show="couponBtnShow" class="get-coupon" @click="getCoupon">
             <img src="../../images/coupon_icon.png">
             <div>领券</div>
         </div>
@@ -44,7 +44,8 @@ import LimitTime from './module/LimitTime';
 export default {
     data () {
         return {
-            currentModule: 'hot'
+            currentModule: 'hot',
+            couponBtnShow: true,
         }
     },
     components: {
@@ -74,6 +75,9 @@ export default {
         // 跳到领券中心
         getCoupon(){
             this.$router.push({ name: 'receive' })
+        },
+        btnShow(val){
+            this.couponBtnShow = !val;
         }
     },
 }
@@ -93,7 +97,7 @@ export default {
             >div{
                 height: 14px;
                 line-height: 16px;
-                background: linear-gradient(rgba(127, 30, 255, 0.5) , #7f1eff);
+                background: linear-gradient(#c898fc , #7f1eff);
                 border-radius: 0 0 4px 4px;
                 text-align: center;
                 color: #fff;
