@@ -5,7 +5,7 @@
         <van-sticky>
             <VSearch></VSearch>
         </van-sticky>
-        
+
         <!-- 内容 -->
         <div class="panel__scroll panel__content--fistlevel">
             <!-- banner轮播 -->
@@ -14,7 +14,7 @@
             <HomeGrid></HomeGrid>
             <!-- 吸顶类别 -->
             <HomeSticky @change-tab="tabChange" @btn-show="btnShow"></HomeSticky>
-            
+
             <!-- 热门商品 -->
             <Hot :ref="'hotRef'" v-show="currentModule == 'hot'"></Hot>
 
@@ -65,9 +65,7 @@ export default {
             let thiz = this;
             this.currentModule = name;
             this.$nextTick(() => {
-                if(name == 'hot'){
-                    thiz.$refs['hotRef'].getHotList();
-                }else if(name == 'limitTime'){
+                if(name == 'limitTime'){
                     thiz.$refs['limitTimeRel'].getTodayFlash();
                 }
             })
