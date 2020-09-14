@@ -76,9 +76,9 @@
             </div>
         </div>
 
-        <VShare :modal="shareModal" :title="'分享商品'" @visible-change="(val) => shareModal = val"></VShare>
-        <CouponPop 
-                :modal="couponPopShow" 
+<!--        <VShare :modal="shareModal" :title="'分享商品'" @visible-change="(val) => shareModal = val"></VShare>-->
+        <CouponPop
+                :modal="couponPopShow"
                 :couponList="obj.couponVoList"
                 @visible-change="(val) => {this.couponPopShow = val}"
         ></CouponPop>
