@@ -49,20 +49,20 @@
                         <h5>支付方式</h5>
                         <van-radio-group v-model="payRadio" class="__group">
                             <van-cell-group>
-                                <van-cell clickable @click="radio = '1'" label="支付宝沙箱账号：jopdhq0178@sandbox.com 账号/支付密码：111111">
+                                <van-cell label="支付宝沙箱账号：jopdhq0178@sandbox.com 账号/支付密码：111111 (沙箱环境会进行维护，期间可能出现不可用，敬请谅解。)">
                                     <template #title>
                                         支付宝支付
                                     </template>
                                     <template #right-icon>
-                                        <van-radio name="1" />
+                                        <van-radio @click="radio = '1'" name="1" />
                                     </template>
                                 </van-cell>
-                                <van-cell clickable @click="radio = '2'">
+                                <van-cell>
                                     <template #title>
                                         微信支付
                                     </template>
                                     <template #right-icon>
-                                        <van-radio disabled name="2" />
+                                        <van-radio @click="radio = '2'" name="2" disabled />
                                     </template>
                                 </van-cell>
                             </van-cell-group>
