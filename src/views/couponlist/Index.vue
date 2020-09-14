@@ -13,12 +13,15 @@
                 </div>
             </div>
             <div class="panel__scroll flex-1">
-                <FilterList class="commodity-filter-list--coupon" 
-                        :type="'space'" 
-                        :fixedHead="true" 
+                <FilterList class="commodity-filter-list--coupon"
+                        :type="'space'"
+                        :fixedHead="true"
                         :list="resultList"
+                        :loading="loading"
+                        :finished="finished"
                         @filter-has="filterHas"
                         @filter-price="filterPrice"
+                        @on-load="getByCouponId"
                 ></FilterList>
             </div>
         </div>
@@ -39,11 +42,13 @@ export default {
                 inStock: '', //0不过滤  1过滤
                 priceSort: '', //1从低到高  2从高到低
                 offset: 0,
-                limit: 20
+                limit: 10
             },
             popShow: false,
             resultList: [],
             couponObj: {},
+            loading: false,
+            finished: false
         }
     },
     components: {
@@ -60,15 +65,24 @@ export default {
         getCouponObj(){
             this.$api.coupon.getCouponObj(this.$route.query.id).then(res => {
                 this.couponObj = res.data.data;
-                this.getByCouponId();
             }).catch(e => {
                 console.log(e)
             })
         },
         // 获取优惠券可用商品
         getByCouponId(){
-            this.$api.coupon.getByCouponId(this.couponObj.couponId, this.formInline).then(res => {
-                this.resultList = res.data.data.list;
+            const _this = this
+            _this.loading = true;
+            _this.$api.coupon.getByCouponId(this.$route.query.id, this.formInline).then(res => {
+                _this.loading = false;
+                if (res.data.data.list.length === 0) {
+                    _this.finished = true;
+                } else {
+                    _this.formInline.offset = _this.formInline.offset + _this.formInline.limit
+                    res.data.data.list.forEach(item => {
+                        _this.resultList.push(item)
+                    })
+                }
             }).catch(e => {
                 console.log(e)
             })
@@ -80,17 +94,26 @@ export default {
             }else{
                 this.formInline.inStock = 0;
             }
+            this.clearPage()
             this.getByCouponId();
         },
         // 价格排序
         filterPrice(val){
             this.formInline.priceSort = val;
+            this.clearPage()
             this.getByCouponId();
         },
         // 规则说明
         showInfo(){
             this.popShow = true;
         },
+        // 清空分页相关参数
+        clearPage() {
+            this.finished = false
+            this.resultList = []
+            this.formInline.offset = 0
+            this.formInline.limit = 10
+        }
     },
 }
 </script>
