@@ -49,9 +49,9 @@
                         <h5>支付方式</h5>
                         <van-radio-group v-model="payRadio" class="__group">
                             <van-cell-group>
-                                <van-cell clickable @click="radio = '1'">
+                                <van-cell clickable @click="radio = '1'" label="支付宝沙箱账号：jopdhq0178@sandbox.com 账号/支付密码：111111">
                                     <template #title>
-                                        支付宝支付<span>(沙箱账号：jopdhq0178@sandbox.com 账号/支付密码：111111)</span>
+                                        支付宝支付
                                     </template>
                                     <template #right-icon>
                                         <van-radio name="1" />
@@ -119,7 +119,7 @@
 
         <!-- 选择优惠券组件 -->
         <CouponPop
-                :modal="couponPopShow" 
+                :modal="couponPopShow"
                 :couponList="orderWithCoupon"
                 @choose="couponChooseReturn"
                 @visible-change="(val) => {this.couponPopShow = val}"
@@ -434,5 +434,5 @@ export default {
             background-color: #0db059;
             border-color: #0db059;
         }
-    }   
+    }
 </style>
