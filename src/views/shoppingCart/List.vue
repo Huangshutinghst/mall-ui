@@ -17,7 +17,7 @@
                         <Card :cardInfo="item" :index="`${item.cartVo.cartId}||${index}`"></Card>
                     </div>
                     <!-- 删除按钮 -->
-                    <van-icon class="btn-delete" name="cross" @click="deleteItem(item.cartId, item.productId, index)" />
+                    <van-icon class="btn-delete" name="cross" @click="deleteItem(item.cartVo.cartId, item.productId, index)" />
                 </li>
             </ul>
 
@@ -57,6 +57,7 @@ export default {
             checkedList: [],
             checkedAll: false,
             handleFlag: false,
+            handleAllFlag: false,
             productPrice: '0.00',
         }
     },
@@ -75,14 +76,23 @@ export default {
                 this.goodlist = res.data.data;
                 this.checkedList = this.$store.state.shopCheckedList;
                 this.checkedAll = this.$store.state.shopCheckedAll;
-                this.goodlist.forEach(el => {
-                    _this.$set(el, 'checked', false);
-                    _this.$store.state.shopCheckedList.forEach(val => {
-                        if(val.cartVo.cartId == el.cartVo.cartId){
-                            _this.$set(el, 'checked', true);
-                        }
+                if(this.checkedAll){
+                    this.goodlist.forEach(el => {
+                        _this.$set(el, 'checked', true);
                     })
-                })
+                    this.checkedList = _this.goodlist;
+                    this.$store.commit('CHANGE_CHECKED', this.checkedList);
+                }else{
+                    this.goodlist.forEach(el => {
+                        _this.$set(el, 'checked', false);
+                        _this.$store.state.shopCheckedList.forEach(val => {
+                            if(val.cartVo.cartId == el.cartVo.cartId){
+                                _this.$set(el, 'checked', true);
+                            }
+                        })
+                    })
+                }
+                
                 this.calculate();
             }).catch(e => {
                 console.log(e)
@@ -90,7 +100,8 @@ export default {
         },
         // 勾选商品
         checkChange(val, item){
-            // console.log('触发')
+            // console.log('触发1')
+            // if(this.handleAllFlag) return;
             this.handleFlag = false;
             if(val){
                 this.checkedList.push(item);
@@ -99,6 +110,7 @@ export default {
                     return el.cartVo.cartId !== item.cartVo.cartId;
                 })
             }
+            // console.log('触发2')
             // 去重
             var obj = {}, obj2 = {};
             this.checkedList = this.checkedList.reduce(function(item, next) {
@@ -132,6 +144,7 @@ export default {
                 this.handleFlag = false;
                 return
             }
+            // this.handleAllFlag = true;
             // console.log('触发全选2')
             if(val){
                 this.goodlist.forEach(el => {
@@ -139,15 +152,16 @@ export default {
                 })
                 _this.checkedList = this.goodlist;
                 _this.$store.commit('CHANGE_CHECKED', this.checkedList);
+                this.calculate();
             }else{
                 this.goodlist.forEach(el => {
                     _this.$set(el, 'checked', false);
                 })
-                _this.checkedList = this.goodlist;
+                _this.checkedList = [];
                 _this.$store.commit('CHANGE_CHECKED', []);
+                this.productPrice = '0.00'
             }
             this.$store.commit('CHANGE_CHECKED_ALL', val);
-            this.calculate();
         },
         // 计算商品价格
         calculate() {
@@ -179,6 +193,9 @@ export default {
                 this.$api.shoppingCart.cartClear().then(res => {
                     this.goodlist = [];
                     this.$store.commit('GET_SHOP_CARD_COUND');
+                    this.$store.commit('CHANGE_CHECKED', []);
+                    this.$store.commit('CHANGE_CHECKED_ALL', false);
+                    this.productPrice = '0.00';
                 }).catch(e => {
                     console.log(e)
                 })
@@ -189,6 +206,7 @@ export default {
         },
         // 删除商品
         deleteItem(cartId, productId, index){
+            const id = cartId;
             this.$api.shoppingCart.cartAdd({
                 cartId: cartId,
                 productId: productId,
@@ -196,6 +214,14 @@ export default {
             }).then(res => {
                 this.goodlist.splice(index, 1);
                 this.$store.commit('GET_SHOP_CARD_COUND');
+                this.checkedList = this.checkedList.filter(el => {
+                    return el.cartVo.cartId !== id;
+                })
+                this.$store.commit('CHANGE_CHECKED', this.checkedList);
+                this.calculate();
+                if(this.goodlist.length == 0 || this.checkedList.length == 0){
+                    this.$store.commit('CHANGE_CHECKED_ALL', false);
+                }
             }).catch(e => {
                 console.log(e)
             })
