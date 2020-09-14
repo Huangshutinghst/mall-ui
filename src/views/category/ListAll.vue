@@ -88,6 +88,7 @@ export default {
             this.secondTabs = this.firstTabs.filter(el =>{
                 return el.classifyId == this.firstActive;
             })[0].children;
+            this.secondActive = 0;
             this.handleSecondTab(0);
         },
         // 点击二级类目
@@ -164,7 +165,7 @@ export default {
             .van-sidebar-item{
                 font-size: 12px;
                 transition: all 0.2s;
-                padding: 8px 10px;
+                padding: 8px 2px;
                 min-height: 35px;
                 text-align: center;
             }

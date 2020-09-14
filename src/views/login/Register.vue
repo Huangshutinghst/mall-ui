@@ -23,6 +23,7 @@
                 </van-button>
             </div>
         </van-form>
+        <div class="login_btn" @click="toLogin">已注册？去登录</div>
     </div>
 </template>
 
@@ -62,6 +63,9 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
+        },
+        toLogin(){
+            this.$router.push({ path: '/login' });
         }
     }
 }
@@ -114,6 +118,11 @@ export default {
         /deep/ .van-button--info{
             background: #0db059;
             border: 1px solid #0db059;
+        }
+        .login_btn{
+            font-size: 14px;
+            color: #0db059;
+            text-align: center;
         }
     }
 </style>

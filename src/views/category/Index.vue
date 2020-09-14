@@ -68,7 +68,7 @@ export default {
         .van-sidebar-item{
             font-size: 12px;
             transition: all 0.2s;
-            padding: 10px;
+            padding: 10px 2px;
             min-height: 40px;
             text-align: center;
         }

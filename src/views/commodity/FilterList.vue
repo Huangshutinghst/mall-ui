@@ -188,9 +188,10 @@ export default {
             .__list{
                 margin: 0 10px;
                 >li{
-                    &:not(:last-child){
-                        border-bottom: 1px solid rgba(238, 238, 238, 0.8);
-                    }
+                    border-bottom: 1px solid rgba(238, 238, 238, 0.8);
+                    // &:not(:last-child){
+                    //     border-bottom: 1px solid rgba(238, 238, 238, 0.8);
+                    // }
                 }
             }
         }
