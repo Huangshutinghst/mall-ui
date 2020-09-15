@@ -79,7 +79,7 @@ export default {
         onSubmit(){
             var thiz = this;
             console.log(thiz.formInline)
-            if(thiz.formInline.username == ''){
+            if(thiz.formInline.username == '' || thiz.formInline.username < 1){
                 thiz.Util.tip('请填写收货人姓名');
                 return;
             }
@@ -91,8 +91,8 @@ export default {
                 thiz.Util.tip('请输入有效的手机号码');
                 return;
             }
-            if(thiz.formInline.community == ''){
-                thiz.Util.tip('请先选择小区');
+            if(thiz.formInline.community == '' || thiz.formInline.community.length < 1){
+                thiz.Util.tip('请填写收货地址');
                 return;
             }
             this.$api.mine.addressAdd({
