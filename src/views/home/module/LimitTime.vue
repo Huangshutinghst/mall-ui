@@ -5,7 +5,7 @@
         <van-tabs class="__tabs" @change="beforeChange">
             <van-tab v-for="(item,index) in timeList" :key="index">
                 <template #title>
-                    <div class="tabs__item">
+                    <div class="tabs__item flex flex-v flex-pack-center">
                         <h5>{{item.startTime.substring(11, 16)}}</h5>
                         <p v-if="item.flashing">立即开抢</p>
                         <p v-else>{{item.today?'即将开抢':'明天开抢'}}</p>
@@ -177,7 +177,10 @@ export default {
                 height: 76px;
                 .van-tab{
                     height: 60px;
-                    padding: 0 15px;
+                    padding: 0 16px;
+                    >.van-tab__text{
+                        height: 100%;
+                    }
                 }
                 .van-tab--active{
                     .tabs__item{
@@ -193,12 +196,14 @@ export default {
             }
             .tabs__item{
                 width: 60px;
+                height: 100%;
                 color: rgba(255, 255, 255, 0.8);
                 text-align: center;
+                z-index: 999;
+                position: relative;
                 >h5{
                     font-size: 15px;
                     font-weight: bold;
-                    min-width: 66px;
                 }
                 >p{
                     font-size: 10px;
@@ -206,7 +211,6 @@ export default {
                     line-height: 16px;
                     border-radius: 10px;
                     margin-top: 2px;
-                    min-width: 66px;
                 }
             }
         }
