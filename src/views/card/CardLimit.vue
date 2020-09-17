@@ -24,7 +24,10 @@
                 <p class="text single-row" v-if="open">每人限购{{ cardInfo.limit }}份</p>
                 <p class="text single-row" v-else>{{ cardInfo.desc }}</p>
                 <p class="tag">
-                    <span class="stock">剩余{{ cardInfo.remainStockPercent }}%</span>
+                    <span class="stock">
+                        剩余{{ cardInfo.remainStockPercent }}%
+                        <span class="before" :style="{width: cardInfo.remainStockPercent+'%'}"></span>
+                    </span>
                     <span v-show="cardInfo.label && cardInfo.labelColor=='green'" class="green">{{ cardInfo.label }}</span>
                     <span v-show="cardInfo.label && cardInfo.labelColor=='pink'" class="yellow">{{ cardInfo.label }}</span>
                     <span v-show="cardInfo.label && cardInfo.labelColor=='blue'" class="bule">{{ cardInfo.label }}</span>
@@ -175,6 +178,7 @@ export default {
                     padding: 2px 4px;
                     border-radius: 6px;
                     margin-right: 2px;
+                    vertical-align: middle;
                     &.stock{
                         display: inline-block;
                         width: 80px;
@@ -183,6 +187,16 @@ export default {
                         border-radius: 8px;
                         padding: 0 4px;
                         text-align: center;
+                        overflow: hidden;
+                        position: relative;
+                        >.before{
+                            content: '';
+                            height: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            background: rgba(238, 10, 36, 0.1);
+                        }
                     }
                     &.red{
                         color: #ee0a24;
