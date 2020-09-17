@@ -2,7 +2,6 @@
 <template>
     <div class="mall-address panel__hidden">
         <VHeader title="" :leftText="$route.query.choose?'选择地址':'地址管理'">
-            <van-icon slot="left" @click.stop="back()" name="arrow-left" />
             <div slot="right" @click="addAddress()">添加地址</div>
         </VHeader>
 
@@ -51,27 +50,16 @@ export default {
         },
         addressChoose(address){
             if(this.$route.query.choose){
-                this.$router.push({ name: 'settle', query: {myAddress: address} });
+                this.$store.commit('CHANGE_CURRENT_ADDRESS', address);
+                this.$router.push({ name: 'settle' });
             }
         },
-        back(){
-            this.$router.back(-1);
-            // if(this.$route.query.choose){
-
-            // }else{
-            //     this.$router.back(-1);
-            // }
-        }
     },
 }
 </script>
 
 <style lang="scss" scoped>
     .mall-address{
-        /deep/ .van-icon-arrow-left{
-            font-size: 16px;
-            vertical-align: middle;
-        }
         .mall-address-list{
             >li{
                 height: 80px;

@@ -230,7 +230,12 @@ export default {
         handleSubmit(){
             var thiz = this;
             if (thiz.$store.state.shopCheckedList.length > 0) {
-                thiz.$router.push({ name: 'myAddress', query: {choose: true} });
+                // 判断缓存有没有默认地址
+                if (thiz.$store.state.currentAddress != undefined) {
+                    thiz.$router.push({ name: 'settle' });
+                }else{
+                    thiz.$router.push({ name: 'myAddress', query: {choose: true} });
+                }
             } else {
                 thiz.Util.tip('请先勾选商品');
             }
@@ -238,7 +243,7 @@ export default {
         // 跳到领券中心
         getCoupon(){
             this.$router.push({ name: 'receive' })
-        }
+        },
     },
 }
 </script>

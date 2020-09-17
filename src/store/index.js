@@ -9,10 +9,16 @@ Vue.use(Vuex)
 // 应用初始状态
 const state = {
     count: 0,
+    //网络状态
     network: true,
+    //购物车勾选商品
     shopCheckedList: [],
+    //购物车全选状态
     shopCheckedAll: false,
+    //购物车商品数量
     shopCardCound: 0,
+    //当前默认地址
+    currentAddress: undefined,
 }
 
 // 定义所需的 mutations
@@ -32,6 +38,9 @@ const mutations = {
         }).catch(function(err){
             console.log(err);
         });
+    },
+    CHANGE_CURRENT_ADDRESS(state, val) {
+        state.currentAddress = val;
     }
 }
 

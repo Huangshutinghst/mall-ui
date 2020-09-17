@@ -1,20 +1,22 @@
 <!-- 结算页面 -->
 <template>
     <div class="settle-index panel__hidden">
-        <VHeader title="订单配送至" leftText=""></VHeader>
+        <VHeader title="订单配送至">
+            <!-- <van-icon slot="left" @click.stop="back()" name="arrow-left" /> -->
+        </VHeader>
 
         <div class="panel__content">
             <!-- 1.顶部模块 -->
             <div class="settle-index__top" @click="addressChoose()">
                 <h5>
                     {{ myAddress.address }}
-                    <i class="fr van-icon van-icon-arrow van-cell__right-icon"></i>
                 </h5>
                 <p>{{ myAddress.name }}
                     <span v-if="myAddress.sex === 1">(先生)</span>
                     <span v-if="myAddress.sex === 2">(女士)</span>
                     {{ myAddress.phone }}
                 </p>
+                <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
             </div>
 
             <!-- 2.中间滚动区域 -->
@@ -224,10 +226,18 @@ export default {
                 console.log(e)
             })
         },
+        // 回到购物车
+        back(){
+            
+        }
     },
     mounted() {
         const _this = this
-        _this.myAddress = _this.$route.query.myAddress
+        if(_this.$store.state.currentAddress != undefined){
+            _this.myAddress = _this.$store.state.currentAddress;
+        }else{
+            _this.$router.push({ name: 'shoppingCart' });
+        }
         let productTotal = 0;
         _this.cartIdList = []
         const shopCheckedList = [..._this.$store.state.shopCheckedList]
@@ -281,31 +291,37 @@ export default {
 
 <style lang="scss" scoped>
     .settle-index{
+        /deep/ .van-icon-arrow-left{
+            font-size: 16px;
+            vertical-align: middle;
+        }
         // 头部
         .settle-index__top{
             height: 65px;
             background: #0db059;
             color: #fff;
+            position: relative;
             >h5{
                 font-size: 16px;
                 font-weight: 400;
                 padding: 0 30px;
                 text-align: center;
-                height: 40px;
-                line-height: 40px;
+                height: 35px;
+                line-height: 35px;
                 overflow: hidden;
                 white-space: nowrap;
-                position: relative;
                 text-overflow: ellipsis;
-                >i{
-                    position: absolute;
-                    top: 8px;
-                    right: 15px;
-                    color: #fff;
-                }
             }
             >p{
+                font-size: 14px;
                 text-align: center;
+            }
+            >i{
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                color: #fff;
+                transform: translateY(-50%);
             }
         }
 
