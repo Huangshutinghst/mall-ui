@@ -1,4 +1,4 @@
-@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+/* @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
     .title {
         font-size: 1.5rem;
     }
@@ -7,7 +7,7 @@
     .title {
         font-size: 2rem;
     }
-}
+} */
 
 /* @media screen and (min-width:321px) and (max-width:375px){html{font-size:11px}}
 @media screen and (min-width:376px) and (max-width:414px){html{font-size:12px}}

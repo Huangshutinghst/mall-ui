@@ -101,6 +101,7 @@ export default {
                 console.log(e)
             })
         },
+        // 当前倒计时结束
         countDownFinish() {
             if (this.currentFlashId !== undefined) {
                 this.getProductByFlashId(this.currentFlashId)
@@ -176,7 +177,7 @@ export default {
                 height: 76px;
                 .van-tab{
                     height: 60px;
-                    padding: 0 16px;
+                    padding: 0 15px;
                 }
                 .van-tab--active{
                     .tabs__item{
@@ -195,8 +196,9 @@ export default {
                 color: rgba(255, 255, 255, 0.8);
                 text-align: center;
                 >h5{
-                    font-size: 16px;
+                    font-size: 15px;
                     font-weight: bold;
+                    min-width: 66px;
                 }
                 >p{
                     font-size: 10px;
@@ -204,6 +206,7 @@ export default {
                     line-height: 16px;
                     border-radius: 10px;
                     margin-top: 2px;
+                    min-width: 66px;
                 }
             }
         }
