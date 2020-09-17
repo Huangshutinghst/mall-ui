@@ -13,7 +13,8 @@ module.exports = {
     proxyTable: {
       '/': {
         // target: 'http://localhost:8100/mall',
-        target: 'http://192.168.31.166:8100/mall',
+        // target: 'http://192.168.31.166:8100/mall',
+        target: 'http://47.110.90.41:8100/mall/',
         pathRewrite: {
           '^/': ''
         }
