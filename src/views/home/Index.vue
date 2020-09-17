@@ -19,7 +19,7 @@
             <Hot :ref="'hotRef'" v-show="currentModule == 'hot'"></Hot>
 
             <!-- 限时抢购 -->
-            <LimitTime :ref="'limitTimeRel'" v-show="currentModule == 'limitTime'"></LimitTime>
+            <LimitTime :ref="'limitTimeRel'" v-show="currentModule == 'limitTime'" :modal="currentModule"></LimitTime>
         </div>
 
         <!-- 底部导航 -->

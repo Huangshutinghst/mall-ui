@@ -2,12 +2,12 @@
 <template>
     <div class="limit-time-index">
         <!-- 时间标签栏滚动 -->
-        <van-tabs class="__tabs" @change="beforeChange">
+        <van-tabs class="__tabs" v-model="active" @change="beforeChange">
             <van-tab v-for="(item,index) in timeList" :key="index">
                 <template #title>
                     <div class="tabs__item flex flex-v flex-pack-center">
                         <h5>{{item.startTime.substring(11, 16)}}</h5>
-                        <p v-if="item.flashing">立即开抢</p>
+                        <p v-if="index==0 && isFlashing">立即抢购</p>
                         <p v-else>{{item.today?'即将开抢':'明天开抢'}}</p>
                     </div>
                 </template>
@@ -16,14 +16,14 @@
 
         <!-- 倒计时 -->
         <div class="__time bg_fff">
-            <van-count-down :time="currentTime" :class="flag?'active':''" format="HH:mm:ss" @finish="countDownFinish">
+            <van-count-down :time="currentTime" :class="flag?'active':''" @finish="countDownFinish">
                 <template #default="timeData">
                     {{flag?'离本场结束':'离本场开始'}}
-                    <span class="block">{{ timeData.hours }}</span>
+                    <span class="block">{{ timeData.hours>9 ? timeData.hours : '0'+timeData.hours }}</span>
                     <span class="colon">:</span>
-                    <span class="block">{{ timeData.minutes }}</span>
+                    <span class="block">{{ timeData.minutes>9 ? timeData.minutes : '0'+timeData.minutes }}</span>
                     <span class="colon">:</span>
-                    <span class="block">{{ timeData.seconds }}</span>
+                    <span class="block">{{ timeData.seconds>9 ? timeData.seconds : '0'+timeData.seconds }}</span>
                 </template>
             </van-count-down>
         </div>
@@ -43,6 +43,9 @@
 <script type="text/ecmascript-6">
 import CardLimit from '../../card/CardLimit'
 export default {
+    props: {
+        modal: String
+    },
     data () {
         return {
             formInline: {
@@ -52,8 +55,10 @@ export default {
             currentTime: 0,  //毫秒数
             timeList: [],
             goodList: [],
-            flag: false,
-            currentFlashId: undefined
+            active: 0, //当前选中tab
+            flag: false,  //当前抢购是否开启
+            currentFlashId: undefined,
+            isFlashing: false, //当前是否可以抢购
         }
     },
     components: {
@@ -64,18 +69,23 @@ export default {
         getTodayFlash(){
             this.$api.home.getTodayFlash().then(res => {
                 this.timeList = res.data.data;
-                // 1.
+                // 1.由于后端数据会延迟，第一场要判断它是否已经结束，如果已经结束要前端手动移除
                 if(new Date().getTime() > new Date(this.timeList[0].endTime).getTime()){
                     this.timeList.shift();
                 }
-                // 2.
+                // 2.判断当前第一场是抢购中or未开启
                 if(new Date(this.timeList[0].startTime).getTime() > new Date().getTime()){
                     this.currentTime = new Date(this.timeList[0].startTime).getTime() - new Date().getTime();
                     this.flag = false;
+                    this.isFlashing = false;
                 }else{
                     this.currentTime = new Date(this.timeList[0].endTime).getTime() - new Date().getTime();
                     this.flag = true;
+                    this.isFlashing = true;
                 }
+                // 3.获取当前第一场的商品列表
+                this.active = 0;
+                this.currentFlashId = this.timeList[0].flashId;
                 this.getProductByFlashId(this.timeList[0].flashId);
             }).catch(e => {
                 console.log(e)
@@ -83,6 +93,7 @@ export default {
         },
         // 选择时间
         beforeChange(index) {
+            // 1.判断当前场是抢购中or未开启
             if(new Date().getTime() > new Date(this.timeList[index].startTime).getTime() && new Date().getTime() < new Date(this.timeList[index].endTime).getTime()){
                 this.currentTime = new Date(this.timeList[index].endTime).getTime() - new Date().getTime();
                 this.flag = true;
@@ -90,10 +101,11 @@ export default {
                 this.currentTime = new Date(this.timeList[index].startTime).getTime() - new Date().getTime();
                 this.flag = false;
             }
+            // 2.获取当前场商品
             this.getProductByFlashId(this.timeList[index].flashId);
             this.currentFlashId = this.timeList[index].flashId
         },
-        // 获取显示抢购商品
+        // 获取商品列表
         getProductByFlashId(flashId) {
             this.$api.home.getProductByFlashId(flashId, this.formInline).then(res => {
                 this.goodList = res.data.data.list;
@@ -101,13 +113,25 @@ export default {
                 console.log(e)
             })
         },
-        // 当前倒计时结束
+        // 倒计时结束触发
         countDownFinish() {
+            if(this.modal !== 'limitTime') return;
+            var thiz = this;
             if (this.currentFlashId !== undefined) {
-                this.getProductByFlashId(this.currentFlashId)
+                if(this.flag){
+                    this.$dialog.alert({
+                        message: '本场抢购已结束！',
+                        theme: 'round-button',
+                        confirmButtonText: '确定'
+                    }).then(() => {
+                        thiz.getTodayFlash();
+                    });
+                }else{
+                    thiz.getTodayFlash();
+                }
             }
         }
-    },
+    }
 }
 </script>
 
