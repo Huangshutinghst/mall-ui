@@ -87,6 +87,7 @@ export default {
             position: fixed;
             bottom: 100px;
             right: 10px;
+            z-index: 9;
             >img{
                 width: 34px;
                 position: relative;
