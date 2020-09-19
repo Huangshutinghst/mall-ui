@@ -415,12 +415,6 @@ export default {
                     }
                 }
             }
-
-            .settle-index__shoplist{}
-
-            .settle-index__price{}
-
-            .settle-index__telephone{}
         }
     }
 </style>
