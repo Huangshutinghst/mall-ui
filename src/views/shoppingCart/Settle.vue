@@ -1,9 +1,7 @@
 <!-- 结算页面 -->
 <template>
     <div class="settle-index panel__hidden">
-        <VHeader title="订单配送至">
-            <!-- <van-icon slot="left" @click.stop="back()" name="arrow-left" /> -->
-        </VHeader>
+        <VHeader title="订单配送至"></VHeader>
 
         <div class="panel__content">
             <!-- 1.顶部模块 -->
@@ -175,7 +173,7 @@ export default {
     methods:{
         // 地址选择
         addressChoose(){
-            this.$router.push({ name:'myAddress',query:{choose:true} })
+            this.$router.replace({ name:'myAddress',query:{choose:true, formShop: true} })
         },
         // 时间选择
         timeChoose(){
@@ -225,10 +223,6 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
-        },
-        // 回到购物车
-        back(){
-            
         }
     },
     mounted() {
@@ -291,10 +285,6 @@ export default {
 
 <style lang="scss" scoped>
     .settle-index{
-        /deep/ .van-icon-arrow-left{
-            font-size: 16px;
-            vertical-align: middle;
-        }
         // 头部
         .settle-index__top{
             height: 65px;
