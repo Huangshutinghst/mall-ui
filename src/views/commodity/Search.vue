@@ -3,6 +3,7 @@
     <div class="cmomodity-search-index panel__hidden">
         <!-- 顶部搜索栏 -->
         <VHeader class="cmomodity-search__top">
+            <van-icon slot="left" @click.stop="back()" name="arrow-left" />
             <div slot="right" @click="filterName()">搜索</div>
             <div slot="title">
                 <van-search v-model="formInline.productName" clearable placeholder="请输入商品名称" />
@@ -171,17 +172,29 @@ export default {
             })
         },
         // 清空分页相关参数
-        clearPage() {
+        clearPage(){
             this.finished = false
             this.resultList = []
             this.formInline.offset = 0
             this.formInline.limit = 10
+        },
+        // 返回上一页
+        back(){
+            if(this.searchFlag){
+                this.searchFlag = false;
+            }else{
+                this.$router.back(-1);
+            }
         }
     },
 }
 </script>
 
 <style lang="scss" scoped>
+    /deep/ .van-icon-arrow-left{
+        font-size: 16px;
+        vertical-align: middle;
+    }
     .cmomodity-search-index{
         >.cmomodity-search__top{
             height: 40px;
