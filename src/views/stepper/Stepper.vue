@@ -12,11 +12,12 @@ export default {
     props: {
         limit: Number,
         count: Number,
-        productId: Number,
+        productId: Number
     },
     data () {
         return {
             num: this.count,
+            selectFlag: true,
         }
     },
     watch: {
@@ -33,6 +34,8 @@ export default {
             this.changeCartCount(this.num + 1, 1);
         },
         changeCartCount(num, type){
+            if(!this.selectFlag) return;
+            this.selectFlag = false;
             this.$api.shoppingCart.cartAdd({
                 productId: this.productId,
                 quantity: num
@@ -49,6 +52,7 @@ export default {
                     count: num,
                     productId: this.productId
                 });
+                this.selectFlag = true;
             }).catch(e => {
                 console.log(e)
             })

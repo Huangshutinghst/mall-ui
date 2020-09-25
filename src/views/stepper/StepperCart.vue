@@ -20,6 +20,7 @@ export default {
     data () {
         return {
             num: this.count,
+            selectFlag: true,
         }
     },
     watch: {
@@ -54,6 +55,8 @@ export default {
             this.changeCartCount(this.num + 1, 1);
         },
         changeCartCount(num, type){
+            if(!this.selectFlag) return;
+            this.selectFlag = false;
             this.$api.shoppingCart.cartAdd({
                 cartId: this.cartId,
                 productId: this.productId,
@@ -66,6 +69,7 @@ export default {
                     this.$emit('count-change', 1);
                     this.$store.commit('GET_SHOP_CARD_COUND');
                 }
+                this.selectFlag = true;
             }).catch(e => {
                 console.log(e)
             })
