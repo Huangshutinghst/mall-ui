@@ -14,7 +14,11 @@
                 <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="`${item.cartVo.cartId}||${index}`">
                     <van-checkbox class="__checkbox fl" v-model="item.checked" @change="val => checkChange(val, item)"></van-checkbox>
                     <div class="__card">
-                        <Card :cardInfo="item" :index="`${item.cartVo.cartId}||${index}`"></Card>
+                        <Card 
+                            :cardInfo="item" 
+                            :index="`${item.cartVo.cartId}||${index}`"
+                            @count-change="countChange"    
+                        ></Card>
                     </div>
                     <!-- 删除按钮 -->
                     <van-icon class="btn-delete" name="cross" @click="deleteItem(item.cartVo.cartId, item.productId, index)" />
@@ -185,6 +189,22 @@ export default {
             // }).catch(e => {
             //     console.log(e)
             // })
+        },
+        //商品数量发生变化
+        countChange(productId, count){
+            let _this = this;
+            _this.goodlist.forEach(el => {
+                if(el.productId == productId){
+                    el.cartVo.quantity = count;
+                }
+            })
+            _this.checkedList.forEach(el => {
+                if(el.productId == productId){
+                    el.cartVo.quantity = count;
+                }
+            })
+            _this.$store.commit('CHANGE_CHECKED', _this.checkedList)
+            _this.calculate();
         },
         // 清空
         handleClearAll(){

@@ -73,6 +73,7 @@ export default {
         },
         countChange(val){
             this.count = this.count + val;
+            this.$emit('count-change', this.cardInfo.productId, this.count);
         },
 
         //开始按   
