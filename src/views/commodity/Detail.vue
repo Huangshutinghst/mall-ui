@@ -109,6 +109,7 @@ export default {
         CouponPop,
     },
     mounted() {
+        this.$store.commit('GET_SHOP_CARD_COUND');
         this.getCommodityDetail();
     },
     methods:{

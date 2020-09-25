@@ -47,6 +47,11 @@ export default {
                     this.$emit('count-change', 1);
                     this.$store.commit('GET_SHOP_CARD_COUND');
                 }
+                this.$store.commit('checkedChange', {
+                    type: type,
+                    count: num,
+                    productId: this.productId
+                });
             }).catch(e => {
                 console.log(e)
             })

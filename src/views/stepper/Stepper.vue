@@ -37,13 +37,18 @@ export default {
                 productId: this.productId,
                 quantity: num
             }).then(res => {
-                if(type == 0){
+                if(type == 0){ //减
                     this.$emit('count-change', -1);
                     this.$store.commit('GET_SHOP_CARD_COUND');
-                }else if(type == 1){
+                }else if(type == 1){ //加
                     this.$emit('count-change', 1);
                     this.$store.commit('GET_SHOP_CARD_COUND');
                 }
+                this.$store.commit('checkedChange', {
+                    type: type,
+                    count: num,
+                    productId: this.productId
+                });
             }).catch(e => {
                 console.log(e)
             })

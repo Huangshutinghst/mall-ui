@@ -41,6 +41,25 @@ const mutations = {
     },
     CHANGE_CURRENT_ADDRESS(state, val) {
         state.currentAddress = val;
+    },
+    checkedChange(state, obj){
+        let exist = false;
+        state.shopCheckedList.forEach(el => {
+            if(el.productId == obj.productId){
+                exist = true;
+                el.cartVo.quantity = obj.count;
+            }
+        })
+        state.shopCheckedList = state.shopCheckedList.filter((el) => {
+            return el.cartVo.quantity !== 0;
+        })
+
+        if(state.shopCheckedAll){ //全选
+            //加入新的商品
+            if(obj.type == 1 && !exist){
+                state.shopCheckedAll = false;
+            }
+        }
     }
 }
 

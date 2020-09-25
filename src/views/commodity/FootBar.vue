@@ -26,6 +26,9 @@ export default {
     components: {
 
     },
+    mounted(){
+        this.$store.commit('GET_SHOP_CARD_COUND');
+    },
     methods:{
         handleToCart(){
             this.$router.push({ name: 'shoppingCartList' })
