@@ -5,7 +5,7 @@
             <VHeader title="" leftText="领券中心"></VHeader>
             <div class="panel__scroll panel__content">
                 <ul v-if="couponList.length > 0">
-                    <li v-for="(item, index) in couponList" :key="index">
+                    <li v-for="item in couponList" :key="item.couponId">
                         <CouponCard :page="'receive'" :obj="item"></CouponCard>
                     </li>
                 </ul>

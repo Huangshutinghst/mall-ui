@@ -10,7 +10,7 @@
 
             <div class="panel__scroll">
                 <ul v-if="couponList.length > 0">
-                    <li v-for="(item, index) in couponList" :key="index">
+                    <li v-for="item in couponList" :key="item.couponId">
                         <CouponCard :type="formInline.status" :obj="item"></CouponCard>
                     </li>
                     <li class="text" v-show="formInline.status==1">特别提示：每位用户1天最多可使用2张优惠券</li>

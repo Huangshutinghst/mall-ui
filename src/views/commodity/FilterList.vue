@@ -23,7 +23,7 @@
                 @load="onLoad"
         >
             <ul class="__list">
-                <li v-for="(item, index) in list" :key="index" class="bg_fff">
+                <li v-for="item in list" :key="item.productId" class="bg_fff">
                     <Card
                             v-if="!item.flashing"
                             :padding="padding"
