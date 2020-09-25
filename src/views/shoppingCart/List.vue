@@ -129,7 +129,6 @@ export default {
                 this.handleFlag = true;
                 this.$store.commit('CHANGE_CHECKED_ALL', this.checkedAll);
             }else{
-                this.productPrice = '0.00'
                 if(!this.checkedAll) return;
                 this.checkedAll = false;
                 this.handleFlag = true;
@@ -159,7 +158,6 @@ export default {
                 })
                 _this.checkedList = [];
                 _this.$store.commit('CHANGE_CHECKED', []);
-                this.productPrice = '0.00'
             }
             this.$store.commit('CHANGE_CHECKED_ALL', val);
         },
@@ -169,17 +167,24 @@ export default {
                 this.productPrice = '0.00'
                 return
             };
-            let cartIdList = [];
+            // 前端计算
+            let price = 0;
             this.checkedList.forEach(el => {
-                cartIdList.push(el.cartVo.cartId)
+                price = price + el.cartVo.quantity * Number(el.currentPrice)
             })
-            this.$api.shoppingCart.calculate({
-                cartIdList: cartIdList.join(',')
-            }).then(res => {
-                this.productPrice = res.data.data.productPrice;
-            }).catch(e => {
-                console.log(e)
-            })
+            this.productPrice = price.toFixed(2) + '';
+            // 后端计算
+            // let cartIdList = [];
+            // this.checkedList.forEach(el => {
+            //     cartIdList.push(el.cartVo.cartId)
+            // })
+            // this.$api.shoppingCart.calculate({
+            //     cartIdList: cartIdList.join(',')
+            // }).then(res => {
+            //     this.productPrice = res.data.data.productPrice;
+            // }).catch(e => {
+            //     console.log(e)
+            // })
         },
         // 清空
         handleClearAll(){
