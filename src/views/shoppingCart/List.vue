@@ -231,7 +231,6 @@ export default {
         },
         // 删除商品
         deleteItem(cartId, productId, index){
-            const id = cartId;
             this.$api.shoppingCart.cartAdd({
                 cartId: cartId,
                 productId: productId,
@@ -240,12 +239,16 @@ export default {
                 this.goodlist.splice(index, 1);
                 this.$store.commit('GET_SHOP_CARD_COUND');
                 this.checkedList = this.checkedList.filter(el => {
-                    return el.cartVo.cartId !== id;
+                    return el.cartVo.cartId !== cartId;
                 })
                 this.$store.commit('CHANGE_CHECKED', this.checkedList);
                 this.calculate();
                 if(this.goodlist.length == 0 || this.checkedList.length == 0){
+                    this.checkedAll = false
                     this.$store.commit('CHANGE_CHECKED_ALL', false);
+                }else if(this.goodlist.length == this.checkedList.length){
+                    this.checkedAll = true
+                    this.$store.commit('CHANGE_CHECKED_ALL', true);
                 }
             }).catch(e => {
                 console.log(e)
