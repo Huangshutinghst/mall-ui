@@ -3,12 +3,7 @@
     <div class="mine-index panel__content--mine">
         <!-- 头像 -->
         <div class="__head">
-            <van-image
-                round
-                fit="cover"
-                src="https://img.yzcdn.cn/vant/cat.jpeg"
-                @click="handleUserInfo()"
-            />
+            <img class="head-image" src="../../images/default_head_pic.png" />
             <h5 @click="handleUserInfo()">
                 {{ userInfo.nickname }}
                 <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
@@ -82,7 +77,7 @@ export default {
             padding: 30px 20px 20px;
             position: relative;
             background: #0db059;
-            .van-image{
+            .head-image{
                 width: 60px !important;
                 height: 60px !important;
                 position: absolute;

@@ -12,11 +12,7 @@
                             <h5>头像</h5>
                         </div>
                         <div class="right">
-                            <van-image
-                                round
-                                fit="cover"
-                                src="https://img.yzcdn.cn/vant/cat.jpeg"
-                            />
+                            <img class="head-image" src="../../images/default_head_pic.png" />
                             <i class="van-icon van-icon-arrow van-cell__right-icon"></i>
                         </div>
                     </div>
@@ -92,7 +88,7 @@ export default {
         },
          // 修改头像
         editHead(){
-
+            this.Util.tip('暂未支持自定义头像');
         },
         // 修改昵称
         editNickname(){
@@ -161,10 +157,11 @@ export default {
                                 margin-top: -2px;
                                 margin-left: 0;
                             }
-                            .van-image{
+                            .head-image{
+                                display: inline-block;
                                 width: 40px !important;
                                 height: 40px !important;
-                                vertical-align: middle;
+                                vertical-align: top;
                             }
                         }
                     }
