@@ -132,6 +132,10 @@ export default new Router({
           path: 'myOrder/search',
           name: 'orderSearch',
           component: (resolve) => require(['@/views/mine/order/Search'], resolve),
+          meta: {
+            keepAlive: false,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 订单详情
         {
@@ -144,6 +148,10 @@ export default new Router({
           path: 'myFavorites',
           name: 'myFavorites',
           component: (resolve) => require(['@/views/mine/MyFavorites'], resolve),
+          meta: {
+            keepAlive: true,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 评价
         {
@@ -210,6 +218,10 @@ export default new Router({
           path: 'coupon',
           name: 'coupon',
           component: (resolve) => require(['@/views/coupon/Index'], resolve),
+          meta: {
+            keepAlive: false,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         //领券中心
         {

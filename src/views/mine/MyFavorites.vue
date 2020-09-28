@@ -3,7 +3,7 @@
     <div class="mall-favorites panel__hidden">
         <VHeader title="" leftText="我的收藏"></VHeader>
 
-        <div class="panel__scroll panel__content">
+        <div ref="scroll-view" class="panel__scroll panel__content">
             <van-list
                     v-model="loading"
                     :finished="finished"
@@ -47,6 +47,22 @@ export default {
         VHeader,
         Card,
         CardLimit
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'mine') {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        } else {
+            from.meta.keepAlive = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scrollTop = vm.$route.meta.scrollPos.x;
+        })
     },
     methods:{
         onLoad() {

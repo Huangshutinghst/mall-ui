@@ -9,7 +9,7 @@
         </div>
 
         <!-- 内容 -->
-        <div class="order-search__content panel__scroll">
+        <div ref="scroll-view" class="order-search__content panel__scroll">
             <!-- 1.历史记录 -->
             <div v-if="!searchFlag" class="__history bg_fff">
                 <template v-if="historyList.length > 0">
@@ -65,6 +65,22 @@ export default {
                 this.getHistoryList();
             }
         }
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'orderDetail') {
+            from.meta.keepAlive = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
+        } else {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scrollTop = vm.$route.meta.scrollPos.x;
+        })
     },
     mounted() {
         this.getHistoryList();

@@ -8,7 +8,7 @@
                 <van-tab v-for="item in tabList" :title="item.name" :key="item.type" :name="item.type"></van-tab>
             </van-tabs>
 
-            <div class="panel__scroll">
+            <div ref="scroll-view" class="panel__scroll">
                 <ul v-if="couponList.length > 0">
                     <li v-for="item in couponList" :key="item.couponId">
                         <CouponCard :type="formInline.status" :obj="item"></CouponCard>
@@ -45,6 +45,22 @@ export default {
     components: {
         VHeader,
         CouponCard,
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'couponList') {
+            from.meta.keepAlive = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
+        } else {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scrollTop = vm.$route.meta.scrollPos.x;
+        })
     },
     mounted(){
         this.getUserCouponList();
