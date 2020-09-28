@@ -1,4 +1,4 @@
-<!-- 评价组件 -->
+<!-- 支付组件 -->
 <template>
     <div class="pay-index panel__hidden">
         <!-- 1.header -->
