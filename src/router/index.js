@@ -90,12 +90,20 @@ export default new Router({
           path: 'shoppingCart',
           name: 'shoppingCart',
           component: (resolve) => require(['@/views/shoppingCart/Index'], resolve),
+          meta: {
+            keepAlive: true,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 不带footbar的购物车
         {
           path: 'shoppingCart/list',
           name: 'shoppingCartList',
           component: (resolve) => require(['@/views/shoppingCart/List'], resolve),
+          meta: {
+            keepAlive: false,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         //结算页面
         {
@@ -114,6 +122,10 @@ export default new Router({
           path: 'myOrder',
           name: 'myOrder',
           component: (resolve) => require(['@/views/mine/MyOrder'], resolve),
+          meta: {
+            keepAlive: false,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 订单搜索
         {

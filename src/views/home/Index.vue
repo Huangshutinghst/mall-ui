@@ -64,7 +64,7 @@ export default {
             from.meta.keepAlive = false;
             from.meta.scrollPos = { x: 0, y: 0 };
         } else {
-            from.meta.keepAlive  = true;
+            from.meta.keepAlive = true;
             from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
         }
         this.navName = 'home';

@@ -9,7 +9,7 @@
             <van-tab v-for="item in tabList" :title="item.name" :key="item.type" :name="item.type"></van-tab>
         </van-tabs>
         
-        <div class="panel__scroll panel__content">
+        <div ref="scroll-view" class="panel__scroll panel__content">
             <!-- 订单列表 -->
             <OrderListPanel
                     v-if="orderList.length > 0"
@@ -50,6 +50,23 @@ export default {
     components: {
         VHeader,
         OrderListPanel,
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        // name == 'comment' || name == 'pay'
+        if (name == 'orderSearch' || name == 'orderDetail') {
+            from.meta.keepAlive = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
+        } else {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scrollTop = vm.$route.meta.scrollPos.x;
+        })
     },
     mounted(){
         this.loadTabActive();

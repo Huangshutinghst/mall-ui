@@ -9,7 +9,7 @@
             </VHeader>
 
             <!-- 列表 -->
-            <ul v-if="goodlist.length > 0" class="shopping-index__list panel__content--fistlevel panel__scroll">
+            <ul ref="scroll" v-show="goodlist.length > 0" class="shopping-index__list panel__content--fistlevel panel__scroll">
                 <!-- 商品卡片 -->
                 <li class="__item bg_fff" v-for="(item, index) in goodlist" :key="`${item.cartVo.cartId}||${index}`">
                     <van-checkbox class="__checkbox fl" v-model="item.checked" @change="val => checkChange(val, item)"></van-checkbox>
@@ -69,10 +69,33 @@ export default {
         VHeader,
         Card,
     },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        // name == 'shoppingCartDetail' 这块跳转后续要再加判断处理一下
+        if (name == 'myAddress' || name == 'settle' || name == 'receive') {
+            from.meta.keepAlive = true;
+            from.meta.scrollPos = { x: this.$refs['scroll'].scrollTop, y: 0 }
+        } else {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll'].scrollTop = vm.$route.meta.scrollPos.x;
+        })
+    },
     mounted() {
         this.getCartList();
     },
     methods:{
+        scroll(x){
+            this.$refs['scroll'].scrollTop = x;
+        },
+        getScrollTop(){
+            return this.$refs['scroll'].scrollTop;
+        },
         // 获取购物车商品
         getCartList() {
             var _this = this;

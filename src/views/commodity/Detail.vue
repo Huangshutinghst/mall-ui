@@ -3,7 +3,7 @@
     <div class="commodity-detail panel__hidden">
         <!-- 1.header -->
         <VHeader title="详情页" leftText="">
-            <van-icon slot="right" name="share" @click="handleShare()" />
+            <!-- <van-icon slot="right" name="share" @click="handleShare()" /> -->
         </VHeader>
 
         <!-- 2.content -->
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-<!--        <VShare :modal="shareModal" :title="'分享商品'" @visible-change="(val) => shareModal = val"></VShare>-->
+        <VShare :modal="shareModal" :title="'分享商品'" @visible-change="(val) => shareModal = val"></VShare>
         <CouponPop
                 :modal="couponPopShow"
                 :couponList="obj.couponVoList"
