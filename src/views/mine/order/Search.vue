@@ -118,7 +118,11 @@ export default {
             })
         },
         goBack(){
-            this.$router.back(-1);
+            if(this.searchFlag){
+                this.searchFlag = false;
+            }else{
+                this.$router.back(-1);
+            }
         },
         // 清空分页相关参数
         clearPage() {
