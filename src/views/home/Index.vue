@@ -7,7 +7,7 @@
         </van-sticky>
 
         <!-- 内容 -->
-        <div class="panel__scroll panel__content--fistlevel">
+        <div ref="scroll-view" class="panel__scroll panel__content--fistlevel">
             <!-- banner轮播 -->
             <HomeSwipe></HomeSwipe>
             <!-- 一级分类 -->
@@ -23,7 +23,7 @@
         </div>
 
         <!-- 底部导航 -->
-        <VFootNav active="home"></VFootNav>
+        <VFootNav :active="navName"></VFootNav>
 
         <!-- 领券 -->
         <div v-show="couponBtnShow" class="get-coupon" @click="getCoupon">
@@ -46,6 +46,7 @@ export default {
         return {
             currentModule: 'hot',
             couponBtnShow: true,
+            navName: 'home'
         }
     },
     components: {
@@ -56,6 +57,23 @@ export default {
         HomeSticky,
         Hot,
         LimitTime,
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'category' || name == 'shoppingCart' || name == 'mine') {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        } else {
+            from.meta.keepAlive  = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
+        }
+        this.navName = 'home';
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scrollTop = vm.$route.meta.scrollPos.x;
+        })
     },
     mounted(){
         this.$store.commit('GET_SHOP_CARD_COUND');

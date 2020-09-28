@@ -1,6 +1,9 @@
 <template>
     <div class="panel__layout">
-        <router-view v-if="isRouterAlive" />
+        <keep-alive>
+            <router-view v-if="isRouterAlive && $route.meta.keepAlive" />
+        </keep-alive>
+        <router-view v-if="isRouterAlive && !$route.meta.keepAlive" />
     </div>
 </template>
 

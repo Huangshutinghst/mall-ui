@@ -16,6 +16,7 @@
             <van-tree-select :items="secondTabs" :main-active-index.sync="secondActive" @click-nav="handleSecondTab">
                 <template #content>
                     <FilterList 
+                        ref="scroll-view"
                         :padding="false" 
                         :list="goodList" 
                         :type="'border'"
@@ -60,6 +61,22 @@ export default {
         VHeader,
         FilterList,
         FootBar
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'home') {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        } else {
+            from.meta.keepAlive  = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].getScrollTop(), y: 0 }
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scroll(vm.$route.meta.scrollPos.x);
+        })
     },
     mounted(){
         this.getClassifyList();

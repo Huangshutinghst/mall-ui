@@ -3,7 +3,7 @@
     <div class="module-active panel__hidden">
         <VHeader title="" :leftText="activityName"></VHeader>
 
-        <div class="panel__content panel__scroll">
+        <div ref="scroll-view" class="panel__content panel__scroll">
             <!-- 活动图 -->
             <div class="__top">
                 <img v-lazy="$api.img + $route.query.pic" />
@@ -50,6 +50,22 @@ export default {
         VHeader,
         Card,
         CardLimit
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name !== 'shoppingCartDetail') {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        } else {
+            from.meta.keepAlive  = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scrollTop = vm.$route.meta.scrollPos.x;
+        })
     },
     mounted(){
         this.getActivityShop();

@@ -14,6 +14,7 @@
             </div>
             <div class="panel__scroll flex-1">
                 <FilterList class="commodity-filter-list--coupon"
+                        ref="scroll-view"
                         :type="'space'"
                         :fixedHead="true"
                         :list="resultList"
@@ -56,6 +57,22 @@ export default {
         CouponCard,
         FilterList,
         RulePop
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'shoppingCartDetail') {
+            from.meta.keepAlive  = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].getScrollTop(), y: 0 }
+        } else {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scroll(vm.$route.meta.scrollPos.x);
+        })
     },
     mounted() {
         this.getCouponObj();

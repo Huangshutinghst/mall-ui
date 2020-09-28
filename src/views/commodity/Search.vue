@@ -34,8 +34,9 @@
             </div>
             <!-- 2.搜索内容 -->
             <div class="panel__hidden" v-show="searchFlag" >
-                <div class="panel__content panel__scroll">
+                <div class="panel__content">
                     <FilterList
+                        ref="scroll-view"
                         :type="'space'"
                         :fixedHead="true" 
                         :list="resultList"
@@ -88,6 +89,22 @@ export default {
                 this.getHistoryList();
             }
         }
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'shoppingCartDetail' || name == 'shoppingCartList') {
+            from.meta.keepAlive  = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].getScrollTop(), y: 0 }
+        } else {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scroll(vm.$route.meta.scrollPos.x);
+        })
     },
     mounted() {
         this.getHotList();

@@ -1,6 +1,6 @@
 <!-- 商品列表通用组件 -->
 <template>
-    <div class="commodity-filter-list panel__scroll" :class="['commodity-filter-list--' + type, {fixed: fixedHead}]">
+    <div ref="scroll" class="commodity-filter-list panel__scroll" :class="['commodity-filter-list--' + type, {fixed: fixedHead}]">
         <div class="__top bg_fff" :class="{fixed: fixedHead}">
             <ul class="flex">
                 <li :class="hasFlag?'has':''" class="flex-1" @click="filterHas()">
@@ -95,8 +95,14 @@ export default {
             }
             this.$emit('filter-price', this.priceFlag)
         },
-        onLoad () {
+        onLoad(){
             this.$emit('on-load')
+        },
+        scroll(x){
+            this.$refs['scroll'].scrollTop = x;
+        },
+        getScrollTop(){
+            return this.$refs['scroll'].scrollTop;
         }
     },
 }

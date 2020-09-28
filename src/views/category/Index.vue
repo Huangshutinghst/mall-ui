@@ -20,7 +20,7 @@
         />  
 
         <!-- 底部导航 -->
-        <VFootNav active="category"></VFootNav>
+        <VFootNav :active="navName"></VFootNav>
     </div>
 </template>
 
@@ -32,10 +32,21 @@ export default {
             categoryList: [],
             activeIndex: 0,
             activeId: 1,
+            navName: 'category'
         }
     },
     components: {
         VFootNav,
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'home' || name == 'shoppingCart' || name == 'mine') {
+            from.meta.keepAlive = false;
+        } else {
+            from.meta.keepAlive  = true;
+        }
+        this.navName = 'category';
+        next();
     },
     mounted(){
         this.getClassifyList();

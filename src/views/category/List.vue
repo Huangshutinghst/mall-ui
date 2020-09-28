@@ -9,6 +9,7 @@
         <!-- 内容  -->
         <div class="panel__content--fistlevel">
             <FilterList 
+                ref="scroll-view"
                 :list="goodList" 
                 :type="'space'"
                 :loading="loading"
@@ -46,6 +47,22 @@ export default {
         VHeader,
         FilterList,
         FootBar
+    },
+    beforeRouteLeave(to, from, next){
+        const { name } = to;
+        if (name == 'category') {
+            from.meta.keepAlive = false;
+            from.meta.scrollPos = { x: 0, y: 0 };
+        } else {
+            from.meta.keepAlive  = true;
+            from.meta.scrollPos = { x: this.$refs['scroll-view'].getScrollTop(), y: 0 }
+        }
+        next();
+    },
+    beforeRouteEnter(to, from, next){
+        next((vm) => {
+            vm.$refs['scroll-view'].scroll(vm.$route.meta.scrollPos.x);
+        })
     },
     mounted(){
         this.getListByClassifyId();

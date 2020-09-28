@@ -25,36 +25,59 @@ export default new Router({
           path: '/',
           name: 'home',
           component: (resolve) => require(['@/views/home/Index'], resolve),
+          meta: {
+            keepAlive: true,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 活动页
         {
           path: 'active',
           name: 'active',
           component: (resolve) => require(['@/views/home/module/Active'], resolve),
+          meta: {
+            keepAlive: false,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 商品搜索
         {
           path: 'search',
           name: 'search',
           component: (resolve) => require(['@/views/commodity/Search'], resolve),
+          meta: {
+            keepAlive: false,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 分类
         {
           path: 'category',
           name: 'category',
           component: (resolve) => require(['@/views/category/Index'], resolve),
+          meta: {
+            keepAlive: true,
+          }
         },
         // 不带类别栏的商品列表
         {
           path: 'category/list',
           name: 'categoryList',
           component: (resolve) => require(['@/views/category/List'], resolve),
+          meta: {
+            keepAlive: true,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 带类别栏的商品列表
         {
           path: 'category/listAll',
           name: 'categoryListAll',
           component: (resolve) => require(['@/views/category/ListAll'], resolve),
+          meta: {
+            keepAlive: true,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
         // 商品详情
         {
@@ -187,6 +210,10 @@ export default new Router({
           path: 'coupon/List',
           name: 'couponList',
           component: (resolve) => require(['@/views/couponlist/Index'], resolve),
+          meta: {
+            keepAlive: false,
+            scrollPos: { x: 0, y: 0 }
+          }
         },
       ]
     }
