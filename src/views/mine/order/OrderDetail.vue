@@ -20,7 +20,12 @@
                     </template>
                     <template v-if="obj.status == 1">订单已支付</template>
                     <template v-if="obj.status == 2">订单待收货</template>
-                    <template v-if="obj.status == 3">订单待评价</template>
+                    <template v-if="obj.status == 3">
+                        订单待评价
+                        <div class="btn-box">
+                            <div class="btn2" @click="tocomment()">去评价</div>
+                        </div>
+                    </template>
                     <template v-if="obj.status == 4">订单已完成</template>
                 </h5>
             </div>
@@ -139,7 +144,10 @@ export default {
         countDownFinish() {
             // 逾期未支付订单将自动取消
             this.toClose()
-        }
+        },
+        tocomment() {
+            this.$router.push({ name: 'comment', query:{id: this.obj.orderId} });
+        },
     },
 }
 </script>
