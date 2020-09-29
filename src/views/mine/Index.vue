@@ -34,7 +34,7 @@
         </div>
 
         <!-- 底部导航 -->
-        <VFootNav active="mine"></VFootNav>
+        <VFootNav :active="navName"></VFootNav>
     </div>
 </template>
 
@@ -44,8 +44,9 @@ export default {
     data () {
         return {
             userInfo: {
-                couponCount: ''
+                couponCount: '',
             },
+            navName: 'mine'
         }
     },
     components: {

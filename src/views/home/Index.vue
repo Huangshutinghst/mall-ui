@@ -63,11 +63,11 @@ export default {
         if (name == 'category' || name == 'shoppingCart' || name == 'mine') {
             from.meta.keepAlive = false;
             from.meta.scrollPos = { x: 0, y: 0 };
+            this.$destroy();
         } else {
             from.meta.keepAlive = true;
             from.meta.scrollPos = { x: this.$refs['scroll-view'].scrollTop, y: 0 }
         }
-        this.navName = 'home';
         next();
     },
     beforeRouteEnter(to, from, next){

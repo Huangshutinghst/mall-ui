@@ -42,10 +42,10 @@ export default {
         const { name } = to;
         if (name == 'home' || name == 'shoppingCart' || name == 'mine') {
             from.meta.keepAlive = false;
+            this.$destroy();
         } else {
             from.meta.keepAlive  = true;
         }
-        this.navName = 'category';
         next();
     },
     mounted(){
