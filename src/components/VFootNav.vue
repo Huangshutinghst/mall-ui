@@ -20,6 +20,9 @@ export default {
             tabActive: this.active,
         }
     },
+    activated(){
+        this.tabActive = this.active;
+    },
     mounted(){
         this.$store.commit('GET_SHOP_CARD_COUND');
     },

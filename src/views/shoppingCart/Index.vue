@@ -29,7 +29,6 @@ export default {
         if (name == 'home' || name == 'category' || name == 'mine') {
             from.meta.keepAlive = false;
             from.meta.scrollPos = { x: 0, y: 0 };
-            this.$destroy();
         } else {
             from.meta.keepAlive = true;
             from.meta.scrollPos = { x: this.$refs['scroll-view'].getScrollTop(), y: 0 }
