@@ -102,6 +102,9 @@ export default {
             }
 
             >.__tab{
+                /deep/ .van-sticky--fixed{
+                    top: 39px !important;
+                }
                 /deep/ .van-tabs__nav{
                     background: #fff;
                 }
