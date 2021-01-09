@@ -1,6 +1,4 @@
-# mall-ui 
-
-商超类移动端web。
+# mall-ui 商超类移动端web
 
 后端项目：[mall](https://github.com/shpunishment/mall)
 
