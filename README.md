@@ -41,7 +41,7 @@ mall-ui是仿朴朴App的手机网页版。
 12.下单选地址<br>
 ![下单选地址](https://github.com/SuSu-hst/mall-ui/blob/master/src/assets/img/13.%E4%B8%8B%E5%8D%95%E9%80%89%E5%9C%B0%E5%9D%80.png)
 
-13.去结算添加地址<br>
+13.添加地址<br>
 ![添加地址](https://github.com/SuSu-hst/mall-ui/blob/master/src/assets/img/12.%E6%B7%BB%E5%8A%A0%E5%9C%B0%E5%9D%80.png)
 
 14.订单页<br>
